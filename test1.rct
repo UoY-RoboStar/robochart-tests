@@ -1,0 +1,31 @@
+package test1
+
+stm S {
+	clock T
+	var x: nat
+	event a: nat
+	event b: nat
+	event c
+	initial i
+	state s {
+	}
+	final f
+	transition t0 {
+		from i
+		to s
+	}
+	transition t1 {
+		from s
+		to s
+		trigger a?x
+		condition since(T) < 4
+		action x=x+1; b!x
+	}
+	transition t2 {
+		from s
+		to f
+		condition since(T) >= 4
+		action c
+	}
+}
+

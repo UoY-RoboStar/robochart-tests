@@ -1,0 +1,39 @@
+/* state machine in controller with required operations: satisfied and not satisfied */
+
+package test2
+
+interface Ops {
+	op(x:nat)
+}
+
+stm S {
+	event e:nat
+	requires Ops
+	initial I
+	final F
+	transition t {
+		from I to F action op(1)
+	}
+}
+
+controller C1 {
+	event e
+	requires Ops
+	sref R = S
+}
+
+controller C2 {
+	event e:nat
+	
+	operation op(x:nat) {
+		event e:nat
+		initial i
+		final f
+		transition t {
+			from i to f action e!x
+		}
+	}
+	
+	sref R = S
+	connection R on e to C2 on e
+}

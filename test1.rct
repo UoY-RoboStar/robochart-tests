@@ -1,3 +1,5 @@
+/* simple state machine */
+
 package test1
 
 stm S {

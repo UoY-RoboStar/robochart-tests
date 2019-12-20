@@ -1,0 +1,60 @@
+/* state machines with composite states */
+package test4
+
+stm S {
+	event a: nat
+	event b: nat
+	event c: nat
+	event d: nat
+	var x: nat
+	
+	initial i
+	junction j
+	state s1 {
+		initial i
+		state s {}
+		transition t0 {
+			from i to s
+		}
+		
+		transition t1 {
+			from s to s
+			trigger d?x
+		}
+		
+	}
+	
+	state s2 {
+		initial i
+		state s {}
+		final f
+		transition t0 {
+			from i to s
+		}
+		transition t1 {
+			from s to f trigger d?x
+		}
+	}
+	
+	transition t0 {
+		from i to j
+	}
+	
+	transition t1 {
+		from j to s1
+		action a!1
+	}
+	
+	transition t2 {
+		from j to s2
+		action a!2
+	}
+	
+	transition t3 {
+		from s1 to s2 trigger b?x
+	}
+	
+	transition t4 {
+		from s2 to s1 trigger c?x
+	}
+}

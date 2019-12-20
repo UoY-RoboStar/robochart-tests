@@ -1,0 +1,40 @@
+/* simple operation, state machine and controller */
+
+package test3
+
+operation op(x:nat) {
+	event a:nat
+	event b:nat
+	var y: nat
+	initial i
+	state s {}
+	final f
+	transition t1 { from i to s }
+	transition t2 { from s to f trigger a?y action b!(x+y)}
+}
+
+interface I {
+	op(x:nat)
+}
+
+controller C {
+	event e: nat
+	event f: nat
+	
+	opref r = op
+	
+	stm S {
+		event a:nat
+		event b:nat
+		var n: nat
+		requires I
+		initial i
+		final f
+		transition t {
+			from i to f action op(1)
+		}
+	}
+	
+	connection C on e to S on a
+	connection S on b to C on f
+}

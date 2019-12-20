@@ -1,0 +1,46 @@
+/* simple state machine and operation with clocks (since and sinceEntry) */
+
+package test6
+
+interface Ops {
+	op(x:nat)
+}
+
+stm S {
+	event e:nat
+	requires Ops
+	initial I
+	state S {}
+	final F
+	transition t0 {
+		from I to S
+	}
+	transition t1 {
+		from S to F condition sinceEntry(S) > 2 action op(1)
+	}
+}
+
+controller CT {
+	event e:nat
+	
+	opref r = op
+	
+	sref R = S
+	connection R on e to CT on e
+}
+
+operation op(x:nat) {
+		clock T
+		event e:nat
+		initial i
+		state s {}
+		final f
+		transition t0 {
+			from i to s
+		}
+		transition t1 {
+			from s to f 
+			condition since(T) > 2 
+			action e!x
+		}
+	}

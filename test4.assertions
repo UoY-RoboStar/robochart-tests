@@ -1,0 +1,25 @@
+import test4::*
+
+untimed csp untimed_spec4 csp-begin
+	untimed_spec4 = let
+		I = test4::S::a.out.1 -> S1 |~| test4::S::a.out.2 -> S2 
+		S1 = test4::S::d.in?x -> S1 [] test4::S::b.in?x -> S2
+		S2 = (test4::S::d.in?x -> STOP) /\ test4::S::c.in?x -> S1
+	within I
+csp-end
+
+timed csp timed_spec4 csp-begin
+	timed_spec4 = let
+		I = tock -> I [] (test4::S::a.out.1 -> S1 |~| test4::S::a.out.2 -> S2)
+		S1 = test4::S::d.in?x -> S1 [] test4::S::b.in?x -> S2 [] tock -> S1
+		S2 = test4::S::d.in?x -> F
+			 []
+			 test4::S::c.in?x -> S1
+			 []
+			 tock -> S2
+		F = tock -> F [] test4::S::c.in?x -> S1
+	within I
+csp-end
+
+untimed assertion a4a: S equals untimed_spec4
+timed assertion a4b: S equals timed_spec4

@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <viewpoint:DAnalysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" uid="__Mo6cB2xEeqdgYvcwr4jwQ" version="14.1.0.201810161215">
   <semanticResources>test1.rct</semanticResources>
-  <semanticResources>tests.assertions</semanticResources>
   <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/sequence_toolkit.rct</semanticResources>
   <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/core.rct</semanticResources>
   <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/relation_toolkit.rct</semanticResources>
   <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/function_toolkit.rct</semanticResources>
   <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/set_toolkit.rct</semanticResources>
-  <semanticResources>tests_old.assertions</semanticResources>
+  <semanticResources>test2.rct</semanticResources>
+  <semanticResources>test3.rct</semanticResources>
+  <semanticResources>test3.assertions</semanticResources>
+  <semanticResources>test2.assertions</semanticResources>
+  <semanticResources>test1.assertions</semanticResources>
+  <semanticResources>test4.rct</semanticResources>
+  <semanticResources>test4.assertions</semanticResources>
+  <semanticResources>test5.rct</semanticResources>
+  <semanticResources>test5.assertions</semanticResources>
+  <semanticResources>test6.rct</semanticResources>
+  <semanticResources>test6.assertions</semanticResources>
 </viewpoint:DAnalysis>

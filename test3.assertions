@@ -1,0 +1,29 @@
+import test3::*
+
+/* Notice that Plus is a library definition and is not associative. 
+ * For this reason, the output must be Plus(y,x,nat).
+ * I need to change the definition of Plus to be associative.
+ */
+untimed csp untimed_spec associated to op csp-begin
+	untimed_spec = let
+		P(y) = test3::op::a.in?x -> test3::op::b.out.(Plus(y,x,nat)) -> SKIP
+	within P(1)
+csp-end
+
+timed csp timed_spec associated to op csp-begin
+	timed_spec = let
+		P(y) = test3::op::a.in?x -> Q(x,y)
+			   []
+			   tock -> P(y)
+		Q(x,y) = test3::op::b.out.(Plus(y,x,nat)) -> SKIP
+		    []
+		    tock -> Q(x,y)
+	within P(1)
+csp-end 
+
+csp impl associated to op csp-begin
+	impl = test3::op::D__(0,1)
+csp-end
+
+untimed assertion a3a: impl equals untimed_spec
+timed assertion a3b: impl equals timed_spec

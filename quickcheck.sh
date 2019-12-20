@@ -4,7 +4,7 @@ let total=0
 let pass=0
 for f in $LIST
 do
-printf '\e[38;5;190mchecking %s\e[0m\n' "${f}"
+printf '\e[48;5;190m\e[38;5;196mchecking %s\e[0m\n' "${f}"
 check=$(refines -t $f 2>&1 >/dev/null)
 if [ -z "$check" ]
 then
@@ -23,7 +23,7 @@ then
 	printf '\e[48;5;196m%s\e[0m\n' "Found errors in ${#files_with_errors[@]} file(s)."
 fi
 
-printf '\e[48;5;021m%s\e[0m\n' "Success rate: $pass/$total."
+printf '\e[48;5;021m\e[38;5;255m%s\e[0m\n' "Success rate: $pass/$total."
 
 
 

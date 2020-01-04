@@ -1,0 +1,15 @@
+package test9
+
+interface C {
+	const TC: nat
+}
+
+stm S {
+	requires C
+	event e:nat
+	initial i
+	final f
+	transition t {
+		from i to f action e.TC
+	}
+}

@@ -37,6 +37,7 @@ operation op(x:nat) {
 		final f
 		transition t0 {
 			from i to s
+			action #T
 		}
 		transition t1 {
 			from s to f 

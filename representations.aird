@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<viewpoint:DAnalysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" uid="__Mo6cB2xEeqdgYvcwr4jwQ" version="14.1.0.201810161215">
+<viewpoint:DAnalysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" uid="__Mo6cB2xEeqdgYvcwr4jwQ" version="14.3.0.201909031200">
   <semanticResources>test1.rct</semanticResources>
   <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/sequence_toolkit.rct</semanticResources>
   <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/core.rct</semanticResources>
@@ -17,4 +17,34 @@
   <semanticResources>test5.assertions</semanticResources>
   <semanticResources>test6.rct</semanticResources>
   <semanticResources>test6.assertions</semanticResources>
+  <semanticResources>test7/test7.rct</semanticResources>
+  <semanticResources>test7/test7.assertions</semanticResources>
+  <semanticResources>test8/test8.rct</semanticResources>
+  <semanticResources>test8/test8.assertions</semanticResources>
+  <semanticResources>clocks0/clocks0.rct</semanticResources>
+  <semanticResources>clocks0/clocks0.assertions</semanticResources>
+  <semanticResources>clocks1/clocks1.assertions</semanticResources>
+  <semanticResources>clocks1/clocks1.rct</semanticResources>
+  <semanticResources>clocks2/clocks2.assertions</semanticResources>
+  <semanticResources>clocks2/clocks2.rct</semanticResources>
+  <semanticResources>clocks3/clocks3.assertions</semanticResources>
+  <semanticResources>clocks3/clocks3.rct</semanticResources>
+  <semanticResources>refsem/controller.rct</semanticResources>
+  <semanticResources>refsem/module.rct</semanticResources>
+  <semanticResources>refsem/references.assertions</semanticResources>
+  <semanticResources>SequenceAndProductTest/SequenceAndProductTest.rct</semanticResources>
+  <semanticResources>SequenceAndProductTest/SequenceAndProductTest.assertions</semanticResources>
+  <semanticResources>test9/test9.rct</semanticResources>
+  <semanticResources>test9/test9.assertions</semanticResources>
+  <semanticResources>AlphaAlgorithm/Mathematics.rct</semanticResources>
+  <semanticResources>AlphaAlgorithm/communication.rct</semanticResources>
+  <semanticResources>AlphaAlgorithm/communicationC.rct</semanticResources>
+  <semanticResources>AlphaAlgorithm/movementC.rct</semanticResources>
+  <semanticResources>ChemicalDetector/ChemicalDetector.assertions</semanticResources>
+  <semanticResources>ChemicalDetector/Detect.rct</semanticResources>
+  <semanticResources>ChemicalDetector/MainComputer.rct</semanticResources>
+  <semanticResources>ChemicalDetector/Microcontroller.rct</semanticResources>
+  <semanticResources>ChemicalDetector/Move.rct</semanticResources>
+  <semanticResources>ChemicalDetector/Signal.rct</semanticResources>
+  <semanticResources>ChemicalDetector/System.rct</semanticResources>
 </viewpoint:DAnalysis>

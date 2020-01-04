@@ -31,17 +31,18 @@ controller CT {
 }
 
 operation op(x:nat) {
-		clock T
+		clock T1
 		event e:nat
 		initial i
 		state s {}
 		final f
 		transition t0 {
 			from i to s
+			action #T1
 		}
 		transition t1 {
 			from s to f 
-			condition since(T) > 2 
+			condition since(T1) > 2 
 			action e!x
 		}
 	}

@@ -1,0 +1,65 @@
+package ChemicalDetector_assertions
+
+import Detect::*
+import System::*
+
+csp Instantiations csp-begin
+nametype real = { -90..180}
+nametype nat = {0..2}
+const_Signal_Signalling_flagTime = 0
+nametype boolean = Bool
+nametype string = LSeq(Char,2)
+nametype int = { -2..2}
+System_incr_BOUND = 2
+System_decr_BOUND = 2
+
+Plus(e1,e2,T) = if member(e1+e2,T) then e1+e2 else e1
+Div(e1,e2,T) = if member(e1/e2,T) then e1/e2 else e1
+Neg(e1,T) = if member(-e1,T) then -e1 else e1
+Mult(e1,e2,T) = if member(e1*e2,T) then e1*e2 else e1
+Modulus(e1,e2,T) = if member(e1%e2,T) then e1%e2 else e1
+Minus(e1,e2,T) = if member(e1-e2,T) then e1-e2 else e1
+csp-end
+
+assertion a1: Detecting is not deterministic
+
+csp OnlyCommands csp-begin
+OnlyCommands = System::ChemicalDetectorSoftware::O__(0) [|{|System::ChemicalDetectorSoftware::gas,System::ChemicalDetectorSoftware::light|}|] STOP
+csp-end
+
+assertion a2: OnlyCommands is deadlock-free
+
+csp OnlyGasAndLight csp-begin
+OnlyGasAndLight = System::ChemicalDetectorSoftware::O__(0) [|{|System::ChemicalDetectorSoftware::cd|}|] STOP
+csp-end
+
+assertion a3: OnlyGasAndLight is deadlock-free
+
+csp Spec1 csp-begin
+Commands = System::ChemicalDetectorSoftware::cd.in?x -> (|~|e: {|System::ChemicalDetectorSoftware::turn.out,System::ChemicalDetectorSoftware::incrCall,System::ChemicalDetectorSoftware::decrCall|} @ e -> Commands)
+Init = System::ChemicalDetectorSoftware::light.out.System_Color_green -> SKIP ||| System::ChemicalDetectorSoftware::gas.in -> SKIP
+GasLight = let
+  T = (
+    System::ChemicalDetectorSoftware::gas.in -> SKIP
+    |||
+    (
+      System::ChemicalDetectorSoftware::light.out.System_Color_red -> System::ChemicalDetectorSoftware::siren.out -> System::ChemicalDetectorSoftware::flag.out -> SKIP
+      |~|
+      System::ChemicalDetectorSoftware::light.out.System_Color_green -> SKIP
+      |~|
+      System::ChemicalDetectorSoftware::light.out.System_Color_amber -> SKIP
+    )
+  ); T
+within
+  Init; T
+Spec1 = Commands ||| GasLight
+csp-end
+
+csp Impl1 csp-begin
+Impl1 = System::ChemicalDetectorSoftware::O__(0)\{|System::ChemicalDetectorSoftware::incrRet,System::ChemicalDetectorSoftware::decrRet|}
+csp-end
+
+assertion a4: Impl1 refines Spec1
+
+assertion a5: ChemicalDetectorSoftware is deadlock-free
+assertion a6: ChemicalDetectorSoftware is divergence-free

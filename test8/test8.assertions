@@ -1,0 +1,37 @@
+package test8_assertions
+
+untimed csp Spec csp-begin
+	Spec = test8::M::e1.out.0 -> (
+		test8::M::e2.out.0 -> SKIP
+		|~|
+		test8::M::e2.out.1 -> SKIP
+		|~|
+		test8::M::e2.out.2 -> SKIP
+	)
+csp-end
+ /*
+  * Before the tock, may or may not be propagates so all outputs 0, 1 and 2 are possible.
+  * After the tock, the initial value of y is set, and only 0 and 2 are possible.
+  */
+timed csp TSpec csp-begin
+TSpec = let 
+	R = tock -> R' [] test8::M::e1.out.0 -> Out
+	R' = tock -> R' [] test8::M::e1.out.0 -> Out'
+	Out = test8::M::e2.out.0 -> SKIP
+		|~|
+		test8::M::e2.out.1 -> SKIP
+		|~|
+		test8::M::e2.out.2 -> SKIP
+
+	Out' = test8::M::e2.out.0 -> SKIP
+		|~|
+		test8::M::e2.out.2 -> SKIP
+within
+	R
+csp-end
+
+
+untimed assertion A1: test8::M equals Spec
+timed assertion A2: test8::M equals TSpec
+
+timed assertion A3: test8::M is not timelock-free

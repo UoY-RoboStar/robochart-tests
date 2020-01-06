@@ -47,4 +47,14 @@
   <semanticResources>ChemicalDetector/Move.rct</semanticResources>
   <semanticResources>ChemicalDetector/Signal.rct</semanticResources>
   <semanticResources>ChemicalDetector/System.rct</semanticResources>
+  <semanticResources>AlphaAlgorithm/AggregationSw.assertions</semanticResources>
+  <semanticResources>AlphaAlgorithm/AggregationSw.rct</semanticResources>
+  <semanticResources>AlphaAlgorithm/aggregation.rct</semanticResources>
+  <semanticResources>AlphaAlgorithm_Timed_Revision1/TAggregationSw.assertions</semanticResources>
+  <semanticResources>AlphaAlgorithm_Timed_Revision1/TAggregationSw.rct</semanticResources>
+  <semanticResources>AlphaAlgorithm_Timed_Revision1/TMathematics.rct</semanticResources>
+  <semanticResources>AlphaAlgorithm_Timed_Revision1/Taggregation.rct</semanticResources>
+  <semanticResources>AlphaAlgorithm_Timed_Revision1/Tcommunication.rct</semanticResources>
+  <semanticResources>AlphaAlgorithm_Timed_Revision1/TcommunicationC.rct</semanticResources>
+  <semanticResources>AlphaAlgorithm_Timed_Revision1/TmovementC.rct</semanticResources>
 </viewpoint:DAnalysis>

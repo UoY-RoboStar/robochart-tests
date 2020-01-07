@@ -1,6 +1,0 @@
-package TMathematics
-
-function random() : real {
-}
-function floor( x : real) : int {
-}

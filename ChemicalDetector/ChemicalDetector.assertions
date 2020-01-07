@@ -4,12 +4,12 @@ import Detect::*
 import System::*
 
 csp Instantiations csp-begin
-nametype real = { -90..180}
-nametype nat = {0..2}
+nametype core_real = { -90..180}
+nametype core_nat = {0..2}
 const_Signal_Signalling_flagTime = 0
-nametype boolean = Bool
-nametype string = LSeq(Char,2)
-nametype int = { -2..2}
+nametype core_boolean = Bool
+nametype core_string = LSeq(Char,2)
+nametype core_int = { -2..2}
 System_incr_BOUND = 2
 System_decr_BOUND = 2
 

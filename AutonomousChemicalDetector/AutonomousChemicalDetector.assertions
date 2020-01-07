@@ -1,0 +1,123 @@
+package AutonomousChemicalDetector::assertions
+
+import AutonomousChemicalDetector::GasAnalysis::*
+import AutonomousChemicalDetector::Movement::*
+import AutonomousChemicalDetector::Module::*
+
+assertion a1: GasAnalysis is deterministic
+assertion a2: GasAnalysis is divergence-free
+assertion a3: GasAnalysis terminates
+
+assertion a4: Movement is divergence-free
+assertion a5: Movement terminates
+
+assertion a6: ChemicalDetector terminates
+
+csp Spec1 csp-begin
+Spec1 = AutonomousChemicalDetector_GasAnalysis::GasAnalysis::gas.in?x -> (|~|e:{|AutonomousChemicalDetector_GasAnalysis::GasAnalysis::resume, AutonomousChemicalDetector_GasAnalysis::GasAnalysis::stop, AutonomousChemicalDetector_GasAnalysis::GasAnalysis::turn|} @ e->Spec1)
+        |~| 
+        SKIP
+csp-end
+ 
+csp Impl1 csp-begin   
+Impl1 = AutonomousChemicalDetector_GasAnalysis::GasAnalysis::O__(0,2)\{|AutonomousChemicalDetector_GasAnalysis::GasAnalysis::terminate|}
+csp-end
+
+assertion a7: Impl1 refines Spec1
+
+csp Spec2 csp-begin
+Spec2 = let
+Init = AutonomousChemicalDetector_Movement::Movement::randomWalkCall -> AutonomousChemicalDetector_Movement::Movement::randomWalkRet -> SKIP 
+   |~| AutonomousChemicalDetector_Movement::Movement::randomWalkCall -> SKIP 
+   |~| SKIP
+Reaction = |~|e:{|
+				AutonomousChemicalDetector_Movement::Movement::moveCall, 
+				AutonomousChemicalDetector_Movement::Movement::moveRet, 
+				AutonomousChemicalDetector_Movement::Movement::randomWalkCall, 
+				AutonomousChemicalDetector_Movement::Movement::randomWalkRet, 
+				AutonomousChemicalDetector_Movement::Movement::flag, 
+				AutonomousChemicalDetector_Movement::Movement::obstacle, 
+				AutonomousChemicalDetector_Movement::Movement::odometer 
+			|} @ e->(Reaction|~|SKIP)
+T = (SKIP |~| (|~|e:{|
+	AutonomousChemicalDetector_Movement::Movement::resume, 
+	AutonomousChemicalDetector_Movement::Movement::turn,
+	AutonomousChemicalDetector_Movement::Movement::stop
+|} @ e->SKIP); Reaction; T)
+within
+Init ||| T
+csp-end
+
+assertion a8: Movement does not refine Spec2
+
+csp NoGasNoTermination csp-begin
+NoGas = AutonomousChemicalDetector_Module::ChemicalDetector::gas.in.<(0,0)> -> NoGas
+NoGasNoTermination = AutonomousChemicalDetector_Module::ChemicalDetector::O__(0) 
+						[| {|AutonomousChemicalDetector_Module::ChemicalDetector::gas|} |] 
+					 NoGas
+csp-end
+
+assertion a9: NoGasNoTermination is deadlock-free  
+
+// every state is reachable
+assertion a10: Movement::Waiting is reachable in ChemicalDetector
+assertion a11: Movement::Going is reachable in ChemicalDetector
+assertion a12: Movement::Found is reachable in ChemicalDetector
+assertion a13: Movement::Avoiding is reachable in ChemicalDetector
+assertion a14: Movement::TryingAgain is reachable in ChemicalDetector
+assertion a15: Movement::AvoidingAgain is reachable in ChemicalDetector
+assertion a16: Movement::GettingOut is reachable in ChemicalDetector
+
+assertion a17: GasAnalysis::NoGas is reachable in ChemicalDetector
+assertion a18: GasAnalysis::Analysis is reachable in ChemicalDetector
+assertion a19: GasAnalysis::GasDetected is reachable in ChemicalDetector
+assertion a20: GasAnalysis::Reading is reachable in ChemicalDetector
+
+csp Instantiations csp-begin
+
+AutonomousChemicalDetector_Chemical_intensity(gs) = let 
+aux(<>,max) = max
+aux(<g>^gs,max) = if GasSensor_i(g) > max then aux(gs,GasSensor_i(g)) else aux(gs,max)
+within
+aux(gs,0)
+
+AutonomousChemicalDetector_Chemical_goreq(x,y) = x >= y
+
+AutonomousChemicalDetector_Chemical_angle(x) = if (x > 0) then AutonomousChemicalDetector_Chemical_Angle_Right else AutonomousChemicalDetector_Chemical_Angle_Front
+
+AutonomousChemicalDetector_Chemical_location(gs) = let
+aux(<>,max,n) = AutonomousChemicalDetector_Chemical_Angle_Front
+aux(<g>^gs,max,n) = if GasSensor_i(g) == max then AutonomousChemicalDetector_Chemical_angle(n) else aux(gs,max,n+1)
+within
+aux(gs,AutonomousChemicalDetector_Chemical_intensity(gs),0)
+
+AutonomousChemicalDetector_Chemical_analysis(<>) = AutonomousChemicalDetector_Chemical_Status_noGas
+AutonomousChemicalDetector_Chemical_analysis(<g>^gs) = if (AutonomousChemicalDetector_Chemical_analysis(gs) == AutonomousChemicalDetector_Chemical_Status_noGas and GasSensor_c(g) == 0) then AutonomousChemicalDetector_Chemical_Status_noGas else AutonomousChemicalDetector_Chemical_Status_gasD
+
+const_AutonomousChemicalDetector_GasAnalysis_GasAnalysis_thr = 1
+nametype core_nat = {0..2}
+const_AutonomousChemicalDetector_Movement_Movement_evadeTime = 0
+const_AutonomousChemicalDetector_Movement_Movement_outPeriod = 0
+AutonomousChemicalDetector_Module_shortRandomWalk_BOUND = 2
+AutonomousChemicalDetector_Module_move_BOUND = 2
+nametype core_string = LSeq(Char,2)
+nametype AutonomousChemicalDetector_Chemical_Intensity = {0,1}
+nametype core_real = {0,1}
+nametype AutonomousChemicalDetector_Chemical_Chem = {0,1}
+nametype core_int = { -2..2}
+const_AutonomousChemicalDetector_Location_changeDirection_lv = 0
+const_AutonomousChemicalDetector_Movement_Movement_lv = 0
+const_AutonomousChemicalDetector_Movement_Movement_stuckDist = 0
+nametype core_boolean = Bool
+AutonomousChemicalDetector_Module_srw_BOUND = 2
+const_AutonomousChemicalDetector_Movement_Movement_stuckPeriod = 0
+card(A) = 0
+
+Plus(e1,e2,T) = if member(e1+e2,T) then e1+e2 else e1
+Div(e1,e2,T) = if member(e1/e2,T) then e1/e2 else e1
+Neg(e1,T) = if member(-e1,T) then -e1 else e1
+Mult(e1,e2,T) = if member(e1*e2,T) then e1*e2 else e1
+Modulus(e1,e2,T) = if member(e1%e2,T) then e1%e2 else e1
+Minus(e1,e2,T) = if member(e1-e2,T) then e1-e2 else e1
+
+csp-end

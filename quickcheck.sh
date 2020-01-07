@@ -1,22 +1,35 @@
-LIST=$(ls csp-gen/*_assertions.csp csp-gen/timed/*_assertions.csp)
-files_with_errors=()
+#cd circus.robocalc.robochart.generator.csp.tests
+PROJECTS=$(ls -d */ | grep -v "^csp-gen/$")
 let total=0
 let pass=0
-for f in $LIST
-do
-printf '\e[48;5;190m\e[38;5;196mchecking %s\e[0m\n' "${f}"
-check=$(refines -t $f 2>&1 >/dev/null)
-if [ -z "$check" ]
-then
-	result=$(refines -qb $f | tail -n +3)
-	let total+=$(echo "$result" | wc -l)
-	let pass+=$(echo "$result" | grep "Passed" | wc -l)
-	echo "$result"
-else
-	printf '\e[38;5;196m%s\e[0m\n' "${check}"
-	files_with_errors+=($f)
-fi
-done
+
+#for project in $PROJECTS; do
+	#echo "Compiling $project"
+#	read -p "$*"
+	#java -jar robochart.jar $project
+#	cd $project
+	LIST=$(ls csp-gen/*_assertions.csp csp-gen/timed/*_assertions.csp)
+	files_with_errors=()
+	for f in $LIST
+	do
+	echo "Press any key"
+	read -p "$*"
+	printf '\e[48;5;190m\e[38;5;196mchecking %s\e[0m\n' "${f}"
+	check=$(refines -t $f 2>&1 >/dev/null)
+	if [ -z "$check" ]
+	then
+		result=$(refines -qb $f | tail -n +3)
+		let total+=$(echo "$result" | wc -l)
+		let pass+=$(echo "$result" | grep "Passed" | wc -l)
+		echo "$result"
+	else
+		printf '\e[38;5;196m%s\e[0m\n' "${check}"
+		files_with_errors+=($f)
+	fi
+	done
+	#cd ..
+#done
+
 printf '\n'
 if [ ${#files_with_errors[@]} -gt 0 ]
 then

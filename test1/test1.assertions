@@ -1,7 +1,7 @@
 untimed csp untimed_test1_spec csp-begin
 channel int__
 untimed_test1_spec = let
-aux = test1::S::a.in?x -> test1::S::b.out!Plus(x,1,nat) -> aux
+aux = test1::S::a.in?x -> test1::S::b.out!Plus(x,1,core_nat) -> aux
       []
       int__ ->  test1::S::c.out -> test1::S::terminate -> SKIP
 within aux\{|int__|}
@@ -14,7 +14,7 @@ aux(n) =
 	(n < 4) & (
 		test1::S::a.in?x -> (
 			let 
-				rec(n) = test1::S::b.out!Plus(x,1,nat) -> aux(n)
+				rec(n) = test1::S::b.out!Plus(x,1,core_nat) -> aux(n)
 				         []
 				         tock -> if (n > 10) then rec(n) else rec(n+1)
 			within

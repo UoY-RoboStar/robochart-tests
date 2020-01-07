@@ -6,7 +6,7 @@ import test3::*
  */
 untimed csp untimed_spec associated to op csp-begin
 	untimed_spec = let
-		P(y) = test3::op::a.in?x -> test3::op::b.out.(Plus(y,x,nat)) -> SKIP
+		P(y) = test3::op::a.in?x -> test3::op::b.out.(Plus(y,x,core_nat)) -> SKIP
 	within P(1)
 csp-end
 
@@ -15,7 +15,7 @@ timed csp timed_spec associated to op csp-begin
 		P(y) = test3::op::a.in?x -> Q(x,y)
 			   []
 			   tock -> P(y)
-		Q(x,y) = test3::op::b.out.(Plus(y,x,nat)) -> SKIP
+		Q(x,y) = test3::op::b.out.(Plus(y,x,core_nat)) -> SKIP
 		    []
 		    tock -> Q(x,y)
 	within P(1)

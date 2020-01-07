@@ -4,20 +4,20 @@ import communication::*
 import AggregationSw::*
 
 csp Instantiations csp-begin
-nametype nat = {0..4}
+nametype core_nat = {0..4}
 const_aggregation_Movement_alpha = 2 
 AggregationSw_move_BOUND = 2
-nametype string = LSeq(Char,2)
+nametype core_string = LSeq(Char,2)
 const_aggregation_Movement_av = 1
 const_aggregation_Movement_MB = 1
-nametype real = { -1,0,1}
-nametype int = { -4..4}
+nametype core_real = { -1,0,1}
+nametype core_int = { -4..4}
 const_communication_Communication_RC = 1
 const_communication_Communication_id = 0 
-random() = 0
-nametype boolean = Bool
-nametype ID = {0,1}
-floor(x) = x 
+Mathematics_random() = 0
+nametype core_boolean = Bool
+nametype AggregationSw_ID = {0,1}
+Mathematics_floor(x) = x 
 const_aggregation_Movement_lv = 1   
 
 Plus(e1,e2,T) = if member(e1+e2,T) then e1+e2 else e1
@@ -45,8 +45,8 @@ assertion a9: AggregationSoftware is deadlock-free
 
 untimed csp Spec1 csp-begin
 Spec1 = let
-Responds = (|~|x:ID @ AggregationSw::AggregationSoftware::receive.in.(const_communication_Communication_id,x) -> Responds) |~| SKIP
-Run = AggregationSw::AggregationSoftware::broadcast.in?x:diff(ID,{const_communication_Communication_id}) -> AggregationSw::AggregationSoftware::receive.out!(x,const_communication_Communication_id) -> Run |~| SKIP
+Responds = (|~|x:AggregationSw_ID @ AggregationSw::AggregationSoftware::receive.in.(const_communication_Communication_id,x) -> Responds) |~| SKIP
+Run = AggregationSw::AggregationSoftware::broadcast.in?x:diff(AggregationSw_ID,{const_communication_Communication_id}) -> AggregationSw::AggregationSoftware::receive.out!(x,const_communication_Communication_id) -> Run |~| SKIP
 Main = AggregationSw::AggregationSoftware::broadcast.out.const_communication_Communication_id -> (Responds|||Run); Main
 within
 Main
@@ -61,7 +61,7 @@ untimed assertion b1: Impl1 refines Spec1 in the failures model
 untimed csp Spec2 csp-begin
 Spec2 = let
 Moves = AggregationSw::AggregationSoftware::moveCall?x?y -> AggregationSw::AggregationSoftware::moveRet!x!y -> (Moves |~| SKIP)
-Run = |~|x:Position @ AggregationSw::AggregationSoftware::obstacle.in.x -> Moves; Run
+Run = |~|x:AggregationSw_Position @ AggregationSw::AggregationSoftware::obstacle.in.x -> Moves; Run
 within
 Moves; Run
 csp-end 

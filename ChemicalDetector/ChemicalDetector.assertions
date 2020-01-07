@@ -35,7 +35,7 @@ csp-end
 
 assertion a3: OnlyGasAndLight is deadlock-free
 
-csp Spec1 csp-begin
+untimed csp Spec1 csp-begin
 Commands = System::ChemicalDetectorSoftware::cd.in?x -> (|~|e: {|System::ChemicalDetectorSoftware::turn.out,System::ChemicalDetectorSoftware::incrCall,System::ChemicalDetectorSoftware::decrCall|} @ e -> Commands)
 Init = System::ChemicalDetectorSoftware::light.out.System_Color_green -> SKIP ||| System::ChemicalDetectorSoftware::gas.in -> SKIP
 GasLight = let
@@ -55,11 +55,11 @@ within
 Spec1 = Commands ||| GasLight
 csp-end
 
-csp Impl1 csp-begin
+untimed csp Impl1 csp-begin
 Impl1 = System::ChemicalDetectorSoftware::O__(0)\{|System::ChemicalDetectorSoftware::incrRet,System::ChemicalDetectorSoftware::decrRet|}
 csp-end
 
-assertion a4: Impl1 refines Spec1
+untimed assertion a4: Impl1 refines Spec1
 
 assertion a5: ChemicalDetectorSoftware is deadlock-free
 assertion a6: ChemicalDetectorSoftware is divergence-free

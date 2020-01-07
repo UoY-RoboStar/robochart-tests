@@ -13,17 +13,17 @@ assertion a5: Movement terminates
 
 assertion a6: ChemicalDetector terminates
 
-csp Spec1 csp-begin
+untimed csp Spec1 csp-begin
 Spec1 = AutonomousChemicalDetector_GasAnalysis::GasAnalysis::gas.in?x -> (|~|e:{|AutonomousChemicalDetector_GasAnalysis::GasAnalysis::resume, AutonomousChemicalDetector_GasAnalysis::GasAnalysis::stop, AutonomousChemicalDetector_GasAnalysis::GasAnalysis::turn|} @ e->Spec1)
         |~| 
         SKIP
 csp-end
  
-csp Impl1 csp-begin   
+untimed csp Impl1 csp-begin   
 Impl1 = AutonomousChemicalDetector_GasAnalysis::GasAnalysis::O__(0,2)\{|AutonomousChemicalDetector_GasAnalysis::GasAnalysis::terminate|}
 csp-end
 
-assertion a7: Impl1 refines Spec1
+untimed assertion a7: Impl1 refines Spec1
 
 csp Spec2 csp-begin
 Spec2 = let

@@ -33,5 +33,5 @@ within aux(0)\{|int__|}
 csp-end
 
 
-untimed assertion t1a: test1::S equals untimed_test1_spec
-timed assertion t1b: test1::S equals timed_test1_spec
+untimed assertion t1a: test1::S equals untimed_test1_spec.
+timed assertion t1b: test1::S equals timed_test1_spec.

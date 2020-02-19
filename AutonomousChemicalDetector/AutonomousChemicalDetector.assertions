@@ -4,14 +4,14 @@ import AutonomousChemicalDetector::GasAnalysis::*
 import AutonomousChemicalDetector::Movement::*
 import AutonomousChemicalDetector::Module::*
 
-assertion a1: GasAnalysis is deterministic
-assertion a2: GasAnalysis is divergence-free
-assertion a3: GasAnalysis terminates
+assertion a1: GasAnalysis is deterministic.
+assertion a2: GasAnalysis is divergence-free.
+assertion a3: GasAnalysis terminates.
 
-assertion a4: Movement is divergence-free
-assertion a5: Movement terminates
+assertion a4: Movement is divergence-free.
+assertion a5: Movement terminates.
 
-assertion a6: ChemicalDetector terminates
+assertion a6: ChemicalDetector terminates.
 
 untimed csp Spec1 csp-begin
 Spec1 = AutonomousChemicalDetector_GasAnalysis::GasAnalysis::gas.in?x -> (|~|e:{|AutonomousChemicalDetector_GasAnalysis::GasAnalysis::resume, AutonomousChemicalDetector_GasAnalysis::GasAnalysis::stop, AutonomousChemicalDetector_GasAnalysis::GasAnalysis::turn|} @ e->Spec1)
@@ -23,7 +23,7 @@ untimed csp Impl1 csp-begin
 Impl1 = AutonomousChemicalDetector_GasAnalysis::GasAnalysis::O__(0,2)\{|AutonomousChemicalDetector_GasAnalysis::GasAnalysis::terminate|}
 csp-end
 
-untimed assertion a7: Impl1 refines Spec1
+untimed assertion a7: Impl1 refines Spec1.
 
 csp Spec2 csp-begin
 Spec2 = let
@@ -48,7 +48,7 @@ within
 Init ||| T
 csp-end
 
-assertion a8: Movement does not refine Spec2
+assertion a8: Movement does not refine Spec2.
 
 csp NoGasNoTermination csp-begin
 NoGas = AutonomousChemicalDetector_Module::ChemicalDetector::gas.in.<(0,0)> -> NoGas
@@ -57,21 +57,21 @@ NoGasNoTermination = AutonomousChemicalDetector_Module::ChemicalDetector::O__(0)
 					 NoGas
 csp-end
 
-assertion a9: NoGasNoTermination is deadlock-free  
+assertion a9: NoGasNoTermination is deadlock-free.  
 
 // every state is reachable
-assertion a10: Movement::Waiting is reachable in ChemicalDetector
-assertion a11: Movement::Going is reachable in ChemicalDetector
-assertion a12: Movement::Found is reachable in ChemicalDetector
-assertion a13: Movement::Avoiding is reachable in ChemicalDetector
-assertion a14: Movement::TryingAgain is reachable in ChemicalDetector
-assertion a15: Movement::AvoidingAgain is reachable in ChemicalDetector
-assertion a16: Movement::GettingOut is reachable in ChemicalDetector
+assertion a10: Movement::Waiting is reachable in ChemicalDetector.
+assertion a11: Movement::Going is reachable in ChemicalDetector.
+assertion a12: Movement::Found is reachable in ChemicalDetector.
+assertion a13: Movement::Avoiding is reachable in ChemicalDetector.
+assertion a14: Movement::TryingAgain is reachable in ChemicalDetector.
+assertion a15: Movement::AvoidingAgain is reachable in ChemicalDetector.
+assertion a16: Movement::GettingOut is reachable in ChemicalDetector.
 
-assertion a17: GasAnalysis::NoGas is reachable in ChemicalDetector
-assertion a18: GasAnalysis::Analysis is reachable in ChemicalDetector
-assertion a19: GasAnalysis::GasDetected is reachable in ChemicalDetector
-assertion a20: GasAnalysis::Reading is reachable in ChemicalDetector
+assertion a17: GasAnalysis::NoGas is reachable in ChemicalDetector.
+assertion a18: GasAnalysis::Analysis is reachable in ChemicalDetector.
+assertion a19: GasAnalysis::GasDetected is reachable in ChemicalDetector.
+assertion a20: GasAnalysis::Reading is reachable in ChemicalDetector.
 
 csp Instantiations csp-begin
 

@@ -1,16 +1,16 @@
 package clocks2_assertions
 
 /* The state machine, controller, and module, can all terminate if the wait is 1 time unit. */
-timed assertion R1: clocks2::ctrl0::stm0 is not deadlock-free
-timed assertion R2: clocks2::ctrl0::stm0 terminates
+timed assertion R1: clocks2::ctrl0::stm0 is not deadlock-free.
+timed assertion R2: clocks2::ctrl0::stm0 terminates.
 
-timed assertion R3: clocks2::ctrl0 terminates
-timed assertion R4: clocks2::M terminates
+timed assertion R3: clocks2::ctrl0 terminates.
+timed assertion R4: clocks2::M terminates.
 
 /* Not deterministic because of the non-deterministic wait. */
-timed assertion R5: clocks2::ctrl0::stm0 is not deterministic
-timed assertion R6: clocks2::ctrl0 is not deterministic
-timed assertion R7: clocks2::M is not deterministic
+timed assertion R5: clocks2::ctrl0::stm0 is not deterministic.
+timed assertion R6: clocks2::ctrl0 is not deterministic.
+timed assertion R7: clocks2::M is not deterministic.
 
 /* The transition from s0 to s1 depends on C, which has not been reset at least once. */
-assertion C1: clock clocks2::ctrl0::stm0::Cl is not initialised
+assertion C1: clock clocks2::ctrl0::stm0::Cl is not initialised.

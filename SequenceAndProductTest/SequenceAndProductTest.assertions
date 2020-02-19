@@ -2,6 +2,6 @@ package SequenceAndProductTest_assertions
 
 import SequenceAndProductTest::*
 
-untimed assertion A1: test is not deadlock-free with constants PC set to 1 and x set to 1
-timed assertion A2: test is deadlock-free with constants PC set to 1 and x set to 1
-assertion B: test is deterministic with constants PC set to 1 and x set to 1 
+untimed assertion A1: test is not deadlock-free with constant SequenceAndProductTest::test::PC set to 1 and parameter x set to 1 .
+timed assertion A2: test is deadlock-free with constant SequenceAndProductTest::test::PC set to 1  and parameter x set to 1 .
+assertion B: test is deterministic with constant SequenceAndProductTest::test::PC set to 1 and parameter x set to 1 . 

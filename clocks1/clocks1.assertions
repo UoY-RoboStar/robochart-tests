@@ -3,8 +3,8 @@ package clocks1_assertions
 /* It is deadlock free because it does not terminate. The transition to the final
  * state cannot be triggered because by the time s1 is reached it is no longer true.
  */
-timed assertion R2: clocks1::ctrl0::stm0 is deadlock-free
-timed assertion R3timed: clocks1::ctrl0::stm0 does not terminate
+timed assertion R2: clocks1::ctrl0::stm0 is deadlock-free.
+timed assertion R3timed: clocks1::ctrl0::stm0 does not terminate.
 
 /* It can terminate in the untimed model, because the transition to the final state
  * is non-deterministic, as there is no timed information it may or may not be taken.
@@ -14,7 +14,7 @@ timed assertion R3timed: clocks1::ctrl0::stm0 does not terminate
  * 
  */
 // untimed assertion ctrl0::stm0 terminates (R3untimed)
-untimed assertion R3reachable: clocks1::ctrl0::stm0::f0 is reachable in clocks1::ctrl0::stm0
+untimed assertion R3reachable: clocks1::ctrl0::stm0::f0 is reachable in clocks1::ctrl0::stm0.
 
 /* The transition from s0 to s1 depends on C, which has not been reset at least once. */
-assertion C1: clock clocks1::ctrl0::stm0::Cl is not initialised
+assertion C1: clock clocks1::ctrl0::stm0::Cl is not initialised.

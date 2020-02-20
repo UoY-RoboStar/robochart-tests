@@ -1,11 +1,11 @@
 csp test2_spec1 csp-begin
-	test2_spec1 = test2::S::opCall.1 -> test2::S::opRet.1 -> test2::S::terminate -> SKIP
+	test2_spec1 = test2::S::opCall.1 -> test2::S::terminate -> SKIP
 csp-end
 
 assertion t2a: test2::S equals test2_spec1
 
 csp test2_spec2 csp-begin
-	test2_spec2 = test2::C1::opCall.1 -> test2::C1::opRet.1 -> test2::C1::terminate -> SKIP
+	test2_spec2 = test2::C1::opCall.1 -> test2::C1::terminate -> SKIP
 csp-end
 
 assertion t2b: test2::C1 equals test2_spec2

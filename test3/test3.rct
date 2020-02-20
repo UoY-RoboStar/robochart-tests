@@ -26,7 +26,7 @@ controller C {
 	stm S {
 		event a:nat
 		event b:nat
-		var n: nat
+		var n: nat 
 		requires I
 		initial i
 		final f

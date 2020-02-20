@@ -53,21 +53,53 @@ Main
 csp-end
 
 untimed csp Impl1 csp-begin
-Impl1 = AggregationSw::AggregationSoftware::O__(0)\diff(Events,{|AggregationSw::AggregationSoftware::receive,AggregationSw::AggregationSoftware::broadcast|})
+Impl1 = let 
+	id__ = 0
+	const_aggregation_Movement_lv = 1
+	const_aggregation_Movement_av = 1
+	const_aggregation_Movement_MB = 1
+	const_aggregation_Movement_alpha = 2
+	const_communication_Communication_id = 0
+	const_communication_Communication_RC = 1
+within
+	AggregationSw::AggregationSoftware::O__(id__,
+			    const_aggregation_Movement_lv,
+			    const_aggregation_Movement_av,
+			    const_aggregation_Movement_MB,
+			    const_aggregation_Movement_alpha,
+			    const_communication_Communication_id,
+			    const_communication_Communication_RC)
+	\diff(Events,{|AggregationSw::AggregationSoftware::receive,AggregationSw::AggregationSoftware::broadcast|}) 
 csp-end
 
 untimed assertion b1: Impl1 refines Spec1 in the failures model.
 
 untimed csp Spec2 csp-begin
 Spec2 = let
-Moves = AggregationSw::AggregationSoftware::moveCall?x?y -> AggregationSw::AggregationSoftware::moveRet!x!y -> (Moves |~| SKIP)
+Moves = AggregationSw::AggregationSoftware::moveCall?x?y -> (Moves |~| SKIP)
 Run = |~|x:AggregationSw_Position @ AggregationSw::AggregationSoftware::obstacle.in.x -> Moves; Run
 within
 Moves; Run
 csp-end 
 
 untimed csp Impl2 csp-begin
-Impl2 = AggregationSw::AggregationSoftware::O__(0)\diff(Events,{|AggregationSw::AggregationSoftware::moveCall,AggregationSw::AggregationSoftware::moveRet,AggregationSw::AggregationSoftware::obstacle|})
+Impl2 = let 
+	id__ = 0
+	const_aggregation_Movement_lv = 0
+	const_aggregation_Movement_av = 0
+	const_aggregation_Movement_MB = 0
+	const_aggregation_Movement_alpha = 0
+	const_communication_Communication_id = 0
+	const_communication_Communication_RC = 0
+within
+	AggregationSw::AggregationSoftware::O__(id__,
+			    const_aggregation_Movement_lv,
+			    const_aggregation_Movement_av,
+			    const_aggregation_Movement_MB,
+			    const_aggregation_Movement_alpha,
+			    const_communication_Communication_id,
+			    const_communication_Communication_RC)
+	\diff(Events,{|AggregationSw::AggregationSoftware::moveCall,AggregationSw::AggregationSoftware::obstacle|})
 csp-end
 
 untimed assertion b2: Impl2 refines Spec2 in the failures model.

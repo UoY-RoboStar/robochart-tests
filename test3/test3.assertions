@@ -6,24 +6,20 @@ import test3::*
  */
 untimed csp untimed_spec associated to op csp-begin
 	untimed_spec = let
-		P(y) = test3::op::a.in?x -> test3::op::b.out.(Plus(y,x,core_nat)) -> SKIP
+		P(y) = test3::OP_op::a.in?x -> test3::OP_op::b.out.(Plus(y,x,core_nat)) -> SKIP
 	within P(1)
 csp-end
 
 timed csp timed_spec associated to op csp-begin
 	timed_spec = let
-		P(y) = test3::op::a.in?x -> Q(x,y)
+		P(y) = test3::OP_op::a.in?x -> Q(x,y)
 			   []
 			   tock -> P(y)
-		Q(x,y) = test3::op::b.out.(Plus(y,x,core_nat)) -> SKIP
+		Q(x,y) = test3::OP_op::b.out.(Plus(y,x,core_nat)) -> SKIP
 		    []
-		    tock -> Q(x,y)
+		    tock -> Q(x,y)   
 	within P(1)
 csp-end 
-
-csp impl associated to op csp-begin
-	impl = test3::op::D__(0,1)
-csp-end
-
-untimed assertion a3a: impl equals untimed_spec
-timed assertion a3b: impl equals timed_spec
+ 
+untimed assertion a3a: op equals untimed_spec with parameter op::x set to 1 . 
+timed assertion a3b: op equals timed_spec with parameter op::x set to 1 .

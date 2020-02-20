@@ -1,0 +1,41 @@
+/* simple operation, state machine and controller */
+
+package test10
+
+operation op(x:nat) {
+	event a:nat
+	event b:nat
+	var y: nat
+	initial i
+	state s {}
+	final f
+	transition t1 { from i to s }
+	transition t2 { from s to f trigger a?y action b!(x+y)}
+}
+
+operation op1(y:nat) {
+	event a:nat
+	event b:nat
+	var z: nat
+	initial i
+	state s {}
+	final f
+	transition t1 { from i to s }
+	transition t2 { from s to f trigger a?z action b!(y+z)}
+	
+}
+
+stm S1 {
+	const C1: nat
+	initial i
+	final f
+	transition t { from i to f }
+}
+
+stm S2 {
+	const C2: nat
+	initial i
+	final f
+	transition t { from i to f }
+}
+

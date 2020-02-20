@@ -1,0 +1,5 @@
+import test10::*
+ 
+assertion a10a: op equals op1 with parameter op::x set to 1 and parameter op1::y set to 1 . 
+assertion a10b: S1 equals S2 with constant S1::C1 set to 1 and constant S2::C2 set to 1 .
+

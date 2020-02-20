@@ -1,8 +1,10 @@
 package AutonomousChemicalDetector::assertions
 
+
 import AutonomousChemicalDetector::GasAnalysis::*
 import AutonomousChemicalDetector::Movement::*
 import AutonomousChemicalDetector::Module::*
+import AutonomoucChemicalDetector::Chemical::*
 
 assertion a1: GasAnalysis is deterministic.
 assertion a2: GasAnalysis is divergence-free.
@@ -19,22 +21,25 @@ Spec1 = AutonomousChemicalDetector_GasAnalysis::GasAnalysis::gas.in?x -> (|~|e:{
         SKIP
 csp-end
  
-untimed csp Impl1 csp-begin   
-Impl1 = AutonomousChemicalDetector_GasAnalysis::GasAnalysis::O__(0,2)\{|AutonomousChemicalDetector_GasAnalysis::GasAnalysis::terminate|}
+untimed csp Impl1 associated to GasAnalysis csp-begin   
+Impl1 = (let 
+			id__ = 0
+			const_AutonomousChemicalDetector_GasAnalysis_GasAnalysis_thr = 2
+		within
+			AutonomousChemicalDetector_GasAnalysis::GasAnalysis::O__(id__,const_AutonomousChemicalDetector_GasAnalysis_GasAnalysis_thr)
+		)\{|AutonomousChemicalDetector_GasAnalysis::GasAnalysis::terminate|}
 csp-end
 
 untimed assertion a7: Impl1 refines Spec1.
 
 csp Spec2 csp-begin
 Spec2 = let
-Init = AutonomousChemicalDetector_Movement::Movement::randomWalkCall -> AutonomousChemicalDetector_Movement::Movement::randomWalkRet -> SKIP 
+Init = AutonomousChemicalDetector_Movement::Movement::randomWalkCall -> SKIP 
    |~| AutonomousChemicalDetector_Movement::Movement::randomWalkCall -> SKIP 
    |~| SKIP
 Reaction = |~|e:{|
 				AutonomousChemicalDetector_Movement::Movement::moveCall, 
-				AutonomousChemicalDetector_Movement::Movement::moveRet, 
 				AutonomousChemicalDetector_Movement::Movement::randomWalkCall, 
-				AutonomousChemicalDetector_Movement::Movement::randomWalkRet, 
 				AutonomousChemicalDetector_Movement::Movement::flag, 
 				AutonomousChemicalDetector_Movement::Movement::obstacle, 
 				AutonomousChemicalDetector_Movement::Movement::odometer 
@@ -50,11 +55,30 @@ csp-end
 
 assertion a8: Movement does not refine Spec2.
 
-csp NoGasNoTermination csp-begin
+csp NoGasNoTermination associated to ChemicalDetector csp-begin
 NoGas = AutonomousChemicalDetector_Module::ChemicalDetector::gas.in.<(0,0)> -> NoGas
-NoGasNoTermination = AutonomousChemicalDetector_Module::ChemicalDetector::O__(0) 
-						[| {|AutonomousChemicalDetector_Module::ChemicalDetector::gas|} |] 
-					 NoGas
+NoGasNoTermination = 
+	(let 
+		id__ = 0
+		const_AutonomousChemicalDetector_GasAnalysis_GasAnalysis_thr = 0
+		const_AutonomousChemicalDetector_Movement_Movement_lv = 0
+		const_AutonomousChemicalDetector_Movement_Movement_evadeTime = 0
+		const_AutonomousChemicalDetector_Movement_Movement_stuckPeriod = 0
+		const_AutonomousChemicalDetector_Movement_Movement_stuckDist = 0
+		const_AutonomousChemicalDetector_Movement_Movement_outPeriod = 0
+		const_AutonomousChemicalDetector_Location_changeDirection_lv = 0
+	within
+		AutonomousChemicalDetector_Module::ChemicalDetector::O__(id__,  
+			    	const_AutonomousChemicalDetector_GasAnalysis_GasAnalysis_thr,
+			    	const_AutonomousChemicalDetector_Movement_Movement_lv,
+			    	const_AutonomousChemicalDetector_Movement_Movement_evadeTime,
+			    	const_AutonomousChemicalDetector_Movement_Movement_stuckPeriod,
+			    	const_AutonomousChemicalDetector_Movement_Movement_stuckDist,
+			    	const_AutonomousChemicalDetector_Movement_Movement_outPeriod,
+			   		const_AutonomousChemicalDetector_Location_changeDirection_lv)
+	)
+		[| {|AutonomousChemicalDetector_Module::ChemicalDetector::gas|} |] 
+	NoGas
 csp-end
 
 assertion a9: NoGasNoTermination is deadlock-free.  

@@ -24,13 +24,29 @@ csp-end
 assertion a1: Detecting is not deterministic.
 
 csp OnlyCommands csp-begin
-OnlyCommands = System::ChemicalDetectorSoftware::O__(0) [|{|System::ChemicalDetectorSoftware::gas,System::ChemicalDetectorSoftware::light|}|] STOP
+OnlyCommands = 
+	(let 
+		id__ = 0
+		const_Signal_Signalling_flagTime = 0
+	within
+		System::ChemicalDetectorSoftware::O__(id__,const_Signal_Signalling_flagTime)
+	) 
+		[|{|System::ChemicalDetectorSoftware::gas,System::ChemicalDetectorSoftware::light|}|] 
+	STOP
 csp-end
 
 assertion a2: OnlyCommands is deadlock-free.
 
 csp OnlyGasAndLight csp-begin
-OnlyGasAndLight = System::ChemicalDetectorSoftware::O__(0) [|{|System::ChemicalDetectorSoftware::cd|}|] STOP
+OnlyGasAndLight = 
+	(let 
+		id__ = 0
+		const_Signal_Signalling_flagTime = 0
+	within
+		System::ChemicalDetectorSoftware::O__(id__,const_Signal_Signalling_flagTime)
+	)
+		[|{|System::ChemicalDetectorSoftware::cd|}|] 
+	STOP
 csp-end
 
 assertion a3: OnlyGasAndLight is deadlock-free.
@@ -55,11 +71,7 @@ within
 Spec1 = Commands ||| GasLight
 csp-end
 
-untimed csp Impl1 csp-begin
-Impl1 = System::ChemicalDetectorSoftware::O__(0)\{|System::ChemicalDetectorSoftware::incrRet,System::ChemicalDetectorSoftware::decrRet|}
-csp-end
-
-untimed assertion a4: Impl1 refines Spec1.
+untimed assertion a4: System::ChemicalDetectorSoftware refines Spec1.
 
 assertion a5: ChemicalDetectorSoftware is deadlock-free.
 assertion a6: ChemicalDetectorSoftware is divergence-free.

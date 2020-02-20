@@ -1,5 +1,7 @@
 package test9_assertions
 
+import test9::*
+
 untimed csp Spec csp-begin
 	Spec = test9::S::e.out.2 -> test9::S::terminate -> SKIP
 csp-end
@@ -11,5 +13,5 @@ timed csp TSpec csp-begin
 		aux
 csp-end
 
-untimed assertion A1: test9::S equals Spec with constant test9::S::TC set to 2
-timed assertion A2: test9::S equals TSpec with constant test9::S::TC set to 2
+untimed assertion A1: S equals Spec with constant S::TC set to 2 
+timed assertion A2: S equals TSpec with constant S::TC set to 2   

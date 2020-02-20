@@ -5,6 +5,6 @@ import test10::*
  * the visible events need to be renamed to event local to the assertion.
  */
 
-assertion a10a: op is not equal op1 with parameter op::x set to 1 and parameter op1::y set to 1 . 
-assertion a10b: S1 is not equal equals S2 with constant S1::C1 set to 1 and constant S2::C2 set to 1 .
+assertion a10a: op is not equal to op1 with parameter op::x set to 1 and parameter op1::y set to 1 . 
+assertion a10b: S1 is not equal to S2 with constant S1::C1 set to 1 and constant S2::C2 set to 1 .
 

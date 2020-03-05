@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<viewpoint:DAnalysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" uid="_M-7ggF7rEeqhC_84iiqQGA" version="14.3.0.201909031200">
+  <semanticResources>AggregationSw.assertions</semanticResources>
+  <semanticResources>communication.rct</semanticResources>
+  <semanticResources>AggregationSw.rct</semanticResources>
+  <semanticResources>aggregation.rct</semanticResources>
+  <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/core.rct</semanticResources>
+  <semanticResources>Mathematics.rct</semanticResources>
+  <semanticResources>movementC.rct</semanticResources>
+  <semanticResources>communicationC.rct</semanticResources>
+  <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/set_toolkit.rct</semanticResources>
+  <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/sequence_toolkit.rct</semanticResources>
+  <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/relation_toolkit.rct</semanticResources>
+  <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/function_toolkit.rct</semanticResources>
+</viewpoint:DAnalysis>

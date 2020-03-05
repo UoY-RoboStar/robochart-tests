@@ -1,0 +1,74 @@
+diagram test11
+enumeration Values {
+	VA VB VC VD
+}
+
+
+interface OP_RI {
+	const RC: Values
+}
+
+interface OP_I {
+	const D: Values
+}
+
+interface S_RI {
+	const RA: Values
+}
+
+interface S_I {
+	const B: Values
+}
+
+interface Ops {
+	Op()
+}
+
+controller Ctrl {
+	uses S_RI
+	event e: Values
+	event f: Values
+	
+	stm Stm {
+		requires Ops
+		requires S_RI
+		uses S_I
+		uses OP_RI
+		event e: Values
+		event f: Values
+		initial I
+		final F
+		transition t {
+			from I to F
+			action Op()
+		}
+		
+	}
+	
+	connection Stm on e to Ctrl on e
+	connection Stm on f to Ctrl on f
+	
+	operation Op() {
+		event e: Values
+		event f: Values
+		requires OP_RI
+		uses OP_I
+		initial I
+		state S {}
+		final F
+		transition t0 {
+			from I to S
+		}
+		transition t1 {
+			from S to F 
+			condition RC == VA
+			action e!RC
+		}
+		transition t2 {
+			from S to F 
+			condition D == VA
+			action f!D
+		}
+	}
+	
+}

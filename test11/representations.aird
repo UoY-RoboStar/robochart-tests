@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:diagram="http://www.eclipse.org/sirius/diagram/1.1.0" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:robochart="http://www.robocalc.circus/RoboChart" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" xsi:schemaLocation="http://www.eclipse.org/sirius/description/1.1.0 http://www.eclipse.org/sirius/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/style/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description/style">
+  <viewpoint:DAnalysis uid="_BqbHYF7gEeq4vo0vle9scQ" selectedViews="_EQE7AF7gEeq4vo0vle9scQ" version="14.1.0.201810161215">
+    <semanticResources>test11.rct</semanticResources>
+    <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/sequence_toolkit.rct</semanticResources>
+    <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/core.rct</semanticResources>
+    <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/relation_toolkit.rct</semanticResources>
+    <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/function_toolkit.rct</semanticResources>
+    <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/set_toolkit.rct</semanticResources>
+    <semanticResources>test11.assertions</semanticResources>
+    <ownedViews xmi:type="viewpoint:DView" uid="_EQE7AF7gEeq4vo0vle9scQ">
+      <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/circus.robocalc.robochart.graphical/description/robochart.odesign#//@ownedViewpoints[name='RoboChartID']"/>
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_EUObMF7gEeq4vo0vle9scQ" name="test11" repPath="#_ESHiYF7gEeq4vo0vle9scQ">
+        <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/circus.robocalc.robochart.graphical/description/robochart.odesign#//@ownedViewpoints[name='RoboChartID']/@ownedRepresentations[name='SpecificationID']"/>
+        <target xmi:type="robochart:RCPackage" href="test11.rct#/"/>
+      </ownedRepresentationDescriptors>
+    </ownedViews>
+  </viewpoint:DAnalysis>
+  <diagram:DSemanticDiagram uid="_ESHiYF7gEeq4vo0vle9scQ" name="test11">
+    <ownedAnnotationEntries xmi:type="description:AnnotationEntry" uid="_EULX4F7gEeq4vo0vle9scQ" source="DANNOTATION_CUSTOMIZATION_KEY">
+      <data xmi:type="diagram:ComputedStyleDescriptionRegistry" uid="_EUL-8F7gEeq4vo0vle9scQ"/>
+    </ownedAnnotationEntries>
+    <ownedAnnotationEntries xmi:type="description:AnnotationEntry" uid="_EUb2kF7gEeq4vo0vle9scQ" source="GMF_DIAGRAMS">
+      <data xmi:type="notation:Diagram" xmi:id="_EUb2kV7gEeq4vo0vle9scQ" type="Sirius" element="_ESHiYF7gEeq4vo0vle9scQ" measurementUnit="Pixel">
+        <children xmi:type="notation:Node" xmi:id="_EUlAgF7gEeq4vo0vle9scQ" type="2003" element="_EUCN8F7gEeq4vo0vle9scQ">
+          <children xmi:type="notation:Node" xmi:id="_EUpR8F7gEeq4vo0vle9scQ" type="5007"/>
+          <children xmi:type="notation:Node" xmi:id="_EUqgEF7gEeq4vo0vle9scQ" type="7004">
+            <styles xmi:type="notation:SortingStyle" xmi:id="_EUqgEV7gEeq4vo0vle9scQ"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_EUqgEl7gEeq4vo0vle9scQ"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_EUlAgV7gEeq4vo0vle9scQ" fontName="Cantarell" fontHeight="10" bold="true"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_EUlAgl7gEeq4vo0vle9scQ"/>
+        </children>
+        <styles xmi:type="notation:DiagramStyle" xmi:id="_EUb2kl7gEeq4vo0vle9scQ"/>
+      </data>
+    </ownedAnnotationEntries>
+    <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_EUCN8F7gEeq4vo0vle9scQ" name="imports" width="20" height="10">
+      <target xmi:type="robochart:RCPackage" href="test11.rct#/"/>
+      <semanticElements xmi:type="robochart:RCPackage" href="test11.rct#/"/>
+      <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_EUFRQF7gEeq4vo0vle9scQ" labelSize="10" showIcon="false" borderSize="1" borderSizeComputationExpression="1" foregroundColor="255,255,255">
+        <labelFormat>bold</labelFormat>
+        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/circus.robocalc.robochart.graphical/description/robochart.odesign#//@ownedViewpoints[name='RoboChartID']/@ownedRepresentations[name='SpecificationID']/@defaultLayer/@containerMappings[name='ImportsID']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/circus.robocalc.robochart.graphical/description/robochart.odesign#//@ownedViewpoints[name='RoboChartID']/@ownedRepresentations[name='SpecificationID']/@defaultLayer/@containerMappings[name='ImportsID']"/>
+    </ownedDiagramElements>
+    <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/circus.robocalc.robochart.graphical/description/robochart.odesign#//@ownedViewpoints[name='RoboChartID']/@ownedRepresentations[name='SpecificationID']"/>
+    <filterVariableHistory xmi:type="diagram:FilterVariableHistory" uid="_ESMa4F7gEeq4vo0vle9scQ"/>
+    <activatedLayers xmi:type="description_1:Layer" href="platform:/plugin/circus.robocalc.robochart.graphical/description/robochart.odesign#//@ownedViewpoints[name='RoboChartID']/@ownedRepresentations[name='SpecificationID']/@defaultLayer"/>
+    <target xmi:type="robochart:RCPackage" href="test11.rct#/"/>
+  </diagram:DSemanticDiagram>
+</xmi:XMI>

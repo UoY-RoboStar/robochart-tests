@@ -1,4 +1,4 @@
-csp Spec1 csp-begin
+untimed csp Spec1 csp-begin
 Spec1 = ( 
 	ctrl0::e1.out.Value_VC -> ctrl0::e1.out.Value_VB -> SKIP
         |||
@@ -6,13 +6,13 @@ Spec1 = (
 ); ctrl0::terminate -> SKIP  
 csp-end
 
-assertion A1: ctrl0 equals Spec1 with 
+untimed assertion A1: ctrl0 equals Spec1 with 
 	constant RC of ctrl0 set to Value::VB, 
 	constant CC of ctrl0::stm_ref0 set to Value::VC, and 
 	constant CC of ctrl0::stm_ref1 set to Value::VD.
 
 	
-csp Spec2 csp-begin
+untimed csp Spec2 csp-begin
 Spec2 = ( 
 	ctrl0::e1.out.Value_VA -> ctrl0::e1.out.Value_VC -> SKIP
         |||
@@ -20,7 +20,7 @@ Spec2 = (
 ); ctrl0::terminate -> SKIP  
 csp-end
 
-assertion A2: ctrl0 equals Spec2 with 
+untimed assertion A2: ctrl0 equals Spec2 with 
 	constant RC of ctrl0 set to Value::VC, 
 	constant CC of ctrl0::stm_ref0 set to Value::VA, and 
 	constant CC of ctrl0::stm_ref1 set to Value::VB.

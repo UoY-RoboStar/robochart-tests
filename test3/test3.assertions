@@ -21,5 +21,5 @@ timed csp timed_spec associated to op csp-begin
 	within P(1)
 csp-end 
  
-untimed assertion a3a: op equals untimed_spec with parameter op::x set to 1 . 
-timed assertion a3b: op equals timed_spec with parameter op::x set to 1 .
+untimed assertion a3a: op equals untimed_spec with parameter x of op set to 1 . 
+timed assertion a3b: op equals timed_spec with parameter x of op set to 1 .

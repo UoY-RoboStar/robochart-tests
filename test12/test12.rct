@@ -1,0 +1,38 @@
+diagram test12
+enumeration Value {
+	VA
+	VB
+	VC
+	VD
+}
+
+interface I {
+	const CC : Value
+}
+
+interface RI {
+	const RC: Value
+}
+
+controller ctrl0 {
+	uses RI
+	event e1: Value
+	event e2: Value
+	sref stm_ref0 = STM
+	sref stm_ref1 = STM
+	connection stm_ref0 on e to ctrl0 on e1
+	connection stm_ref1 on e to ctrl0 on e2
+}
+
+stm STM {
+	requires RI
+	event e: Value
+	uses I initial i0
+	final f0
+	transition t0 {
+		from i0
+		to f0
+		action e!CC; e!RC
+	}
+}
+

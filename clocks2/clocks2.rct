@@ -29,12 +29,12 @@ controller ctrl0 {
 		var t : real
 		const y : int = 0
 		
-		state s0 {
+		state s0 { 
 		initial i0
 			state s0 {
 				
 			
-			entry opA() ; wait ( [ 1 , 2 ] )
+			entry opA() ; wait ( [ 1 , 2 ] ) 
 			}
 			transition t0 {
 				from i0 
@@ -59,15 +59,15 @@ controller ctrl0 {
 		}
 		state s1 {
 		}
-		transition t3 {
+		transition t3 {  
 			from s1
-			to f0
+			to f0 
 			trigger term
 			condition since ( Cl ) < 2
 			action 
 		# Cl
 		}
-	final f0
+	final f0 
 	}
 	uses IEvents requires IOps
 }

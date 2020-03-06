@@ -9,17 +9,18 @@ datatype GasSensor {
 type Chem
 type Intensity
 
-//Analyze whether there is gas or not
+//Analyze whether there is gas or not 
 function analysis( gs : Seq( GasSensor )) : Status {
 }
 function goreq(  i1 : Intensity , i2 : Intensity) : boolean {
 }
 
+
 //Return the highest intensity
 function intensity( gs : Seq( GasSensor )) : Intensity {
 	precondition size ( gs ) > 0
 	postcondition forall x : nat | 0 <= x /\ x <= size ( gs ) @ goreq ( result ,
-	gs [ x ] . i )
+	gs [ x ] . i ) 
 	postcondition exists y: nat | 0 <= y /\ y <= size (gs) @ result == gs[y].i
 }
 function location( gs : Seq( GasSensor )) : Angle {

@@ -6,7 +6,10 @@ import System::*
 csp Instantiations csp-begin
 nametype core_real = { -90..180}
 nametype core_nat = {0..2}
+
 const_Signal_Signalling_flagTime = 0
+const_Microcontroller_Microcontroller_stm_ref0_flagTime = 0
+
 nametype core_boolean = Bool
 nametype core_string = LSeq(Char,2)
 nametype core_int = { -2..2}

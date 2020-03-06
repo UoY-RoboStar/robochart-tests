@@ -13,5 +13,5 @@ timed csp TSpec csp-begin
 		aux
 csp-end
 
-untimed assertion A1: S equals Spec with constant S::TC set to 2 
-timed assertion A2: S equals TSpec with constant S::TC set to 2   
+untimed assertion A1: S equals Spec with constant TC of S set to 2 
+timed assertion A2: S equals TSpec with constant TC of S set to 2   

@@ -1,3 +1,3 @@
-assertion A1: Ctrl is deadlock-free with constant Ctrl::Stm::B set to Values::VB,
-constant Ctrl::Op::D set to Values::VA, constant Ctrl::RA set to Values::VD and
-constant Ctrl::Stm::RC set to Values::VC.
+assertion A1: Ctrl is deadlock-free with constant B of Ctrl::Stm set to Values::VB,
+constant D of Ctrl::Op set to Values::VA, constant RA of Ctrl set to Values::VD and
+constant RC of Ctrl::Stm set to Values::VC.

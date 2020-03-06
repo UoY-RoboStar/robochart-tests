@@ -5,20 +5,33 @@ import AggregationSw::*
 
 csp Instantiations csp-begin
 nametype core_nat = {0..4}
-const_aggregation_Movement_alpha = 2 
+ 
 AggregationSw_move_BOUND = 2
 nametype core_string = LSeq(Char,2)
-const_aggregation_Movement_av = 1
-const_aggregation_Movement_MB = 1
 nametype core_real = { -1,0,1}
 nametype core_int = { -4..4}
-const_communication_Communication_RC = 1
-const_communication_Communication_id = 0 
+
 Mathematics_random() = 0
 nametype core_boolean = Bool
-nametype AggregationSw_ID = {0,1}
 Mathematics_floor(x) = x 
+
+nametype AggregationSw_ID = {0,1}
+
+const_communication_Communication_RC = 1
+const_communication_Communication_id = 0 
+
+const_communicationC_CommunicationC_stm_ref0_RC = 1
+const_communicationC_CommunicationC_stm_ref0_id = 0
+
 const_aggregation_Movement_lv = 1   
+const_aggregation_Movement_av = 1
+const_aggregation_Movement_MB = 1
+const_aggregation_Movement_alpha = 2
+
+const_movementC_MovementC_stm_ref0_lv = 1
+const_movementC_MovementC_stm_ref0_av = 1
+const_movementC_MovementC_stm_ref0_MB = 1
+const_movementC_MovementC_stm_ref0_alpha = 2
 
 Plus(e1,e2,T) = if member(e1+e2,T) then e1+e2 else e1
 Div(e1,e2,T) = if member(e1/e2,T) then e1/e2 else e1
@@ -55,7 +68,7 @@ csp-end
 untimed csp Impl1 csp-begin
 Impl1 = let 
 	id__ = 0
-	const_aggregation_Movement_lv = 1
+	const_aggregation_Movement_lv = 1	
 	const_aggregation_Movement_av = 1
 	const_aggregation_Movement_MB = 1
 	const_aggregation_Movement_alpha = 2

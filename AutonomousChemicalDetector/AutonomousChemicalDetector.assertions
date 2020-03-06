@@ -120,8 +120,7 @@ AutonomousChemicalDetector_Chemical_analysis(<g>^gs) = if (AutonomousChemicalDet
 
 const_AutonomousChemicalDetector_GasAnalysis_GasAnalysis_thr = 1
 nametype core_nat = {0..2}
-const_AutonomousChemicalDetector_Movement_Movement_evadeTime = 0
-const_AutonomousChemicalDetector_Movement_Movement_outPeriod = 0
+
 AutonomousChemicalDetector_Module_shortRandomWalk_BOUND = 2
 AutonomousChemicalDetector_Module_move_BOUND = 2
 nametype core_string = LSeq(Char,2)
@@ -129,12 +128,29 @@ nametype AutonomousChemicalDetector_Chemical_Intensity = {0,1}
 nametype core_real = {0,1}
 nametype AutonomousChemicalDetector_Chemical_Chem = {0,1}
 nametype core_int = { -2..2}
+
 const_AutonomousChemicalDetector_Location_changeDirection_lv = 0
+
+const_AutonomousChemicalDetector_MainController_MainController_stm_ref0_thr = 0
+
+const_AutonomousChemicalDetector_Movement_Movement_evadeTime = 0
+const_AutonomousChemicalDetector_Movement_Movement_outPeriod = 0
 const_AutonomousChemicalDetector_Movement_Movement_lv = 0
 const_AutonomousChemicalDetector_Movement_Movement_stuckDist = 0
-nametype core_boolean = Bool
-AutonomousChemicalDetector_Module_srw_BOUND = 2
 const_AutonomousChemicalDetector_Movement_Movement_stuckPeriod = 0
+
+
+const_AutonomousChemicalDetector_MicroController_MicroController_stm_ref0_evadeTime = 0
+const_AutonomousChemicalDetector_MicroController_MicroController_stm_ref0_outPeriod = 0
+const_AutonomousChemicalDetector_MicroController_MicroController_stm_ref0_lv = 0
+const_AutonomousChemicalDetector_MicroController_MicroController_stm_ref0_stuckDist = 0
+const_AutonomousChemicalDetector_MicroController_MicroController_stm_ref0_stuckPeriod = 0
+
+nametype core_boolean = Bool
+
+
+AutonomousChemicalDetector_Module_srw_BOUND = 2
+
 card(A) = 0
 
 Plus(e1,e2,T) = if member(e1+e2,T) then e1+e2 else e1

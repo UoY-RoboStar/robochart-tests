@@ -19,7 +19,7 @@
  */
 
 timed assertion A0 : ctrl0 is deadlock-free
-timed assertion A1 : ctrl1 is deadlock-free
+timed assertion A1 : ctrl2 is deadlock-free
 
 /* Currently there is no support for 'renaming' the events of a
  * generated process through the assertions language. In the future,
@@ -27,9 +27,10 @@ timed assertion A1 : ctrl1 is deadlock-free
  * to correspond to the intuition about these assertions.
  */
 csp C0Spec csp-begin
-C0Spec = ctrl0::D__(0) [[ctrl0::b <- ctrl1::b,ctrl0::a <- ctrl1::a]]
-csp-end
+C0Spec = ctrl0::D__(0) [[ctrl0::b <- ctrl2::b,ctrl0::a <- ctrl2::a]]
+csp-end 
 
-assertion C0_T_eq_C1 : ctrl1 equals C0Spec in the traces model
-assertion C0_F_eq_C1 : ctrl1 equals C0Spec in the failures model
-assertion C0_FD_C1 : ctrl1 equals C0Spec in the failures divergences model
+assertion C2_refines_traces_C0 : ctrl2 does not refine C0Spec in the traces model
+assertion C0_refines_traces_C2 : C0Spec does not refine ctrl2 in the traces model
+//assertion C2_F_eq_C0 : ctrl2 equals C0Spec in the failures model
+//assertion C2_FD_eq_C0 : ctrl2 equals C0Spec in the failures divergences model

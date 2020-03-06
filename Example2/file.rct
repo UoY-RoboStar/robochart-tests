@@ -1,0 +1,231 @@
+
+interface interface1 {
+	event a
+	event b
+}
+
+interface xI {
+	var x: int=0
+}
+
+interface execI {
+	event exec
+}
+
+interface variablesI {
+	var count: int=1
+	var free:boolean=false
+}
+
+
+
+interface opWaitDI{
+	opWaitD2()
+}
+
+interface opWaitControllerI{
+	opWaitController()
+}
+
+
+
+operation opWaitD2(){
+	
+	initial i0
+	
+	requires xI
+	requires  variablesI
+
+	state s0{
+	
+	}
+	
+	transition i_to_s0{
+		from i0
+		to s0
+		action count=count+1
+	}
+	
+	
+	transition s0_to_f{
+		from s0
+		to f0
+		condition free==true
+		action x=x+1;free=false
+	}
+final f0
+}
+
+
+operation opWaitController(){
+
+	initial i0
+	final f0
+	
+	requires  variablesI
+	uses execI
+	state s0{
+	}
+	
+	state s1{
+		entry count=0;exec;free=true
+	}
+	
+	transition i_to_s0{
+		from i0
+		to s0
+	}
+
+	transition s0_to_s1{
+		from s0
+		to s1
+		condition count==1
+	}
+	
+	transition t0 {
+		from s1
+		to f0
+	}
+}
+
+
+
+controller ctrl2 {
+
+	uses variablesI
+	uses interface1
+	uses execI
+	sref stm_ref2 = stm2
+	sref stm_ref3 = stm3
+	
+	opref op_ref1 = opWaitD2
+	opref op_ref2 = opWaitController
+
+	connection stm_ref2 on b to ctrl2 on b
+	connection stm_ref2 on a to ctrl2 on a
+    
+connection stm_ref2 on exec to stm_ref3 on exec
+
+}
+
+
+
+stm stm2 {
+	uses interface1
+	uses execI
+	requires opWaitDI
+	requires opWaitControllerI
+	uses xI
+	uses variablesI
+	state s0 {
+		during opWaitD2() 
+	initial i0
+		state s0_s0 {
+			entry opWaitController()
+		}
+		state s0_s1 {
+			entry opWaitController()
+		}
+		transition t0 {
+			from i0
+			to s0_s0
+		}
+		transition t1 {
+			from s0_s0
+			to s0_s1
+		}
+		transition t2 {
+			from s0_s1
+			to s0_s0
+			condition x>=1
+			action b 
+		}
+	final f0
+		transition t3 {
+			from s0_s1
+			to f0
+			condition x==0
+			action a
+		}
+	}
+	initial i0
+	transition t0 {
+		from i0
+		to s0
+	}
+}
+
+stm stm3 {
+	uses execI
+	initial i0
+	
+	state s0{
+		
+	}
+	
+	transition t0 {
+		from i0
+		to s0
+	
+	}
+	
+	transition t1 {
+		from s0
+		to s0
+	trigger exec
+	action wait(1)
+	}
+}
+
+
+stm stm0 {
+	uses interface1
+	uses xI
+	state s0 {
+		during wait(1) ; x=x+1 
+	initial i0
+		state s0_s0 {
+			entry wait(1)
+		}
+		state s0_s1 {
+			entry wait(1)
+		}
+		transition t0 {
+			from i0
+			to s0_s0
+		}
+		transition t1 {
+			from s0_s0
+			to s0_s1
+		}
+		transition t2 {
+			from s0_s1
+			to s0_s0
+			condition x==1
+			action b
+		}
+	final f0
+		transition t3 {
+			from s0_s1
+			to f0
+			condition x==0
+			action a
+		}
+	}
+	initial i0
+	transition t0 {
+		from i0
+		to s0
+	}
+}
+
+controller ctrl0 {
+
+	uses interface1
+	sref stm_ref0 = stm0
+	
+	connection stm_ref0 on b to ctrl0 on b
+	connection stm_ref0 on a to ctrl0 on a
+}
+
+

@@ -1,0 +1,75 @@
+import test13::*
+
+timed csp STMSpec csp-begin
+
+STMSpec = (test13::STM::In.in?y
+	   	-> test13::STM::IncrementICall
+			-> test13::STM::OutputCall!y
+						-> STMSpec)
+		[]
+		tock -> STMSpec
+
+csp-end
+
+timed csp CTSpec csp-begin
+
+CTSpec = (test13::CT::In.in?y
+			-> test13::CT::Out.out!Plus(y,1,core_nat)
+					-> CTSpec)
+		[]
+		tock -> CTSpec
+csp-end
+
+// NOTE: endexec is not visible at the SimModule level
+timed csp MSpec csp-begin
+
+MSpec = (test13::M::In.in?y
+			-> test13::M::Out.out!Plus(y,1,core_nat)
+						-> MSpec)
+		[]
+		tock -> MSpec
+
+csp-end
+
+timed assertion STM0 : STM equals STMSpec in the failures divergences model
+timed assertion STM1 : STM is deadlock-free
+
+timed assertion C0 : CT equals CTSpec in the failures divergences model
+timed assertion C1 : CT is deadlock-free
+
+timed assertion M0 : M equals MSpec in the failures divergences model
+timed assertion M1 : M is deadlock-free
+
+untimed csp USTMSpec csp-begin
+
+USTMSpec = (test13::STM::In.in?y
+	   	-> test13::STM::IncrementICall
+			-> test13::STM::OutputCall!y
+						-> USTMSpec)
+
+csp-end
+
+// NOTE: endexec is visible at the SimControllerDef level, but not startexec.
+untimed csp UCTSpec csp-begin
+
+UCTSpec = (test13::CT::In.in?y
+			-> test13::CT::Out.out!Plus(y,1,core_nat)
+					-> UCTSpec)
+csp-end
+
+// NOTE: endexec is not visible at the SimModule level
+untimed csp UMSpec csp-begin
+
+UMSpec = (test13::M::In.in?y
+			-> test13::M::Out.out!Plus(y,1,core_nat)
+						-> UMSpec)
+csp-end
+
+untimed assertion USTM0 : STM equals USTMSpec in the failures divergences model
+untimed assertion USTM1 : STM is deadlock-free
+
+untimed assertion UC0 : CT equals UCTSpec in the failures divergences model
+untimed assertion UC1 : CT is deadlock-free
+
+untimed assertion UM0 : M equals UMSpec in the failures divergences model
+untimed assertion UM1 : M is deadlock-free

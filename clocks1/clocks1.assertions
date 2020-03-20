@@ -1,9 +1,9 @@
 package clocks1_assertions
 
-/* It is deadlock free because it does not terminate. The transition to the final
+/* It is NOT timed deadlock free because it does not terminate. The transition to the final
  * state cannot be triggered because by the time s1 is reached it is no longer true.
  */
-timed assertion R2: clocks1::ctrl0::stm0 is deadlock-free.
+timed assertion R2: clocks1::ctrl0::stm0 is not deadlock-free.
 timed assertion R3timed: clocks1::ctrl0::stm0 does not terminate.
 
 /* It can terminate in the untimed model, because the transition to the final state

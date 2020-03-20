@@ -10,7 +10,7 @@
     <semanticResources>test13.assertions</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_K8ZOEGnNEeqkUJdwIJEddA">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/circus.robocalc.robochart.graphical/description/robochart.odesign#//@ownedViewpoints[name='RoboChartID']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_K9D8cGnNEeqkUJdwIJEddA" name="test13" repPath="#_K8xBgGnNEeqkUJdwIJEddA" changeId="98239ba5-8c8e-4197-836a-a761377b3e89">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_K9D8cGnNEeqkUJdwIJEddA" name="test13" repPath="#_K8xBgGnNEeqkUJdwIJEddA" changeId="e17dfcef-5d67-43d7-915c-adb8d737d6a7">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/circus.robocalc.robochart.graphical/description/robochart.odesign#//@ownedViewpoints[name='RoboChartID']/@ownedRepresentations[name='SpecificationID']"/>
         <target xmi:type="robochart:RCPackage" href="test13.rct#/"/>
       </ownedRepresentationDescriptors>
@@ -1271,7 +1271,7 @@
         </ownedDiagramElements>
       </ownedDiagramElements>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_pymGMGnNEeqkUJdwIJEddA" name="/Out!i" sourceNode="_pxlZkGnNEeqkUJdwIJEddA" targetNode="_pxlZlGnNEeqkUJdwIJEddA">
+    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_pymGMGnNEeqkUJdwIJEddA" name="/Out!i &lt;{0}" sourceNode="_pxlZkGnNEeqkUJdwIJEddA" targetNode="_pxlZlGnNEeqkUJdwIJEddA">
       <target xmi:type="robochart:Transition" href="test13.rct#//@operations.0/@transitions.0"/>
       <semanticElements xmi:type="robochart:Transition" href="test13.rct#//@operations.0/@transitions.0"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" uid="_pymGMWnNEeqkUJdwIJEddA" size="2" routingStyle="manhattan">

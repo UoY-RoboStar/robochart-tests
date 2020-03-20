@@ -1,7 +1,8 @@
 package clocks0_assertions
 
 /* The state machine does not terminate.  */
-assertion R1: clocks0::ctrl0::stm0 is not deadlock-free.
+untimed assertion R0: clocks0::ctrl0::stm0 is deadlock-free.
+timed assertion R1: clocks0::ctrl0::stm0 is not deadlock-free.
 assertion R2: clocks0::ctrl0::stm0 does not terminate.
 
 /* Clock is not initialised before the transition from s0 to s1. */

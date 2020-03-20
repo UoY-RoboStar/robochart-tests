@@ -13,13 +13,10 @@
  *   Pedro Ribeiro 		- Encoding in .assertions format
  ********************************************************************************/
 
-/* These assertions hold in the timed model, for now, but note that
- * there is a genuine timed deadlock. When support for that
- * check is implemented these assertions will fail. 
- */
+/* There is a genuine timed deadlock. */
 
-timed assertion A0 : ctrl0 is deadlock-free
-timed assertion A1 : ctrl2 is deadlock-free
+assertion A0 : ctrl0 is not deadlock-free
+assertion A1 : ctrl2 is not deadlock-free
 
 /* Currently there is no support for 'renaming' the events of a
  * generated process through the assertions language. In the future,
@@ -30,7 +27,10 @@ csp C0Spec csp-begin
 C0Spec = ctrl0::D__(0) [[ctrl0::b <- ctrl2::b,ctrl0::a <- ctrl2::a]]
 csp-end 
 
-assertion C2_refines_traces_C0 : ctrl2 does not refine C0Spec in the traces model
-assertion C0_refines_traces_C2 : C0Spec does not refine ctrl2 in the traces model
+// The untimed semantics is not good to compare these models
+untimed assertion C2_untimed_refines_traces_C0 : ctrl2 refines C0Spec in the traces model
+
+timed assertion C2_refines_traces_C0 : ctrl2 does not refine C0Spec in the traces model
+timed assertion C0_refines_traces_C2 : C0Spec does not refine ctrl2 in the traces model
 //assertion C2_F_eq_C0 : ctrl2 equals C0Spec in the failures model
 //assertion C2_FD_eq_C0 : ctrl2 equals C0Spec in the failures divergences model

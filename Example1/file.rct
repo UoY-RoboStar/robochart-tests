@@ -9,7 +9,6 @@ interface xI {
 	var x: int=0
 }
 
-
 interface opWaitDI{
 	opWaitD()
 }

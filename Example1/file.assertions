@@ -13,13 +13,10 @@
  *   Pedro Ribeiro 		- Encoding in .assertions format
  ********************************************************************************/
 
-/* These assertions hold in the timed model, for now, but note that
- * there is a genuine timed deadlock. When support for that
- * check is implemented these assertions will fail. 
- */
+/* There is a genuine timed deadlock. */
 
-timed assertion A0 : ctrl0 is deadlock-free
-timed assertion A1 : ctrl1 is deadlock-free
+assertion A0 : ctrl0 is not deadlock-free
+assertion A1 : ctrl1 is not deadlock-free
 
 /* Currently there is no support for 'renaming' the events of a
  * generated process through the assertions language. In the future,

@@ -3,5 +3,8 @@ package SequenceAndProductTest_assertions
 import SequenceAndProductTest::*
 
 untimed assertion A1: test is not deadlock-free with constant PC of test set to 1 and parameter x of test set to 1 .
-timed assertion A2: test is deadlock-free with constant PC of test set to 1  and parameter x of test set to 1 .
+/* Changed @Pedro, 20/03/2020: A2 is now also not deadlock-free following implementation of
+ * support for checking timed deadlocks.
+ */
+timed assertion A2: test is not deadlock-free with constant PC of test set to 1  and parameter x of test set to 1 .
 assertion B: test is deterministic with constant PC of test set to 1 and parameter x of test set to 1 .

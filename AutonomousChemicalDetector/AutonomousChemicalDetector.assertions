@@ -101,7 +101,7 @@ csp Instantiations csp-begin
 
 AutonomousChemicalDetector_Chemical_intensity(gs) = let 
 aux(<>,max) = max
-aux(<g>^gs,max) = if GasSensor_i(g) > max then aux(gs,GasSensor_i(g)) else aux(gs,max)
+aux(<g>^gs,max) = if AutonomousChemicalDetector_Chemical_GasSensor_i(g) > max then aux(gs,AutonomousChemicalDetector_Chemical_GasSensor_i(g)) else aux(gs,max)
 within
 aux(gs,0)
 
@@ -111,12 +111,12 @@ AutonomousChemicalDetector_Chemical_angle(x) = if (x > 0) then AutonomousChemica
 
 AutonomousChemicalDetector_Chemical_location(gs) = let
 aux(<>,max,n) = AutonomousChemicalDetector_Chemical_Angle_Front
-aux(<g>^gs,max,n) = if GasSensor_i(g) == max then AutonomousChemicalDetector_Chemical_angle(n) else aux(gs,max,n+1)
+aux(<g>^gs,max,n) = if AutonomousChemicalDetector_Chemical_GasSensor_i(g) == max then AutonomousChemicalDetector_Chemical_angle(n) else aux(gs,max,n+1)
 within
 aux(gs,AutonomousChemicalDetector_Chemical_intensity(gs),0)
 
 AutonomousChemicalDetector_Chemical_analysis(<>) = AutonomousChemicalDetector_Chemical_Status_noGas
-AutonomousChemicalDetector_Chemical_analysis(<g>^gs) = if (AutonomousChemicalDetector_Chemical_analysis(gs) == AutonomousChemicalDetector_Chemical_Status_noGas and GasSensor_c(g) == 0) then AutonomousChemicalDetector_Chemical_Status_noGas else AutonomousChemicalDetector_Chemical_Status_gasD
+AutonomousChemicalDetector_Chemical_analysis(<g>^gs) = if (AutonomousChemicalDetector_Chemical_analysis(gs) == AutonomousChemicalDetector_Chemical_Status_noGas and AutonomousChemicalDetector_Chemical_GasSensor_c(g) == 0) then AutonomousChemicalDetector_Chemical_Status_noGas else AutonomousChemicalDetector_Chemical_Status_gasD
 
 const_AutonomousChemicalDetector_GasAnalysis_GasAnalysis_thr = 1
 nametype core_nat = {0..2}

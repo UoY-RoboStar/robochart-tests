@@ -1,0 +1,91 @@
+package M
+diagram main
+
+interface IEvent {
+	event In:nat
+	event Out1:nat
+	event Out2:nat
+}
+
+interface IConsts {
+	const Co:nat
+}
+
+interface IVars {
+	var x:nat	
+}
+interface IVars2 {
+	var y:nat
+}
+
+interface IOps {
+	move()
+}
+
+interface ITest {
+	test(p:nat)
+} 
+
+interface IClocks {
+	clock C
+}
+
+operation test(p:nat) { 
+	requires IClocks
+	event Out2:nat 
+	event In:nat
+	var d:nat
+	initial I
+	final F
+	state S0 {}
+	state S1 {}
+	transition T0 { from I to S0 }
+	transition T1 { from S0 to F condition since(C) > 2 action Out2!p<{0};#C }
+}
+
+stm STM {
+		 
+	uses IEvent
+	requires ITest
+	uses IClocks
+
+	initial I
+	state S0 {}
+	state S1 {}
+	state S2 {}
+	transition T0 { from I to S0 action #C }
+	transition T1 { from S0 to S1 condition since(C) > 0
+					action test(1) }
+	transition T2 { from S1 to S0 condition since(C) == 1
+					action Out1!2<{0};#C 
+	}
+}
+
+controller CT {
+	
+	uses IEvent
+	requires IVars
+	requires IOps
+	sref stm0=STM	
+	opref op=test
+	
+	connection CT on In to stm0 on In
+	connection stm0 on Out1 to CT on Out1
+	connection stm0 on Out2 to CT on Out2
+	
+}
+
+module Mod {
+	
+	cref ctrl0=CT
+	
+	robotic platform RP {
+		uses IEvent
+		provides IVars
+		provides IOps
+	}
+	
+	connection RP on In to ctrl0 on In ( _async )
+	connection ctrl0 on Out1 to RP on Out1 ( _async )
+	connection ctrl0 on Out2 to RP on Out2 ( _async )
+}

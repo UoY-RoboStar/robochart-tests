@@ -1,0 +1,175 @@
+interface interface1 {
+	op1 ( )
+	//op2 ( ) 
+}
+
+interface interface2 {
+	event ev1
+}
+
+interface interface3 {
+	op_DA ( )
+}
+
+interface interface4 {
+	TSTOP ( )
+}
+
+//interface interface5{
+//	deadlineCheck(d:int )
+//	
+//}
+
+controller ctrl0 {
+	uses interface2 
+	requires interface1
+	sref stm_ref0 = stm0
+connection ctrl0 on ev1 to stm_ref0 on ev1
+}
+
+controller ctrl1 {
+	requires interface1 
+	//requires interface3
+	uses interface2
+	sref stm_ref0 = stm1
+	opref opr1 = op_DA 
+	opref opr2 = TSTOP 
+connection ctrl1 on ev1 to stm_ref0 on ev1
+}
+
+//interface interface5 {
+//	event ev2
+//}
+
+stm stm0 {
+	requires interface1 
+	uses interface2
+	state s0 {
+		initial i0
+		state s1 {
+		}
+		transition t0 {
+			from i0
+			to s1
+		}
+		during op1 ( )
+	}
+	initial i0
+	//final f0
+	transition t0 {
+		from i0
+		to s0
+	trigger
+		action 
+	# C1
+	}
+	transition t1 {
+		from s0
+		
+		to f0
+		trigger ev1
+		<{ 3 }     
+		condition since ( C1 ) == 2
+	}
+	clock C1
+
+	final f0
+}
+
+operation op1 ( ) {
+terminates }
+
+operation op_DA ( ) {
+requires interface1 
+requires interface4 
+state s3 {
+		initial i0
+		state s4 {
+		}
+		state s5 {
+			during TSTOP ( ) <{ 3 } 
+		}
+		transition t0 {
+			from i0
+			to s4
+		}
+		transition t1 {
+			from s4
+			to s5
+			trigger
+			condition since ( C1 ) == 2
+		}
+		transition t2 {
+			from s5
+			to s4
+			trigger
+			condition not since ( C1 ) == 2
+		}
+		during op1 ( )
+	}
+	initial i0
+	transition t0 {
+		from i0
+		to s3
+	}
+	clock C1
+//uses interface5 
+	//requires interface5 
+	}
+
+operation TSTOP ( ) {
+initial i0
+	state TS {
+	}
+	transition t0 {
+		from i0
+		to TS
+	}
+}
+
+
+module mod0 {
+	robotic platform rp0 {
+		provides interface1 
+		//provides interface3 
+		}
+
+	cref ctrl_ref0 = ctrl1
+	cref ctrl_ref1 = ctrl0
+}
+
+stm stm1 {
+	requires interface1 
+	requires interface4
+	requires interface3
+	uses interface2
+	state s0 {
+		initial i0
+		state s1 {
+		}
+		transition t0 {
+			from i0
+			to s1
+		}
+		during op_DA ( )
+	}
+	initial i0
+//	final f0
+	transition t0 {
+		from i0
+		to s0
+	trigger
+		action 
+	# C1
+	}
+	transition t1 {
+		from s0
+		
+		to f0
+		trigger ev1
+		condition since ( C1 ) == 2
+	}
+	clock C1
+	final f0
+}
+

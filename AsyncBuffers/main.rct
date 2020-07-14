@@ -1,0 +1,35 @@
+
+interface IEvents {
+	event ev1:boolean
+	event ev2:boolean
+}
+
+stm STM1 {
+		uses IEvents
+		initial I
+		state S1 {}
+		transition T0 { from I to S1 }
+	}
+
+controller C1 {
+	uses IEvents
+	sref stm1=STM1
+}
+
+controller C2 {
+	uses IEvents
+	sref stm1=STM1
+}
+
+module M1 {
+	
+	cref C1=C1
+	cref C2=C2
+	
+	robotic platform RP {
+		
+	}
+	
+	connection C1 on ev1 to C2 on ev1 ( _async )
+	connection C2 on ev2 to C2 on ev2 ( _async )
+}

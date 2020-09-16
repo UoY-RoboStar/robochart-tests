@@ -1,8 +1,8 @@
 package M
 diagram main
-
+ 
 interface IEvent {
-	event In:nat
+	event In:nat 
 	event Out1:nat
 	event Out2:nat
 }

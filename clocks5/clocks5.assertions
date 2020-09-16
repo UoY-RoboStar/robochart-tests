@@ -1,0 +1,26 @@
+package clocks1_assertions
+
+/* It is deadlock free as the state machine terminates.
+ */
+timed assertion R2: clocks1::ctrl0::stm0 is deadlock-free.
+timed assertion R3timed: clocks1::ctrl0::stm0 terminates.
+
+/* 
+ * The final state is reachable.
+ */
+untimed assertion R3reachable: clocks1::ctrl0::stm0::f0 is reachable in clocks1::ctrl0::stm0.
+
+/* Although there is a clock Cl, it is not used in this example, so the following assertion passes. */
+assertion C1: clock clocks1::ctrl0::stm0::Cl is not initialised
+
+/*
+ * The specification for this example is that after a call to opA(), 4 time units pass before an urgent
+ * output on term happens, followed by termination.
+ */
+timed csp Spec csp-begin
+
+Spec = clocks1::ctrl0::stm0::opACall -> tock -> tock -> tock -> tock -> clocks1::ctrl0::stm0::term.out -> clocks1::ctrl0::stm0::terminate -> SKIP
+
+csp-end
+
+timed assertion A0: Spec equals clocks1::ctrl0::stm0

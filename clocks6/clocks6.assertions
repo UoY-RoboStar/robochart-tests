@@ -1,0 +1,31 @@
+package clocks6_assertions
+
+
+
+/* It is deadlock free as the state machine terminates.
+ */
+timed assertion R2: clocks6::ctrl0::stm0 is deadlock-free.
+timed assertion R3timed: clocks6::ctrl0::stm0 terminates.
+
+/* 
+ * The final state is reachable.
+ */
+untimed assertion R3reachable: clocks6::ctrl0::stm0::f0 is reachable in clocks6::ctrl0::stm0.
+
+/* Although there is a clock Cl, it is not used in this example, so the following assertion passes. */
+assertion C1: clock clocks6::ctrl0::stm0::Cl is not initialised
+
+/*
+ * The specification is that after 2 time units, the module receives a natural value 't' via time?t, then waits for 't'
+ * time units, then waits for the different between '2*t' and 't', and waits another 't', before outputting on 'out' with
+ * a deadline zero.
+ */
+timed csp MSpec csp-begin
+
+Timed(OneStep) {
+	MSpec = timed_priority(WAIT(2) ; clocks6::M::time.in?t -> WAIT(t+(Mult(t, 2, core_nat)-t)+t) ; EDeadline(clocks6::M::output.out,0))
+}
+
+csp-end
+
+timed assertion A0: MSpec equals clocks6::M

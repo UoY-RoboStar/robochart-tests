@@ -1,0 +1,97 @@
+package clocks1
+
+interface IEvents {
+	event object
+event term
+}
+interface IOps {
+	opA()
+	//opWait(d:nat)
+}
+interface IClock {
+	clock Cl
+} 
+operation opA() {
+	terminates
+}
+module M {
+	connection rp_ref0 on object to ctrl_ref0 on object ( _async )
+	cref ctrl_ref0 = ctrl0
+	rref rp_ref0 = rp0
+connection ctrl_ref0 on term to rp_ref0 on term ( _async )
+}
+type xs
+robotic platform rp0 {
+uses IEvents provides IOps
+}
+controller ctrl0 {
+	stm stm0 {
+		requires IOps
+		uses IEvents
+		initial i0
+		clock Cl
+		const xs : Set(nat) =  {1,2}
+		var t : real
+		const y : int = 0
+		
+		state s0 {
+		initial i0
+			state s0 {
+				entry opA ( ) ; wait ( 2 )
+			}
+			transition t0 {
+				from i0  
+				to s0
+				trigger
+			}
+			 
+		}
+		
+		transition t0 {
+			from i0
+			to s0
+		}
+	
+
+		
+	transition t2 {
+			from s0
+			to s1 
+			trigger
+			condition sinceEntry ( s0 ) >= 2
+		} 
+		state s1 {
+		} 
+		transition t3 {
+			from s1
+			to f0 
+			trigger
+			action term <{ 0 }
+		}
+	final f0
+	}
+	uses IEvents requires IOps
+	connection stm0 on term to ctrl0 on term
+	connection ctrl0 on object to stm0 on object
+	opref opwait = opWait
+}
+
+operation opWait ( d : nat
+) {	
+	requires IClock	
+	initial t0
+	state s0 {
+	}
+	transition T0 { from t0 to s0 action wait(d) }
+	transition T1 { from s0 to f0 }
+	final f0
+}
+function calcX(x:real):real {
+	
+}
+function calcY(x:real):nat {
+	
+}
+function B(x:boolean):boolean{
+	
+}

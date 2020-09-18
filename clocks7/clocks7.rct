@@ -1,0 +1,116 @@
+package clocks7
+
+interface IEvents {
+	event time:nat
+	event output
+}
+
+interface IOps {
+	opA(d:nat)
+}
+
+// These are the operations required by opA above
+interface IOpsA {
+	opWait(d:nat)
+}
+
+interface IClock {
+	clock Cl
+} 
+ 
+operation opA(d:nat) {
+
+	requires IClock
+	uses IEvents
+	initial i
+	final F
+	
+	state s0 {
+		
+	}
+	
+	transition T0 { from i to s0 }
+	transition T1 { from s0 to F
+		condition since(Cl) == d
+		action #Cl;output<{0}
+	}
+}
+
+module M {
+	connection rp_ref0 on time to ctrl_ref0 on time ( _async )
+	connection ctrl_ref0 on output to rp_ref0 on output ( _async )
+	
+	cref ctrl_ref0 = ctrl0
+	rref rp_ref0 = rp0
+}
+
+type xs
+
+robotic platform rp0 {
+	uses IEvents
+}
+
+
+	
+
+controller ctrl0 {
+	
+	uses IEvents
+	
+	connection stm0 on output to ctrl0 on output
+	connection ctrl0 on time to stm0 on time
+
+	opref opa = opA 
+		
+	stm stm0 {
+		requires IOps
+		uses IEvents
+		initial i0
+		clock Cl
+		var t : nat
+		const y : int = 0
+			
+			state s0 {
+				
+				initial i0
+				
+				state s0 {
+					//entry wait(2)
+				}
+				transition t0 {
+					from i0  
+					to s0
+				}
+				 
+			}
+			
+			transition t0 {
+				from i0
+				to s0
+			}
+		
+			transition t1 {
+				from s0
+				to s1
+				trigger time?t #Cl
+			}
+			
+			state s1 {
+				during opA(t)
+			} 
+			
+			state s2 {
+				
+			}
+			
+			transition t2 {
+				from s1
+				to s2
+				condition since(Cl) == t
+				action output<{0}
+			}
+			
+		}
+ 
+}
+

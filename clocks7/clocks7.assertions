@@ -1,0 +1,33 @@
+package clocks7_assertions
+
+
+
+/* Not deadlock free, nor does it terminate */
+timed assertion R2: clocks7::ctrl0::stm0 is not deadlock-free.
+timed assertion R3timed: clocks7::ctrl0::stm0 does not terminate.
+
+/* 
+ * All states are reachable
+ */
+assertion s0reachable: clocks7::ctrl0::stm0::s0 is reachable in clocks7::ctrl0::stm0.
+assertion s1reachable: clocks7::ctrl0::stm0::s1 is reachable in clocks7::ctrl0::stm0.
+assertion s2reachable: clocks7::ctrl0::stm0::s2 is reachable in clocks7::ctrl0::stm0.
+
+// No support for checking reachability of composite states as of now.
+assertion s0_s0_reachable: clocks7::ctrl0::stm0::s0::s0 is reachable in clocks7::ctrl0::stm0.
+
+/*
+ * The specification is that after 2 time units, the module receives a natural value 't' via time?t, then waits for 't'
+ * time units, then waits for the different between '2*t' and 't', and waits another 't', before outputting on 'out' with
+ * a deadline zero.
+ */
+timed csp MSpec csp-begin
+
+Timed(OneStep) {
+	MSpec = timed_priority(clocks7::M::time.in?t -> 
+							(WAIT(t) ; (EDeadline(clocks7::M::output.out,0);STOP |~| (EDeadline(clocks7::M::output.out,0);WAIT(t);EDeadline(clocks7::M::output.out,0);STOP))))
+}
+
+csp-end
+
+timed assertion A0: MSpec equals clocks7::M

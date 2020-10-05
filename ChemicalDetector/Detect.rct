@@ -34,6 +34,6 @@ event detect : Chemical
 	transition t5 {
 		from GasPresent
 		to CleanAir
-		trigger action { 2 }> detect . Chemical::danger <{ 1 }
+		trigger action detect . Chemical::danger <{ 1 }
 	}
 }

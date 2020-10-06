@@ -1,0 +1,30 @@
+package test14
+
+interface IEvents {
+	event input:nat
+	event output:nat
+}
+
+stm stm0 {
+	uses IEvents
+	initial i0
+	final F
+	var t : nat
+	
+	state s0 {
+		exit t = t + 1
+	}
+		
+	transition t0 {
+		from i0
+		to s0
+	}
+
+	transition t1 {
+		from s0
+		to F
+		trigger input?t
+		action output!t
+	}
+}
+

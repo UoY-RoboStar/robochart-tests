@@ -59,8 +59,7 @@ stm stm0 {
 	transition t0 {
 		from i0
 		to s0
-	trigger
-		action 
+	action 
 	# C1
 	}
 	transition t1 {
@@ -96,13 +95,11 @@ state s3 {
 		transition t1 {
 			from s4
 			to s5
-			trigger
 			condition since ( C1 ) == 2
 		}
 		transition t2 {
 			from s5
 			to s4
-			trigger
 			condition not since ( C1 ) == 2
 		}
 		during op1 ( )
@@ -158,8 +155,7 @@ stm stm1 {
 	transition t0 {
 		from i0
 		to s0
-	trigger
-		action 
+	action 
 	# C1
 	}
 	transition t1 {

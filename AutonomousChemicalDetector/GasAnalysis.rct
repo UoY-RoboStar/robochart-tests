@@ -26,14 +26,12 @@ stm GasAnalysis {
 	transition t3 {
 		from Analysis
 		to NoGas
-		trigger
 		condition st == Status::noGas
 		action send resume
 	}
 	transition t4 {
 		from Analysis
 		to GasDetected
-		trigger
 		condition st == Status::gasD
 	}
 	final j1
@@ -42,14 +40,12 @@ stm GasAnalysis {
 	transition t8 {
 		from GasDetected
 		to j1
-		trigger
 		condition goreq ( i , thr )
 		action send stop
 	}
 	transition t9a {
 		from GasDetected
 		to Reading
-		trigger
 		condition not goreq ( i , thr )
 		action a = location ( gs ) ; send turn ! a
 	}

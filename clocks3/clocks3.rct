@@ -39,8 +39,7 @@ controller ctrl0 {
 			transition t0 {
 				from i0 
 				to s0
-				trigger
-			}
+				}
 			 
 		}
 		

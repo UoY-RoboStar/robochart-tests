@@ -52,14 +52,13 @@ stm Communication {
 	transition t4 {
 		from Broadcast
 		to Receive
-		trigger # RCC
+		#RCC
 		action neighs = { }
 	}
 
 	transition t5 {
 		from Receive
 		to Broadcast
-		trigger
 		condition since ( RCC ) >= RC
 		action 
 	send robots ! size ( neighs )

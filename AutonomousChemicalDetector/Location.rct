@@ -13,8 +13,7 @@ operation changeDirection( l : Loc) {
 	transition t1 {
 		from From
 		to j0
-	trigger
-		condition l == Loc::left
+	condition l == Loc::left
 		action move( lv , Angle::Right)
 	}
 	transition t2 {
@@ -24,15 +23,13 @@ operation changeDirection( l : Loc) {
 	transition t3 {
 		from From
 		to j0
-	trigger
-		condition l == Loc::right
+	condition l == Loc::right
 		action move( lv , Angle::Left)
 	}
 	transition t4 {
 		from From
 		to j0
-	trigger
-		condition l == Loc::front
+	condition l == Loc::front
 		action move( lv , Angle::Back)
 	}
 	requires Operations const lv : real

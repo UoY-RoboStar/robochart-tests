@@ -1,0 +1,121 @@
+diagram main interface IwaitOP {
+	waitOp ( i : nat )
+}
+
+
+
+operation waitOp ( i : nat
+) {
+	initial i0
+	state s0 {
+	}
+	final f0
+	transition t0 {
+		from i0
+		to s0
+		action # C
+	}
+	transition t1 {
+		from s0
+		to f0
+		condition since ( C ) == i
+	}
+	clock C
+}
+
+operation waitInterval ( m : nat
+, n : nat
+) {
+	requires IwaitOP initial i0
+	junction j0
+	final f0
+	transition t0 {
+		from i0
+		to j0
+		action # C
+	}
+	transition t1 {
+		from j0
+		to f0
+		condition since ( C ) >= m
+	}
+	transition t2 {
+		from j0
+		to j0
+		condition since ( C ) < n
+		action waitOp ( 1 )
+	}
+	clock C
+}
+
+operation waitIntervalO ( m : nat
+, n : nat
+) {
+	initial i0
+	junction j0
+	final f0
+	transition t0 {
+		from i0
+		to j0
+		action # C
+	}
+	transition t1 {
+		from j0
+		to f0
+		condition since ( C ) >= m
+	}
+	transition t2 {
+		from j0
+		to j0
+		condition since ( C ) < n
+		action wait ( 1 )
+	}
+	clock C
+}
+
+
+interface IWait {
+	waitOp ( i : nat )
+	waitInterval ( m : nat , n : nat )
+}
+
+controller ctrl0 {
+	opref op_ref0 = waitOp
+	opref op_ref1 = waitInterval
+	stm stm0 {
+		requires IWait 
+		
+		initial i0
+		junction j0
+		final f0
+		transition t0 {
+			from i0
+			to j0
+		}
+		transition t1 {
+			from j0
+			to f0
+			action waitInterval (1,4)
+		}
+	}
+
+}
+
+controller ctrl1 {
+	stm stm0 {
+		initial i0
+		junction j0
+		final f0
+		transition t0 {
+			from i0
+			to j0
+		}
+		transition t1 {
+			from j0
+			to f0
+			action wait ( [ 1 , 4 ] )
+		}
+	}
+
+}
+

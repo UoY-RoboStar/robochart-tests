@@ -1,0 +1,73 @@
+
+//csp instantiations csp-begin
+//
+//-- generate --
+//
+//-- MODULE CONSTANTS
+//
+//-- CONTROLLER CONSTANTS
+//
+//-- STATEMACHINE CONSTANTS
+//
+//-- OPERATION CONSTANTS
+//
+//-- BASIC TYPES
+//
+//-- generate nat
+//nametype core_nat = { 0..5}
+//
+//-- generate string
+//nametype core_string = LSeq(Char,2)
+//
+//-- generate real
+//nametype core_real = { 0..2}
+//
+//-- BASIC FUNCTIONS
+//
+//-- generate int
+//nametype core_int = { -2..2}
+//
+//-- generate -- OPERATION BOUNDS
+//
+//-- MODULE CONSTANTS
+//
+//-- CONTROLLER CONSTANTS
+//
+//-- STATEMACHINE CONSTANTS
+//
+//-- OPERATION CONSTANTS
+//
+//-- BASIC TYPES
+//
+//-- generate Div
+//Div(e1,e2,T) = if member(e1/e2,T) then e1/e2 else e1
+//
+//-- generate Neg
+//Neg(e1,T) = if member(-e1,T) then -e1 else e1
+//
+//-- generate boolean
+//nametype core_boolean = Bool
+//
+//-- generate Mult
+//Mult(e1,e2,T) = if member(e1*e2,T) then e1*e2 else e1
+//
+//-- generate Modulus
+//Modulus(e1,e2,T) = if member(e1%e2,T) then e1%e2 else e1
+//
+//-- generate Plus
+//Plus(e1,e2,T) = if member(e1+e2,T) then e1+e2 else e1
+//
+//-- generate Minus
+//Minus(e1,e2,T) = if member(e1-e2,T) then e1-e2 else e1
+//
+//
+//
+//csp-end
+
+timed csp Ctrl1Renamed associated to ctrl1 csp-begin
+
+Ctrl1Renamed = ctrl1::D__(0)[[ ctrl1::terminate <- ctrl0::terminate ]]
+
+csp-end
+
+timed assertion A1 : Ctrl1Renamed equals ctrl0 

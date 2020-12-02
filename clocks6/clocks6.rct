@@ -114,7 +114,6 @@ controller ctrl0 {
 			transition t3 {
 				from s2
 				to f0 
-				trigger
 				action output <{ 0 }
 			}
 		final f0 

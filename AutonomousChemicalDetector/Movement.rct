@@ -90,7 +90,7 @@ stm Movement {
 	transition t12 {
 		from AvoidingAgain
 		to Avoiding
-		trigger # T
+		# T
 		condition since ( T ) < stuckPeriod \/ d1 - d0 > stuckDist
 	}
 	
@@ -158,7 +158,6 @@ requires MicroControllerOPS
 	transition t13 {
 		from AvoidingAgain
 		to GettingOut
-		trigger
 		condition since ( T ) >= stuckPeriod /\ d1 - d0 <= stuckDist
 	}
 	transition t5 {

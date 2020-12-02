@@ -67,25 +67,21 @@ stm Movement {
 		transition t2 {
 			from j1
 			to Turn180
-			trigger
 			condition n > alpha
 		}
 		transition t3 {
 			from j1
 			to RandomTurn
-			trigger
 			condition n <= alpha
 		}
 	transition t4 {
 			from Turn180
 			to f1
-			trigger
 			action turned = true
 		}
 		transition t5 {
 			from RandomTurn
 			to f1
-			trigger
 			action turned = true
 		}
 		entry send neighbours ? n ; turned = false
@@ -93,18 +89,16 @@ stm Movement {
 	transition t1 {
 		from i1
 		to MovementAndAvoidance
-		trigger # MBC
+		# MBC
 	}
 transition t2 {
 		from MovementAndAvoidance
 		to Turning
-		trigger
 		condition since ( MBC ) >= MB
 	}
 	transition t3 {
 		from Turning
 		to MovementAndAvoidance
-	trigger
 		condition turned == true
 	}
 }

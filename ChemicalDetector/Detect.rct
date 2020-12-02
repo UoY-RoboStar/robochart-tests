@@ -22,18 +22,16 @@ event detect : Chemical
 	transition t3 {
 		from GasPresent
 		to CleanAir
-		trigger
 		action detect . Chemical::innocuous
 	}
 	transition t4 {
 		from GasPresent
 		to CleanAir
-		trigger
 		action detect . Chemical::anomaly
 	}
 	transition t5 {
 		from GasPresent
 		to CleanAir
-		trigger action detect . Chemical::danger <{ 1 }
+		action detect . Chemical::danger <{ 1 }
 	}
 }

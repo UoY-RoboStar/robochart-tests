@@ -42,7 +42,6 @@ controller ctrl0 {
 			transition t0 {
 				from i0  
 				to s0
-				trigger
 			}
 			 
 		}
@@ -57,7 +56,6 @@ controller ctrl0 {
 	transition t2 {
 			from s0
 			to s1 
-			trigger
 			condition sinceEntry ( s0 ) >= 2
 		} 
 		state s1 {
@@ -65,7 +63,6 @@ controller ctrl0 {
 		transition t3 {
 			from s1
 			to f0 
-			trigger
 			action term <{ 0 }
 		}
 	final f0

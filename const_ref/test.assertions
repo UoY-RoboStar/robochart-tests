@@ -1,0 +1,10 @@
+import const_ref::*
+
+assertion A1: S terminates with constant CA of S set to 0, constant CB of S set to 1, and constant CC of S set to 2 .
+
+// This is causing errors in the scope provider 
+//assertion A1: S is not deadlock-free with constant CA of S set to 0, constant CB of S set to 1, constant CC of S set to 2, constant CO1l set to 1 and constant CO1r set to 2 .
+
+assertion A2: C1 terminates with constant CA of C1 set to 0, constant CB of C1 set to 1 and constant CC of C1::s set to 2 .
+
+assertion A3: M terminates with constant CC of C1::s set to 2, constant CA of M::c set to 0 and constant CB of M set to 1 . 

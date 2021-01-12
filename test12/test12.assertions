@@ -1,9 +1,11 @@
+import test12::*
+
 untimed csp Spec1 csp-begin
 Spec1 = ( 
-	ctrl0::e1.out.Value_VC -> ctrl0::e1.out.Value_VB -> SKIP
+	test12::ctrl0::e1.out.test12_Value_VC -> test12::ctrl0::e1.out.test12_Value_VB -> SKIP
         |||
-    ctrl0::e2.out.Value_VD -> ctrl0::e2.out.Value_VB -> SKIP
-); ctrl0::terminate -> SKIP  
+    test12::ctrl0::e2.out.test12_Value_VD -> test12::ctrl0::e2.out.test12_Value_VB -> SKIP
+); test12::ctrl0::terminate -> SKIP  
 csp-end
 
 untimed assertion A1: ctrl0 equals Spec1 with 
@@ -14,10 +16,10 @@ untimed assertion A1: ctrl0 equals Spec1 with
 	
 untimed csp Spec2 csp-begin
 Spec2 = ( 
-	ctrl0::e1.out.Value_VA -> ctrl0::e1.out.Value_VC -> SKIP
+	test12::ctrl0::e1.out.test12_Value_VA -> test12::ctrl0::e1.out.test12_Value_VC -> SKIP
         |||
-    ctrl0::e2.out.Value_VB -> ctrl0::e2.out.Value_VC -> SKIP
-); ctrl0::terminate -> SKIP  
+    test12::ctrl0::e2.out.test12_Value_VB -> test12::ctrl0::e2.out.test12_Value_VC -> SKIP
+); test12::ctrl0::terminate -> SKIP  
 csp-end
 
 untimed assertion A2: ctrl0 equals Spec2 with 

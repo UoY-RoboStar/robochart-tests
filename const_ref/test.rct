@@ -1,0 +1,98 @@
+package const_ref
+
+interface I1 {
+	const CA: real
+}
+
+interface I2 {
+	const CB: real
+}
+
+interface I3 {
+	const CO1r: real
+}
+
+interface I4 {
+	const CO2r: real
+}
+
+interface IOps {
+	Op1(z: real)
+}
+
+operation Op2 (x:real
+) {
+	requires I4 
+	const CO2l: real
+	event e: real 
+	event f: real
+	initial I
+	final F
+	transition t {
+		from I
+		to F
+		action e!CO2r; f!CO2l
+	}
+}
+
+stm S {
+	requires I1
+	requires I2
+	requires IOps
+	const CC: real
+	const CO1r: real
+	event a: real
+	event b: real
+	event c: real
+	event e: real
+	event f: real
+	initial I
+	final F
+	transition t {
+		from I
+		to F
+		action a!CA; b!CB; c!CC; Op1(1)
+	}
+}
+
+controller C1 {
+	uses I1
+	requires I2
+	event a: real
+	event b: real	
+	event e: real
+	event f: real
+		
+	operation Op1 (z:real) {
+		requires I3
+		const CO1l: real
+		event e: real
+		event f: real
+		initial I
+		final F
+		transition t {
+			from I
+			to F
+			action e!CO1r; f!CO1l
+		}
+	}
+
+	sref s = S
+	connection s on a to C1 on a
+	connection s on b to C1 on b
+	connection s on e to C1 on e
+	connection s on f to C1 on f
+}
+
+module M {
+	robotic platform RP {
+		event a:real
+		event b:real
+		provides I2
+	}
+
+	cref c = C1
+	connection c on a to RP on a (_async)
+	connection c on b to RP on b (_async)
+}
+

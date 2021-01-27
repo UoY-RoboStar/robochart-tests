@@ -31,7 +31,7 @@ operation opA(d:nat) {
 	transition T0 { from i to s0 }
 	transition T1 { from s0 to F
 		condition since(Cl) == d*2
-		action opWait(d)
+		action wait(d)//wait(d)// opWait(d)
 	}
 }
 

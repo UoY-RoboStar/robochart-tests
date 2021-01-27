@@ -13,7 +13,7 @@ operation waitOp ( i : nat
 	transition t0 {
 		from i0
 		to s0
-		action # C
+		# C
 	}
 	transition t1 {
 		from s0
@@ -57,7 +57,7 @@ operation waitIntervalO ( m : nat
 	transition t0 {
 		from i0
 		to j0
-		action # C
+		# C
 	}
 	transition t1 {
 		from j0
@@ -95,7 +95,7 @@ controller ctrl0 {
 		transition t1 {
 			from j0
 			to f0
-			action waitInterval (1,4)
+			action waitInterval ( 0 , 4 )
 		}
 	}
 
@@ -113,7 +113,8 @@ controller ctrl1 {
 		transition t1 {
 			from j0
 			to f0
-			action wait ( [ 1 , 4 ] )
+			action 
+		wait (  [ 0 , 4 ] )
 		}
 	}
 

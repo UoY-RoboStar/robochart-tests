@@ -44,7 +44,7 @@ stm GasAnalysis {
 		action send stop
 	}
 	transition t9a {
-		from GasDetected
+		from GasDetected 
 		to Reading
 		condition not goreq ( i , thr )
 		action a = location ( gs ) ; send turn ! a

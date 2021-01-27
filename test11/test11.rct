@@ -61,12 +61,12 @@ controller Ctrl {
 		}
 		transition t1 {
 			from S to F 
-			condition RC == VA
+			condition VA == VA
 			action e!RC
 		}
 		transition t2 {
 			from S to F 
-			condition D == VA
+			condition VA == VA
 			action f!D
 		}
 	}

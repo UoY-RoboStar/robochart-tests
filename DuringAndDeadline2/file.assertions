@@ -1,0 +1,4 @@
+
+timed assertion A1 : stm0 is not deadlock-free
+timed assertion A2 : stm0 is not timelock-free
+timed assertion A3 : stm0 terminates

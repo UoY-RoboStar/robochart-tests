@@ -1,0 +1,22 @@
+{ "project": "DuringAndDeadline/",
+					"assertions": [
+			 
+{ "name": "file.assertions", "assertions": [
+],
+"results": { "copyright_notice": "FDR Version 4.2.7 copyright 2016 Oxford University Innovation Ltd. All Rights Reserved.","license_type": "Academic license for non-commercial use only","results": [],"print_statement_results": [],"file_name": "file_assertions.csp","event_map": {},"warnings": [],"errors": []} }
+,{ "name": "timed/file.assertions", "assertions": [
+{ "name": "timed stm0 is not deadlock free (A1) [failures divergences model]",
+  "type": "deadlock-free",
+  "negated": true 
+},
+{ "name": "timed stm0 is not timelock free (A2) [failures divergences model]",
+  "type": "timelock-free",
+  "negated": true 
+},
+{ "name": "timed stm0 terminates (A3)",
+  "type": "terminates",
+  "negated": false 
+}
+			],
+"results": { "copyright_notice": "FDR Version 4.2.7 copyright 2016 Oxford University Innovation Ltd. All Rights Reserved.","license_type": "Academic license for non-commercial use only","results": [{ "assertion_string": "not prioritise(let id__ = 0\n               within stm0::O__(id__) [[tock <- tock, tock <- tock']],\n               <diff(Events, {tock', tock}), {tock}>)\n    \\ {tock}\n        :[divergence free [FD]]","errors": [],"is_negated": 1,"result": 1,"visited_states": 6,"visited_transitions": 9,"visited_plys": 4,"counterexamples": [{ "type": "divergence","implementation_behaviour": {"type": "loop","loop_start": 4,"trace": [25,1,1,66,1]}}]},{ "assertion_string": "not RUN({tock}) ||| CHAOS(diff(Events, {|tock|}))\n        [F= let id__ = 0 within stm0::O__(id__)","errors": [],"is_negated": 1,"result": 1,"visited_states": 1,"visited_transitions": 2,"visited_plys": 0,"counterexamples": [{ "type": "failure","specification_behaviour": {"machine_name": "normal(…)","type": "trace","error_event": 0,"trace": [],"states": ["normal(…)"]},"implementation_behaviour": {"machine_name": "stm0::O__(0)","type": "min_acceptance","acceptance": [25],"trace": [],"states": ["stm0::O__(0)"]}}]},{ "assertion_string": "not let id__ = 0 within stm0::O__(id__) :[deadlock free]","errors": [],"is_negated": 1,"result": 1,"visited_states": 8,"visited_transitions": 9,"visited_plys": 6,"counterexamples": [{ "type": "deadlock","implementation_behaviour": {"machine_name": "stm0::O__(0)","type": "min_acceptance","acceptance": [],"trace": [25,3,3,23,16,2],"states": ["stm0::O__(0)","<unnamed>","<unnamed>","<unnamed>","<unnamed>","<unnamed>","<unnamed>"]}}]},{ "assertion_string": "let id__ = 0 within stm0::O__(id__) ; RUN({r__}) :[deadlock free]","errors": [],"is_negated": 0,"result": 1,"visited_states": 7,"visited_transitions": 9,"visited_plys": 6,"counterexamples": []}],"print_statement_results": [],"file_name": "timed\/file_assertions.csp","event_map": {"0": "0","1": "τ","2": "✓","3": "tock","16": "stm0::terminate","23": "stm0::ev1.in","25": "stm0::op1Call","66": "tock'"},"warnings": [],"errors": []} }
+]}

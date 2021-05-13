@@ -4,7 +4,7 @@ interface interface1 {
 }
 
 interface interface2 {
-	event ev1 : nat
+	event ev1
 }
 
 interface interface3 {
@@ -15,6 +15,10 @@ interface interface4 {
 	TSTOP ( )
 }
 
+interface IShared {
+	var dc : boolean
+}
+
 //interface interface5{
 //	deadlineCheck(d:int )
 //	
@@ -22,19 +26,18 @@ interface interface4 {
 
 controller ctrl0 {
 	uses interface2 
-	requires interface1
+	opref op_ref0 = op1
 	sref stm_ref0 = stm0
 connection ctrl0 on ev1 to stm_ref0 on ev1
 }
 
 controller ctrl1 {
-	requires interface1 
-	//requires interface3
 	uses interface2
 	sref stm_ref1 = stm1
 	opref opr1 = op_DA 
 	opref opr2 = TSTOP 
 connection ctrl1 on ev1 to stm_ref1 on ev1
+opref op_ref0 = op1
 }
 
 //interface interface5 {
@@ -52,32 +55,39 @@ stm stm0 {
 			from i0
 			to s1
 		}
-		during wait ( 5 ) ; ev1 ? x
+		during op1 ( )
 	}
 	initial i0
 
 	transition t1 {
 		from s0
 		
-		to s1
+		to f0
 		trigger 
-		ev1 ? x
+		ev1
 		<{ 3 }     
-		condition since ( C1 ) >= 2
+		condition dc == true
 	}
 	clock C1
-	state s1 {
-	}
-transition t0 {
+
+	final f0
+uses IShared
+	transition t0 {
 		from i0
 		to s0
-		action # C1
+		action # C1 ; dc = true
 	}
-var x : nat
 }
 
 operation op1 ( ) {
-terminates }
+terminates requires IShared initial i0
+	final f0
+	transition t0 {
+		from i0
+		to f0
+		action dc = false
+	}
+}
 
 operation op_DA ( ) {
 requires interface1 
@@ -96,14 +106,15 @@ state s3 {
 		transition t1 {
 			from s4
 			to s5
-			condition since ( C1 ) == 2
+			condition dc == true
 		}
 		transition t2 {
 			from s5
 			to s4
-			condition not since ( C1 ) == 2
+			condition 
+		not dc == true
 		}
-		during wait ( 5 ) ; ev1 ? x
+		during op1 ( )
 	}
 	initial i0
 	transition t0 {
@@ -113,8 +124,7 @@ state s3 {
 	clock C1
 //uses interface5 
 	//requires interface5 
-	uses interface2 var x : nat
-}
+	requires IShared }
 
 operation TSTOP ( ) {
 initial i0
@@ -133,8 +143,8 @@ module mod0 {
 		//provides interface3 
 		}
 
-	cref ctrl_ref1 = ctrl1
 	cref ctrl_ref0 = ctrl0
+	cref ctrl_ref1 = ctrl1
 }
 
 stm stm1 {
@@ -157,20 +167,17 @@ stm stm1 {
 	transition t0 {
 		from i0
 		to s0
-	action 
-	# C1
+	action # C1 ; dc = true
 	}
 	transition t1 {
 		from s0
 		
-		to s1
+		to f0
 		trigger 
-		ev1 ? x
-		condition since ( C1 ) == 2
+		ev1
+		condition dc == true
 	}
 	clock C1
-	state s1 {
-	}
-	var x : nat
-}
+	final f0
+uses IShared }
 

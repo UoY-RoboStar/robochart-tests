@@ -96,12 +96,13 @@ state s3 {
 		transition t1 {
 			from s4
 			to s5
-			condition since ( C1 ) == 2
+			condition since ( C1 ) >= 2
 		}
 		transition t2 {
 			from s5
 			to s4
-			condition not since ( C1 ) == 2
+			condition 
+		not since ( C1 ) >= 2
 		}
 		during wait ( 5 ) ; ev1 ? x
 	}
@@ -165,8 +166,9 @@ stm stm1 {
 		
 		to s1
 		trigger 
+		
 		ev1 ? x
-		condition since ( C1 ) == 2
+		condition since ( C1 ) >= 2
 	}
 	clock C1
 	state s1 {

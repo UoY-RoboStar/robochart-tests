@@ -1,4 +1,15 @@
 
-timed assertion A1 : stm0 is not deadlock-free
-timed assertion A2 : stm0 is not timelock-free
-timed assertion A3 : stm0 terminates
+timed assertion A1 : ctrl0::stm_ref0 is not deadlock-free
+timed assertion A2 : ctrl0::stm_ref0 is not timelock-free
+timed assertion A3 : ctrl0::stm_ref0 terminates
+
+timed csp stm0_renamed csp-begin
+
+stm0_renamed = 
+	ctrl0::stm_ref0::O__(0)
+		[[ ctrl0::stm_ref0::ev1 		<- ctrl1::stm_ref1::ev1 ]]
+		[[ ctrl0::stm_ref0::terminate 	<- ctrl1::stm_ref1::terminate ]]
+	
+csp-end
+
+timed assertion A4 : stm0_renamed equals ctrl1::stm_ref1 

@@ -1,0 +1,11 @@
+package ops1_assertions
+
+timed csp CSpec csp-begin
+
+Timed(OneStep) {
+	CSpec = timed_priority(Deadline((ops::ctrl1::out1.out.2 -> ops::ctrl1::terminate -> SKIP) [> ops::ctrl1::terminate -> SKIP,0))
+}
+
+csp-end
+
+timed assertion A0: CSpec equals ops::ctrl1 

@@ -1,0 +1,88 @@
+package ops
+
+interface RV { 
+	var x : int = 1
+}
+
+interface IEvents {
+	event out1 : int
+}
+
+interface IOp1 {
+	op1()
+}
+
+interface IOp2 {
+	op2(d:int)
+}
+
+interface IOp3 {
+	op3(d:int)
+}
+
+controller ctrl1 {
+	
+	sref ref0=stm1
+	uses IEvents
+	
+	opref op1=op1
+	opref op2=op2
+	opref op3=op3
+	
+	connection ref0 on out1 to ctrl1 on out1
+} 
+
+operation op1() {
+	requires IOp2
+	requires RV
+	uses IEvents
+	initial I
+	final F
+	transition t0 { from I to F action op2(1) }
+}
+	
+operation op2(d:int) {
+	requires IOp3
+	requires RV
+	uses IEvents
+	
+	initial I
+	final F
+	state s0 { entry op3( d + x ) }
+	
+	transition t0 { from I to s0 }
+	transition t1 { from s0 to F }
+clock C
+}
+
+operation op3(d:int) {
+	requires RV
+	
+	uses IEvents
+	clock C
+	
+	initial I
+	final F
+	state s0 {}
+	
+	transition t0 { from I to s0 }
+	transition t1 { from s0 to F action out1!d }
+}
+
+stm stm1 {
+	requires IOp1
+	//requires IOp2
+	//requires IOp3
+	uses IEvents
+	uses RV
+	
+	initial I 
+	final F
+	state s0 {
+		during op1()
+	}
+	
+	transition t0 { from I to s0 }
+	transition t1 { from s0 to F }
+}
+

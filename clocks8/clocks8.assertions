@@ -1,0 +1,12 @@
+package clocks6_assertions
+
+timed assertion A0: ctrl0 is deadlock-free
+timed assertion A1: ctrl0 is divergence-free
+
+timed csp ctrl0_term csp-begin
+
+Timed(OneStep) {	
+	ctrl0_term = timed_priority(ctrl0::O__(0)\{|ctrl0::terminate|} ; STOP) 
+}
+csp-end
+timed assertion A2: ctrl0_term is timelock-free

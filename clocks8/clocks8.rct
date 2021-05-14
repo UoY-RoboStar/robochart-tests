@@ -1,0 +1,89 @@
+diagram clocks8 interface IEvents {
+	event in1
+}
+
+interface IClocks {
+	clock C1
+	clock C2
+}
+
+interface IOps {
+	op1 ( )
+	op2 ( )
+}
+
+controller ctrl0 {
+	uses IEvents opref op_ref0 = op1
+	opref op_ref1 = op2
+	stm stm0 {
+		uses IEvents requires IOps var done1 : boolean = false , done2 : boolean = false
+		initial i0
+		state s0 {
+			initial i0
+			state s0 {
+			}
+			final f0
+			transition t0 {
+				from i0
+				to s0
+			}
+			transition t1 {
+				from s0
+				to f0
+				action 
+			wait ( 1 ) ; op2 ( ) ; done2 = true
+			}
+			during wait ( 1 ) ; op1 ( ) ; done1 = true
+		}
+		final f0
+		transition t0 {
+			from i0
+			to s0
+		}
+		transition t1 {
+			from s0
+			to f0
+			trigger in1
+			condition done1 /\ done2
+		}
+		clock C1
+		clock C2
+	}
+
+	connection ctrl0 on in1 to stm0 on in1
+}
+
+operation op1 ( ) {
+	requires IClocks initial i0
+	state s0 {
+		entry # C1
+	}
+	final f0
+	transition t0 {
+		from i0
+		to s0
+	}
+	transition t1 {
+		from s0
+		to f0
+		condition since ( C2 ) == 0
+	}
+}
+
+operation op2 ( ) {
+	requires IClocks initial i0
+	state s0 {
+		entry # C2
+	}
+	final f0
+	transition t0 {
+		from i0
+		to s0
+	}
+	transition t1 {
+		from s0
+		to f0
+		condition since ( C1 ) == 0
+	}
+}
+

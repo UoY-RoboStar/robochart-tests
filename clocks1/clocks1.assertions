@@ -17,4 +17,5 @@ timed assertion R3timed: clocks1::ctrl0::stm0 does not terminate.
 untimed assertion R3reachable: clocks1::ctrl0::stm0::f0 is reachable in clocks1::ctrl0::stm0.
 
 /* The transition from s0 to s1 depends on C, which has not been reset at least once. */
-assertion C1: clock clocks1::ctrl0::stm0::Cl is not initialised.
+//assertion C1: clock clocks1::ctrl0::stm0::Cl is not initialised.
+// Commented out since not supported in this version of the semantics

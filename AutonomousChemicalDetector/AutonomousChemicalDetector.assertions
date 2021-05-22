@@ -147,7 +147,7 @@ const_AutonomousChemicalDetector_MicroController_MicroController_stm_ref0_stuckD
 const_AutonomousChemicalDetector_MicroController_MicroController_stm_ref0_stuckPeriod = 0
 
 nametype core_boolean = Bool
-
+nametype core_clock_type = {0..10}
 
 AutonomousChemicalDetector_Module_srw_BOUND = 2
 

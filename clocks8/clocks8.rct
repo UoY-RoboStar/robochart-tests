@@ -57,7 +57,7 @@ operation op1 ( ) {
 	requires IClocks initial i0
 	state s0 {
 		entry # C1
-	}
+	} 
 	final f0
 	transition t0 {
 		from i0

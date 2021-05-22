@@ -5,7 +5,7 @@ import AggregationSw::*
 
 csp Instantiations csp-begin
 nametype core_nat = {0..4}
- 
+nametype core_clock_type = {0..10}
 AggregationSw_move_BOUND = 2
 nametype core_string = LSeq(Char,2)
 nametype core_real = { -1,0,1}

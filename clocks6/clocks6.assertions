@@ -41,7 +41,7 @@ csp-end
 timed csp OPA csp-begin
 
 channel terminate
-Clock(x__) = clocks6::ctrl0::OP_opA::get_CLID_Cl!x__ -> Clock(x__) [] tock -> Clock(Plus(x__,1,clocks6::ctrl0::OP_opA::CLID_Cl_clock_type))
+Clock(x__) = clocks6::ctrl0::OP_opA::get_CLID_Cl!x__ -> Clock(x__) [] tock -> Clock(Plus(x__,1,clocks6::ctrl0::OP_opA::CLID_Cl_clock_type(0)))
 
 OPA = prioritise(((Clock(0)/\terminate->SKIP) [| {|clocks6::ctrl0::OP_opA::get_CLID_Cl,tock,terminate|} |] clocks6::ctrl0::OP_opA::D__(0,1);terminate->SKIP)\{|clocks6::ctrl0::OP_opA::get_CLID_Cl,terminate|},<{},{tock}>)
 

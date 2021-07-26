@@ -1,6 +1,9 @@
 
 timed csp Spec csp-begin
 	Spec = tock -> tock -> tock -> M::Mod::Out2.out.1 -> tock -> M::Mod::Out1.out.2 -> Spec
+	
+	Spec__sem__events = {|tock,M::Mod::Out2.out.1,M::Mod::Out2.out.2|}
 csp-end
 
 timed assertion A1 : Spec equals M::Mod in the failures divergences model
+timed assertion A2 : Spec equals M::Mod in the tick-tock model

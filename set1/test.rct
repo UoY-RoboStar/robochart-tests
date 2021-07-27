@@ -1,0 +1,36 @@
+diagram test stm stm0 {
+	var x : Set( int ) = { 0 , 1 }
+	event alive
+	initial i0
+	state s0 {
+	}
+	transition t0 {
+		from i0
+		to s0
+	}
+	transition t1 {
+		from s0
+		to s0
+		condition 1 in x
+		action alive
+	}
+}
+
+stm stm1 {
+	var x : Set( int ) = { 0 , 1 }
+	event alive
+	initial i0
+	state s0 {
+	}
+	transition t0 {
+		from i0
+		to s0
+	}
+	transition t1 {
+		from s0
+		to s0
+		condition 2 in x
+		action alive
+	}
+}
+

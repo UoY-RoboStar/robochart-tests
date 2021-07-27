@@ -1,3 +1,5 @@
+package test12
+
 diagram test12
 enumeration Value {
 	VA

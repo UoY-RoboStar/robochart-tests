@@ -1,0 +1,4 @@
+assertion S1: stm0 is deadlock-free
+assertion S2: stm0 is deterministic
+assertion S3: stm1 is not deadlock-free
+assertion S4: stm1 is deterministic

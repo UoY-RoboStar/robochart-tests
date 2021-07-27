@@ -1,6 +1,6 @@
 interface interface1 {
 	op1 ( )
-	//op2 ( ) 
+	//op2 ( )
 }
 
 interface interface2 {
@@ -17,23 +17,23 @@ interface interface4 {
 
 //interface interface5{
 //	deadlineCheck(d:int )
-//	
+//
 //}
 
 controller ctrl0 {
-	uses interface2 
+	uses interface2
 	requires interface1
 	sref stm_ref0 = stm0
 connection ctrl0 on ev1 to stm_ref0 on ev1
 }
 
 controller ctrl1 {
-	requires interface1 
+	requires interface1
 	//requires interface3
 	uses interface2
 	sref stm_ref1 = stm1
-	opref opr1 = op_DA 
-	opref opr2 = TSTOP 
+	opref opr1 = op_DA
+	opref opr2 = TSTOP
 connection ctrl1 on ev1 to stm_ref1 on ev1
 }
 
@@ -42,7 +42,7 @@ connection ctrl1 on ev1 to stm_ref1 on ev1
 //}
 
 stm stm0 {
-	requires interface1 
+	requires interface1
 	uses interface2
 	state s0 {
 		initial i0
@@ -58,11 +58,11 @@ stm stm0 {
 
 	transition t1 {
 		from s0
-		
+
 		to s1
-		trigger 
+		trigger
 		ev1 ? x
-		<{ 3 }     
+		<{ 3 }
 		condition since ( C1 ) >= 2
 	}
 	clock C1
@@ -80,14 +80,14 @@ operation op1 ( ) {
 terminates }
 
 operation op_DA ( ) {
-requires interface1 
-requires interface4 
+requires interface1
+requires interface4
 state s3 {
 		initial i0
 		state s4 {
 		}
 		state s5 {
-			during TSTOP ( ) <{ 3 } 
+			during TSTOP ( ) <{ 3 }
 		}
 		transition t0 {
 			from i0
@@ -101,7 +101,7 @@ state s3 {
 		transition t2 {
 			from s5
 			to s4
-			condition 
+			condition
 		not since ( C1 ) >= 2
 		}
 		during wait ( 5 ) ; ev1 ? x
@@ -112,8 +112,8 @@ state s3 {
 		to s3
 	}
 	clock C1
-//uses interface5 
-	//requires interface5 
+//uses interface5
+	//requires interface5
 	uses interface2 var x : nat
 }
 
@@ -130,8 +130,8 @@ initial i0
 
 module mod0 {
 	robotic platform rp0 {
-		provides interface1 
-		//provides interface3 
+		provides interface1
+		//provides interface3
 		}
 
 	cref ctrl_ref1 = ctrl1
@@ -139,7 +139,7 @@ module mod0 {
 }
 
 stm stm1 {
-	requires interface1 
+	requires interface1
 	requires interface4
 	requires interface3
 	uses interface2
@@ -158,15 +158,15 @@ stm stm1 {
 	transition t0 {
 		from i0
 		to s0
-	action 
+	action
 	# C1
 	}
 	transition t1 {
 		from s0
-		
+
 		to s1
-		trigger 
-		
+		trigger
+
 		ev1 ? x
 		condition since ( C1 ) >= 2
 	}
@@ -175,4 +175,3 @@ stm stm1 {
 	}
 	var x : nat
 }
-

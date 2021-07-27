@@ -2,26 +2,25 @@ diagram test11
 enumeration Values {
 	VA VB VC VD
 }
-
-
-interface OP_RI {
+ 
+interface OP_RI { 
 	const RC: Values
 }
 
-interface OP_I {
+interface OP_I { 
 	const D: Values
-}
-
+}  
+ 
 interface S_RI {
 	const RA: Values
 }
 
-interface S_I {
+interface S_I { 
 	const B: Values
 }
 
 interface Ops {
-	Op()
+	Op() 
 }
 
 controller Ctrl {

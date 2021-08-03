@@ -1,0 +1,14 @@
+
+timed csp Spec csp-begin
+
+Timed(OneStep) {
+	
+	Spec = timed_priority(StartBy(mod0::input.in?x__ -> mod0::output.out!Plus(Plus(Plus(x__,1,core_nat),1,core_nat),2,core_nat) -> SKIP,0)) 
+	
+}
+csp-end 
+
+assertion A0 : Spec equals mod0 with 
+							constant c1 of mod0::ctrl0 set to 2,
+							constant z of mod0::ctrl0::stm0 set to 1
+							and constant y of op set to 1

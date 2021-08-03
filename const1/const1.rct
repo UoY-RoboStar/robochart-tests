@@ -1,0 +1,59 @@
+diagram const1 interface IFace {
+	event output : nat
+}
+
+interface IOps {
+	op ( x : nat )
+}
+
+interface IEnv {
+	event input : nat
+	event output : nat
+}
+
+interface IConst {
+	const c1 : nat
+}
+
+robotic platform rp0 {
+	uses IEnv }
+
+operation op ( x : nat
+) {
+	uses IFace requires IConst const y : nat
+	initial i0
+	final f0
+	transition t0 {
+		from i0
+		to f0
+		action output ! ( x + y + c1 )
+	}
+}
+
+module mod0 {
+	connection rp_ref0 on input to ctrl0 on input ( _async )
+	connection ctrl0 on output to rp_ref0 on output ( _async )
+	rref rp_ref0 = rp0
+	
+	controller ctrl0 {
+		uses IEnv
+		const c1:nat 
+		 opref op_ref0 = op
+		
+		connection ctrl0 on input to stm0 on input
+		connection stm0 on output to ctrl0 on output
+		
+		stm stm0 {
+			uses IEnv requires IOps requires IConst const z : nat
+			var r : nat
+			initial i0
+			final f0
+			transition t0 {
+				from i0
+				to f0
+				action input ? r <{ 0 } ; op ( r + z )
+			}
+		}
+	}
+}
+

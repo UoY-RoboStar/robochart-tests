@@ -8,7 +8,18 @@ Timed(OneStep) {
 }
 csp-end 
 
-assertion A0 : Spec equals mod0 with 
+untimed csp USpec csp-begin
+
+USpec = mod0::input.in?x__ -> mod0::output.out!Plus(Plus(Plus(x__,1,core_nat),1,core_nat),2,core_nat) -> SKIP 
+	
+csp-end 
+
+timed assertion A0 : Spec equals mod0 with 
 							constant c1 of mod0::ctrl0 set to 2,
 							constant z of mod0::ctrl0::stm0 set to 1
 							and constant y of op set to 1
+							
+untimed assertion A1 : USpec equals mod0 with 
+							constant c1 of mod0::ctrl0 set to 2,
+							constant z of mod0::ctrl0::stm0 set to 1
+							and constant y of op set to 1							

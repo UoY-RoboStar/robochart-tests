@@ -2,16 +2,13 @@ package clocks0
 
 interface IEvents {
 	event object
-event term
-}
-robotic platform rp0 {
-uses IEvents provides IOps
+event term 
 }
 interface IOps {
-	opA()
+	opA() 
 }
 operation opA() {
-	terminates
+	terminates 
 }
 module M {
 	connection rp_ref0 on object to ctrl_ref0 on object ( _async )
@@ -19,6 +16,9 @@ module M {
 	rref rp_ref0 = rp0
 connection ctrl_ref0 on term to rp_ref0 on term ( _async )
 }
+robotic platform rp0 {
+uses IEvents provides IOps 
+}     
 controller ctrl0 {
 	stm stm0 {
 		uses IEvents

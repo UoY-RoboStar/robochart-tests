@@ -1,0 +1,163 @@
+diagram main interface interface1 {
+	event in1
+	event in2
+	event out1
+	event out2
+event in3
+	event in4
+}
+stm stm0 {
+	uses interface1
+	initial i0
+	state s1 {
+	}
+	state s2 {
+	}
+	state stop {
+	}
+	state s0 {
+	}
+	transition t0 {
+		from i0
+		to s0
+	}
+	transition t1 {
+		from s0
+		to s1
+	trigger in1
+	}
+	transition t2 {
+		from s0
+		to s2
+	trigger in1
+	}
+	
+	transition t3 {
+		from s1
+		to s3
+		trigger in2
+	}
+	
+	transition t5 {
+		from s3
+		to stop
+		trigger in3
+	}
+	state s3 {
+	}
+	state s4 {
+	}
+	transition t6 {
+		from s1
+		to stop
+		trigger in4
+	}
+	transition t4 {
+		from s2
+		to s4
+		trigger in2
+	}
+	transition t7 {
+		from s4
+		to stop
+		trigger in4
+	}
+}
+
+stm stm1 {
+	uses interface1
+	initial i0
+	state s1 {
+	}
+	state s2 {
+	}
+	state stop {
+	}
+	state s0 {
+	}
+	
+	transition t0 {
+		from i0
+		to s0
+	}
+	
+	transition t1 {
+		from s0
+		to s1
+		trigger in1
+	}
+	
+	
+	
+	transition t2 {
+		from s0
+		to s2
+		trigger in1
+	}
+	
+	transition t3 {
+		from s1
+		to s3
+		trigger in2
+	}
+
+	
+	
+
+	
+	transition t4 {
+		from s1
+		to stop
+		trigger in4
+	}
+	state s3 {
+	}
+	state s4 {
+	}
+	transition t5 {
+		from s3
+		to stop
+		trigger in4
+	}
+	transition t6 {
+		from s2
+		to s4
+		trigger in2
+	}
+	transition t7 {
+		from s4
+		to stop
+		trigger in3
+	}
+}
+stm stm2 {
+	uses interface1
+	initial i0
+	state s0 {
+	}
+	state s1 {
+	}
+	state s2 {
+	}
+	state stop {
+	}
+	transition t0 {
+		from i0
+		to s0
+	}
+	transition t1 {
+		from s0
+		to s1
+		trigger in1
+	}
+	transition t2 {
+		from s1
+		to s2
+		trigger in2
+	}
+	transition t3 {
+		from s2
+		to stop
+		trigger in4
+	}
+}

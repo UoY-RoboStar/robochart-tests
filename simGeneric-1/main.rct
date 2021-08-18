@@ -1,0 +1,82 @@
+diagram main interface interface1 {
+	event in1
+	event in2
+	event out1
+	event out2
+}
+stm stm0 {
+	uses interface1
+	initial i0
+	state s1 {
+	}
+	
+	state stop {
+	}
+	junction j0
+	transition t0 {
+		from i0
+		to j0
+	}
+	transition t1 {
+		from j0
+		to s1
+	}
+	
+	transition t3 {
+		from s1
+		to stop
+		trigger in1
+		action out1 <{ 0 }
+	}
+	transition t4 {
+		from s1
+		to stop
+		trigger in2
+		action out2 <{ 0 }
+	}
+	transition t2 {
+		from j0
+		to stop
+	}
+}
+
+stm stm1 {
+	uses interface1
+	initial i0
+	state s1 {
+	}
+	state stop {
+	}
+	junction j0
+	transition t0 {
+		from i0
+		to j0
+	}
+	transition t1 {
+		from j0
+		to s1
+	}
+	
+	transition t3 {
+		from s1
+		to stop
+		trigger in1
+		action out1 <{ 0 }
+	}
+	transition t4 {
+		from s0
+		to stop
+		trigger in2
+		action out2 <{ 0 }
+	}
+	transition t2 {
+		from j0
+		to stop
+	}
+state s0 {
+	}
+	transition t5 {
+		from j0
+		to s0
+	}
+}

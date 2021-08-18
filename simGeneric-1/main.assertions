@@ -1,0 +1,44 @@
+
+// This example demonstrates that the law:
+//
+// (in1 -> STOP [] in2 -> STOP) |~| STOP = in1 -> STOP |~| in2 -> STOP |~| STOP
+//
+// does not hold for tick-tock, because of the ability to observe refusals across time.
+
+// The following is defined manually for the moment as there is no automatic renaming
+// of the events when considering an assertion between two RoboChart components.
+timed csp SpecStm0 associated to stm0 csp-begin
+
+SpecStm0 = stm0::O__(0)
+			[[ stm0::in1 <- stm1::in1, 
+			   stm0::out1 <- stm1::out1,
+			   stm0::in2 <- stm1::in2,
+			   stm0::out2 <- stm1::out2, 
+			   stm0::terminate <- stm1::terminate
+			]]
+SpecStm0__sem__events = stm1::sem__events
+
+csp-end
+ 
+timed assertion A0 : SpecStm0 refines stm1 in the failures divergences model
+timed assertion A1 : stm1 refines SpecStm0 in the failures divergences model 
+ 
+timed assertion TT0 : SpecStm0 refines stm1 in the tick-tock model
+
+// Fails in tick-tock because:
+//
+// 1) in 'stm0', after refusing the event 'in2', and advacing time by one tock,
+//	  the state machine is in state 'stop', after which no event 'in1' is possible.
+//
+// 2) in 'stm1', however, after refusing 'in2', and advancing time by one tock,
+// 	  the state machine could be in either states 's1' or 'stop', so the event 's1'
+// 	  is possible.
+//
+// Effectively the internal choice is decided in zero time.. so it's not possible
+// to alternate (internally) after time has passed. An untimed semantics cannot 
+// distinguish this behaviour.
+//
+// In the FD/F models the refusal information before tocks is not recorded, so
+// the refinement below passes in FD/F, but not in tick-tock. 
+ 
+timed assertion TT1 : stm1 does not refine SpecStm0 in the tick-tock model

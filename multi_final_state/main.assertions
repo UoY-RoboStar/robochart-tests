@@ -1,0 +1,13 @@
+
+timed csp TSpec csp-begin
+
+Timed(OneStep) {
+	Spec = stm0::ev1.in?x -> (stm0::ev2.out!0 -> Deadline(stm0::terminate -> SKIP,0) |~| stm0::ev2.out!1 -> Deadline(stm0::terminate -> SKIP,0))
+	TSpec = timed_priority(Spec)
+	TSpec__sem__events = {|stm0::ev1.in,stm0::ev2.out,stm0::terminate|}
+}
+
+csp-end
+ 
+timed assertion A0 : stm0 is deadlock-free
+timed assertion A1 : stm0 equals TSpec in the tick-tock model

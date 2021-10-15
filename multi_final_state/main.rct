@@ -1,0 +1,31 @@
+interface IEvents {
+	event ev1 : nat
+	event ev2 : nat
+}
+
+
+stm stm0 {
+	uses IEvents var x : nat
+	initial i0
+	state s0 {
+	}
+	final f0
+	final f1
+	transition t0 {
+		from s0
+		to f0
+		trigger ev1 ? x
+		action ev2 ! 0
+	}
+	transition t1 {
+		from s0
+		to f1
+		trigger ev1 ? x
+		action ev2 ! 1
+	}
+	transition t2 {
+		from i0
+		to s0
+	}
+}
+

@@ -1,0 +1,87 @@
+package assertions
+
+timed csp Instantiations csp-begin
+
+nametype core_nat = {0..3}
+
+-- generate string
+nametype core_string = LSeq(Char,2)
+
+-- generate clocks1_IType2nat
+IType2nat(IType_L1) = 0
+IType2nat(IType_L2) = 1
+
+-- generate real
+nametype core_real = { -2..2} 
+
+-- CLOCKS
+nametype core_clock_type = {0..10}
+
+-- BASIC FUNCTIONS
+
+-- generate const_clocks1_opC_x2
+const_clocks1_opC_x2 = 0
+
+-- BASIC TYPES
+
+-- generate const_opA_x1
+const_opA_x1 = IType_L1
+-- generate const_opB_x2
+const_opB_x2 = 0
+-- generate const_opC_x2
+const_opC_x2 = 0
+
+-- generate int
+nametype core_int = { -2..2}
+
+-- generate -- OPERATION BOUNDS
+
+-- MODULE CONSTANTS
+
+-- CONTROLLER CONSTANTS
+
+-- STATEMACHINE CONSTANTS
+
+-- OPERATION CONSTANTS
+
+-- generate Div
+Div(e1,e2,T) = if member(e1/e2,T) then e1/e2 else e1
+
+-- generate Neg
+Neg(e1,T) = if member(-e1,T) then -e1 else e1
+
+-- generate boolean
+nametype core_boolean = Bool
+
+-- generate Mult
+Mult(e1,e2,T) = if member(e1*e2,T) then e1*e2 else e1
+
+-- generate Modulus
+Modulus(e1,e2,T) = if member(e1%e2,T) then e1%e2 else e1
+
+-- generate Plus
+Plus(e1,e2,T) = if member(e1+e2,T) then e1+e2 else e1
+
+-- generate Minus
+Minus(e1,e2,T) = if member(e1-e2,T) then e1-e2 else e1
+
+csp-end
+
+timed csp SpecC associated to M::C csp-begin
+Timed(OneStep) {
+	SpecC = M::C::o.out!3 -> STOP 
+}
+csp-end
+
+timed assertion A0 : M is not deadlock-free
+timed assertion A1 : M::C refines SpecC with 
+		constant x1 of M::C::op_ref0 set to IType::L2,
+		constant x2 of M::C::op_ref1 set to 1 and
+		constant x2 of M::C::op_ref2 set to 1 
+timed assertion A2 : M::C does not refine SpecC with 
+		constant x1 of M::C::op_ref0 set to IType::L1,
+		constant x2 of M::C::op_ref1 set to 1 and
+		constant x2 of M::C::op_ref1 set to 1
+timed assertion A3 : M::C does not refine SpecC with 
+		constant x1 of M::C::op_ref0 set to IType::L2 and 
+		constant x2 of M::C::op_ref1 set to 0

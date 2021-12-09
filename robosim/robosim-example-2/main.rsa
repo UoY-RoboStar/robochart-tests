@@ -1,0 +1,14 @@
+
+// An attempt at writing a little specification for the RoboSim machine to check for refinement.
+
+csp Spec csp-begin
+
+Spec = Sim::STM::registerRead.Sim::STM::i_In?x__ 
+			-> Sim::STM::endexec 
+				-> tock -> tock
+					-> Spec
+
+csp-end
+
+assertion A0 : Sim::STM refines Spec in the failures divergences model with cycleDef of Sim::STM set to 2
+assertion A1 : Sim::STM is deadlock-free

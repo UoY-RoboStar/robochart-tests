@@ -1,0 +1,54 @@
+interface MovementI {
+	move ( lv : real , av : real )
+stop ( )
+}
+
+interface ObstacleI {
+	event obstacle
+}
+
+controller Movement {
+	uses ObstacleI requires MovementI sref stm_ref0 = SMMovement
+	connection Movement on obstacle to stm_ref0 on obstacle
+}
+
+stm SMMovement {
+	uses ObstacleI requires MovementI const lvel : real , avel : real
+	const PI : real
+	initial i0
+	state Moving {
+		entry move ( lvel , 0 ) ; wait ( 1 )
+	}
+	state Turning {
+		entry move ( 0 , avel )
+	}
+	transition t0 {
+		from i0
+		to Moving
+	}
+	transition t1 {
+		from Moving
+		to Turning
+		trigger 
+		
+	obstacle
+
+		# turnTimer
+		action stop ( )
+	}
+	transition t2 {
+		from Turning
+		to Moving
+		condition since ( turnTimer ) >= PI / avel
+	}
+	clock turnTimer
+}
+
+module marXbotSoftware {
+	connection marXbotServices on obstacle to ctrl_ref0 on obstacle ( _async )
+	robotic platform marXbotServices {
+		uses ObstacleI provides MovementI }
+
+	cref ctrl_ref0 = Movement
+}
+

@@ -1,0 +1,94 @@
+
+// An attempt at writing a little specification for the RoboSim machine to check for refinement.
+
+csp Spec csp-begin
+
+channel get_x, set_x : core_nat
+channel terminate
+
+Spec = 
+	let 
+		p = 2
+		
+		ReadInputs = (STM::registerRead.STM::i_In?b__?d__ -> SKIP) ||| (STM::registerRead.STM::i_x?x__ -> SKIP)
+		
+		Memory_x(x__) = get_x!x__ -> Memory_x(x__) [] STM::registerRead.STM::i_x?x__ -> Memory_x(x__)
+		
+		Cycle = ReadInputs; Behaviour; WaitForTermination
+		
+		WaitForTermination = STM::endexec -> (wait(p);ReadInputs;WaitForTermination [] STM::terminate->SKIP) 
+		
+		Behaviour = get_x?x__ -> STM::registerWrite.STM::o_Out1!x__ -> STM::registerWrite.STM::o_Out2!x__ -> SKIP
+		
+	within
+		(Cycle [| {| STM::registerRead.STM::i_x, get_x, STM::terminate |} |] (Memory_x(0) /\ STM::terminate -> SKIP)) \ {|get_x,set_x|}
+
+csp-end
+
+csp CTSpec csp-begin
+CTSpec = 	
+    let 
+     	p = 2
+     	
+		ReadInputs = (CT::registerRead.CT::i_In?b__?d__ -> SKIP) ||| (CT::registerRead.CT::i_x?x__ -> SKIP)
+		
+		Memory_x(x__) = get_x!x__ -> Memory_x(x__) [] CT::registerRead.CT::i_x?x__ -> Memory_x(x__)
+		
+		Cycle = ReadInputs; Behaviour; WaitForTermination
+		
+		WaitForTermination = CT::endexec -> (wait(p);ReadInputs;WaitForTermination [] CT::terminate->SKIP) 
+		
+		Behaviour = get_x?x__ -> CT::registerWrite.CT::o_Out1!x__ -> CT::registerWrite.CT::o_Out2!x__ -> SKIP
+		
+	within
+		(Cycle [| {| CT::registerRead.CT::i_x, get_x, CT::terminate |} |] (Memory_x(0) /\ CT::terminate -> SKIP)) \ {|get_x,set_x|}
+csp-end
+
+csp MSpec csp-begin
+
+MSpec = 
+	let 
+		ReadInputs = (Mod::registerRead.Mod::i_In?b__?d__ -> SKIP)
+		
+		Cycle = ReadInputs; Behaviour
+		
+		Behaviour = |~| x__ : {0..2} @ Mod::registerWrite.Mod::o_Out1!x__ -> Mod::registerWrite.Mod::o_Out2!x__ -> terminate -> SKIP
+		
+	within
+		(Cycle [| {| terminate |} |] terminate -> SKIP) \ {|terminate|}
+csp-end
+
+assertion S0 : STM equals Spec in the failures divergences model with cycleDef of STM set to 2
+assertion S1 : STM is deadlock-free
+// Because of endexec, it is not timelock-free 
+//assertion S2 : STM is not timelock-free
+
+assertion C0 : CT equals CTSpec in the failures divergences model with cycleDef of CT set to 2
+assertion C1 : CT is deadlock-free
+// Because of endexec, it is not timelock-free
+//assertion C2 : CT is not timelock-free
+
+assertion M0 : Mod refines MSpec in the failures divergences model with cycleDef of Mod set to 2
+assertion M1 : Mod is deadlock-free
+// It is not timelock-free because of registerRead/registerWrite that happen between tocks...
+//assertion M2 : Mod is not timelock-free
+
+//assertion rcp : sim(M::Mod) equals Mod in the failures divergences model
+
+simulation SimRC of M::Mod { 
+	cycleDef cycle==2
+}
+ 
+simulation SimSTM of M::STM {
+	cycleDef cycle==2
+	input context { event In:nat requires M::IVars }
+	output context { event Out1:nat event Out2:nat requires M::IVars requires M::IOps }
+}
+ 
+assertion RS0 : Mod does not refine SimRC in the failures divergences model with cycleDef of Mod set to 3, and cycleDef of SimRC set to 3
+assertion RS1 : SimRC does not refine Mod in the failures divergences model with cycleDef of Mod set to 2, and cycleDef of SimRC set to 2
+
+assertion RS2 : STM does not refine SimSTM in the failures divergences model with cycleDef of STM set to 1, and cycleDef of SimSTM set to 1
+assertion RS3 : SimSTM does not refine STM in the failures divergences model with cycleDef of STM set to 1, and cycleDef of SimSTM set to 1
+
+assertion RS4 : SimRC is not schedulable

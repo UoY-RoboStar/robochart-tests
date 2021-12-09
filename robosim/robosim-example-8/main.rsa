@@ -1,0 +1,76 @@
+
+// An attempt at writing a little specification for the RoboSim machine to check for refinement.
+
+//csp Spec csp-begin
+//
+//channel set_In, get_In : Bool.core_nat
+//
+//Mem(x__) = set_In?x__ -> Mem(x__) [] get_In!x__ -> Mem(x__)
+//
+//SpecB = (CT::STM::registerRead.CT::STM::i_d?x__ -> SKIP ||| CT::STM::registerRead.CT::STM::i_In?b?d -> set_In!b!d -> SKIP); 
+//		(get_In?b?d -> if (b==true) 
+//			then (CT::STM::registerWrite.CT::STM::o_d!d -> 
+//				  CT::STM::registerWrite.CT::STM::o_Out!id(d) -> 
+//				  CT::STM::registerWrite.CT::STM::o_Out3!(Plus(Plus(d,1,core_nat),1,core_nat)) -> 
+//				  CT::STM::registerWrite.CT::STM::o_Out2!d -> SKIP
+//			) 
+//			else SKIP
+//		) ; CT::STM::endexec -> tock -> tock -> SpecB
+//
+//Spec = (SpecB [| {| set_In, get_In |} |] Mem(false.0)) \{|set_In,get_In|}
+//
+//csp-end
+
+csp CTSpec csp-begin
+
+channel set_In, get_In : Bool.core_nat
+
+Mem(x__) = set_In?x__ -> Mem(x__) [] get_In!x__ -> Mem(x__)
+
+CTSpecB = (CT::registerRead.CT::i_d?x__ -> SKIP ||| CT::registerRead.CT::i_In?b?d -> set_In!b!d -> SKIP);
+		(get_In?b?d -> if (b==true) 
+			then (CT::registerWrite.CT::o_d!d -> 
+				  CT::registerWrite.CT::o_Out!id(d) -> 
+				  CT::registerWrite.CT::o_Out3!(Plus(Plus(d,1,core_nat),1,core_nat)) ->
+				  CT::registerWrite.CT::o_opPlatform!(Plus(Plus(d,1,core_nat),1,core_nat)) ->  
+				  CT::registerWrite.CT::o_Out2!d -> SKIP
+			) 
+			else SKIP
+		) ; CT::endexec -> tock -> tock -> CTSpecB
+
+CTSpec = (CTSpecB [| {| set_In, get_In |} |] Mem(false.0)) \{|set_In,get_In|}
+
+csp-end
+
+csp MSpec csp-begin
+MSpecB = (Mod::registerRead.Mod::i_In?b?d -> set_In!b!d -> SKIP);
+		(get_In?b?d -> if (b==true) 
+			then (Mod::registerWrite.Mod::o_d!d -> 
+				  Mod::registerWrite.Mod::o_Out!id(d) -> 
+				  Mod::registerWrite.Mod::o_Out3!(Plus(Plus(d,1,core_nat),1,core_nat)) ->
+				  Mod::registerWrite.Mod::o_opPlatform!(Plus(Plus(d,1,core_nat),1,core_nat)) ->  
+				  Mod::registerWrite.Mod::o_Out2!d -> SKIP
+			) 
+			else SKIP
+		) ; tock -> tock -> MSpecB
+
+MSpec = (MSpecB [| {| set_In, get_In |} |] Mem(false.0)) \{|set_In,get_In|}
+csp-end
+
+// TODO: Scope provider of RoboChart doesn't cope well with references like CT::STM at the moment
+// 		 so the following assertions are commented out.
+
+//assertion S0 : CT::STM equals Spec in the failures divergences model with cycleDef of CT::STM set to 2
+//assertion S1 : CT::STM is deadlock-free 
+//// Because of endexec, it is not timelock-free
+//assertion S2 : CT::STM is not timelock-free 
+
+assertion C0 : CT equals CTSpec in the failures divergences model with cycleDef of CT set to 2
+assertion C1 : CT is deadlock-free
+// Because of endexec, it is not timelock-free
+//assertion C2 : CT is not timelock-free
+
+assertion M0 : Mod equals MSpec in the failures divergences model with cycleDef of Mod set to 2
+assertion M1 : Mod is deadlock-free
+// It is not timelock-free because of registerRead/registerWrite that happen between tocks...
+//assertion M2 : Mod is not timelock-free

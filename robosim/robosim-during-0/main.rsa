@@ -1,0 +1,13 @@
+
+import Sim::*
+
+csp CTSpec csp-begin
+
+CTSpec = Sim::CT::registerWrite.Sim::CT::o_out -> Sim::CT::endexec -> tock -> CTSpec 
+		 |~|
+		 Sim::CT::endexec -> tock -> CTSpec
+
+csp-end
+
+assertion A0 : op is not deadlock-free
+assertion A1 : CT equals CTSpec in the failures divergences model

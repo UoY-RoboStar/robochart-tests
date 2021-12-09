@@ -1,0 +1,48 @@
+
+// An attempt at writing a little specification for the RoboSim machine to check for refinement.
+
+csp Spec csp-begin
+
+Spec = STM::registerRead.STM::i_In?b?d -> (if (b==true) then STM::registerWrite.STM::o_Out!d -> SKIP else SKIP) ; STM::endexec -> tock -> tock -> Spec
+
+csp-end
+
+csp CTSpec csp-begin
+CTSpec = CT::registerRead.CT::i_In?b?d -> (if (b==true) then CT::registerWrite.CT::o_Out!d -> SKIP else SKIP) ; CT::endexec -> tock -> tock -> CTSpec
+csp-end
+
+csp MSpec csp-begin
+MSpec = Mod::registerRead.Mod::i_In?b?d -> (if (b==true) then Mod::registerWrite.Mod::o_Out!d -> SKIP else SKIP) ; tock -> tock -> MSpec
+csp-end
+
+assertion S0 : STM equals Spec in the failures divergences model with cycleDef of STM set to 2
+assertion S1 : STM is deadlock-free
+// Because of endexec, it is not timelock-free
+//assertion S2 : STM is not timelock-free
+
+assertion C0 : CT equals CTSpec in the failures divergences model with cycleDef of CT set to 2
+assertion C1 : CT is deadlock-free
+// Because of endexec, it is not timelock-free
+//assertion C2 : CT is not timelock-free
+
+assertion M0 : Mod equals MSpec in the failures divergences model with cycleDef of Mod set to 2
+assertion M1 : Mod is deadlock-free
+// It is not timelock-free because of registerRead/registerWrite that happen between tocks...
+//assertion M2 : Mod is not timelock-free
+
+//assertion rcp : sim(M::Mod) equals Mod in the failures divergences model
+
+simulation SimRC of M::Mod { 
+	cycleDef cycle==2
+}
+
+simulation SimSTM of M::STM {
+	cycleDef cycle==2
+	input context { event In:nat }
+	output context { event Out:nat }
+}
+
+assertion RS0 : Mod refines SimRC in the failures divergences model with cycleDef of Mod set to 3, and cycleDef of SimRC set to 3
+assertion RS1 : SimRC refines Mod in the failures divergences model with cycleDef of Mod set to 2, and cycleDef of SimRC set to 2
+
+assertion RS2 : STM equals SimSTM in the failures divergences model with cycleDef of STM set to 1, and cycleDef of SimSTM set to 1

@@ -1,0 +1,61 @@
+package M
+diagram main
+
+interface IEvent {
+	event In:nat
+	event Out1:nat
+	event Out2:nat
+}
+
+// A state machine with no inputs or outputs
+
+interface IVars {
+	var x:nat	
+}
+
+interface IOps {
+	move()
+}
+
+stm STM {
+		 
+	uses IEvent
+	requires IVars
+	requires IOps
+		 
+	initial I
+	final F
+	state S0 {}
+	
+	transition T0 { from I to S0 }
+	transition T1 { from S0 to F 
+					action Out1!x;Out2!x;Out2!x;move();move() }
+}
+
+controller CT {
+	
+	uses IEvent
+	requires IVars
+	requires IOps
+	sref stm0=STM
+	
+	connection CT on In to stm0 on In
+	connection stm0 on Out1 to CT on Out1
+	connection stm0 on Out2 to CT on Out2
+	
+}
+
+module Mod {
+	
+	cref ctrl0=CT
+	
+	robotic platform RP {
+		uses IEvent
+		provides IVars
+		provides IOps
+	}
+	
+	connection RP on In to ctrl0 on In ( _async )
+	connection ctrl0 on Out1 to RP on Out1 ( _async )
+	connection ctrl0 on Out2 to RP on Out2 ( _async )
+}

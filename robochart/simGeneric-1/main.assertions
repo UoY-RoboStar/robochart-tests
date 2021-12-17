@@ -21,9 +21,12 @@ SpecStm0__sem__events = stm1::sem__events
 csp-end
  
 timed assertion A0 : SpecStm0 refines stm1 in the failures divergences model
-timed assertion A1 : stm1 refines SpecStm0 in the failures divergences model 
+timed assertion A0_alt : stm0 refines stm1 in the failures divergences model
+timed assertion A1 : stm1 refines SpecStm0 in the failures divergences model
+timed assertion A1_alt : stm1 refines stm0 in the failures divergences model 
  
 timed assertion TT0 : SpecStm0 refines stm1 in the tick-tock model
+timed assertion TT0_alt : stm0 refines stm1 in the tick-tock model
 
 // Fails in tick-tock because:
 //
@@ -42,3 +45,4 @@ timed assertion TT0 : SpecStm0 refines stm1 in the tick-tock model
 // the refinement below passes in FD/F, but not in tick-tock. 
  
 timed assertion TT1 : stm1 does not refine SpecStm0 in the tick-tock model
+timed assertion TT1_alt : stm1 does not refine stm0 in the tick-tock model

@@ -1,0 +1,116 @@
+csp Instantiations csp-begin
+
+-- generate const_Simulation_SMMovement_PI
+const_Simulation_SMMovement_PI = 1
+-- generate const_Simulation_SMMovement_lvel
+const_Simulation_SMMovement_lvel = 1
+-- generate const_Simulation_SMMovement_avel
+const_Simulation_SMMovement_avel = 1
+-- generate const_SMMovement_lvel
+const_SMMovement_lvel = 1
+-- generate const_SMMovement_avel
+const_SMMovement_avel = 1
+-- generate const_SMMovement_PI
+const_SMMovement_PI = 1
+-- generate const_Simulation_Movement_stm_ref0_PI
+const_Simulation_Movement_stm_ref0_PI = 1
+-- generate const_Simulation_Movement_stm_ref0_lvel
+const_Simulation_Movement_stm_ref0_lvel = 1
+-- generate const_Simulation_Movement_stm_ref0_avel
+const_Simulation_Movement_stm_ref0_avel = 1
+-- generate const_Movement_stm_ref0_lvel
+const_Movement_stm_ref0_lvel = 1
+-- generate const_Movement_stm_ref0_avel
+const_Movement_stm_ref0_avel = 1
+-- generate const_Movement_stm_ref0_PI
+const_Movement_stm_ref0_PI = 1
+
+-- generate Plus
+Plus(e1,e2,T) = if member(e1+e2,T) then e1+e2 else e1
+
+-- generate Minus
+Minus(e1,e2,T) = if member(e1-e2,T) then e1-e2 else e1
+
+-- generate Mult
+Mult(e1,e2,T) = if member(e1*e2,T) then e1*e2 else e1
+
+-- generate Div
+Div(e1,e2,T) = if member(e1/e2,T) then e1/e2 else e1
+
+-- generate Modulus
+Modulus(e1,e2,T) = if member(e1%e2,T) then e1%e2 else e1
+
+-- generate Neg
+Neg(e1,T) = if member(-e1,T) then -e1 else e1
+
+-- data types
+nametype core_clock_type = {0..10}
+nametype core_real = { -2..2}
+nametype core_int = { -2..2}
+nametype core_nat = {0..2}
+
+csp-end
+
+assertion DF: Simulation::marXbotSoftware is deadlock-free
+
+assertion DET: Simulation::marXbotSoftware is deterministic
+
+// No simulation is timelock-free because registerRead and registerWrite
+// events are always urgent given the idealised semantics of a simulation. 
+// Of course, if there are no inputs or outputs, the only visible event is 
+// tock, and the model may be timelock free. This is, however, not an 
+// interesting case to consider. 
+// Suggestion: remove the timelock-free check. 
+//assertion TF: Simulation::marXbotSoftware is not timelock-free
+
+csp Timelock csp-begin 
+
+Timed(OneStep) {
+	
+Timelock__sem__events = {| Simulation::marXbotSoftware::registerRead, Simulation::marXbotSoftware::registerWrite |}
+
+Timelock = STOP
+
+}
+   
+csp-end
+
+csp Hidden csp-begin 
+
+Timed(OneStep) {
+	
+Hidden__sem__events = {| Simulation::marXbotSoftware::registerRead, Simulation::marXbotSoftware::registerWrite |}
+	
+Hidden = let 
+	cycle_Simulation_marXbotSoftware_marXbotSoftware = 1
+	id__ = 0
+	const_Simulation_Movement_stm_ref0_PI = const_Simulation_SMMovement_PI
+	const_Simulation_Movement_stm_ref0_lvel = const_Simulation_SMMovement_lvel
+	const_Simulation_Movement_stm_ref0_avel = const_Simulation_SMMovement_avel	
+within
+	Simulation::marXbotSoftware::D__(id__,cycle_Simulation_marXbotSoftware_marXbotSoftware,
+			    const_Simulation_Movement_stm_ref0_PI,
+			    const_Simulation_Movement_stm_ref0_lvel,
+			    const_Simulation_Movement_stm_ref0_avel) \ Hidden__sem__events
+
+}
+   
+csp-end
+
+assertion LivelockFree: Hidden refines Timelock in the tick-tock model 
+
+csp CallMove csp-begin 
+
+Timed(OneStep) {
+	
+CallMove__sem__events = {| Simulation::marXbotSoftware::registerRead, Simulation::marXbotSoftware::registerWrite |}
+
+CallMove = Deadline(Simulation::marXbotSoftware::registerRead.Simulation::marXbotSoftware::i_obstacle?x -> 
+	                Simulation::marXbotSoftware::registerWrite.Simulation::marXbotSoftware::o_move.const_Simulation_SMMovement_lvel.0 -> SKIP,0);
+	       TCHAOS(CallMove__sem__events)         
+
+}
+   
+csp-end
+
+assertion CM: Simulation::marXbotSoftware refines CallMove in the tick-tock model 

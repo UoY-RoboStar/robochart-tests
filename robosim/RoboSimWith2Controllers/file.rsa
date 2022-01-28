@@ -1,0 +1,226 @@
+
+// Assertions to capture the RoboSim behaviour of each stm and controller.
+
+csp Stm0Spec csp-begin
+
+channel get_x, get_z : core_int
+		
+Stm0Spec = 
+	let
+
+		c = 2
+		
+		ReadInputs = (stm0::registerRead.stm0::i_x?x__ -> SKIP) |||
+					 (stm0::registerRead.stm0::i_z?z__ -> SKIP)
+		
+		S0(w) = get_x?x__ -> stm0::registerWrite.stm0::o_x.Plus(x__,w,core_int) -> stm0::registerWrite.stm0::o_op1.1 -> DS0(w)
+			
+		DS0(w) = stm0::endexec -> wait(1) ; ReadInputs ; 
+					get_x?x -> (if (x >= c) then DS0(w)
+ 											else stm0::registerWrite.stm0::o_ev0 
+ 													-> stm0::registerWrite.stm0::o_op2 
+ 													-> stm0::registerWrite.stm0::o_z!x 
+ 													-> S0(w))
+ 					 
+ 		Memory_x(x__) = stm0::registerRead.stm0::i_x?x__ -> Memory_x(x__) [] get_x!x__ -> Memory_x(x__) [] stm0::registerWrite.stm0::o_x?x__ -> Memory_x(x__)
+ 		Memory_z(x__) = stm0::registerRead.stm0::i_z?x__ -> Memory_z(x__) [] get_z!x__ -> Memory_z(x__) [] stm0::registerWrite.stm0::o_z?x__ -> Memory_z(x__) 
+ 		Memory = Memory_x(0) ||| Memory_z(0)
+ 		
+ 	within	
+		((ReadInputs ; S0(1)) [| {|get_x,get_z,stm0::registerRead,stm0::registerWrite.stm0::o_x,stm0::registerWrite.stm0::o_z|} |] Memory) \ {| get_x, get_z |}
+
+csp-end
+
+csp Stm1Spec csp-begin
+
+channel get_ev5 : Bool
+		
+Stm1Spec = 
+	let
+
+		c = 2
+		
+		ReadInputs = (stm1::registerRead.stm1::i_x?x__ -> SKIP) |||
+					 (stm1::registerRead.stm1::i_z?x__ -> SKIP) |||
+					 (stm1::registerRead.stm1::i_ev5?x__ -> SKIP)
+		
+		S0 = DS0
+			
+		DS0 = stm1::endexec -> wait(1) ; ReadInputs ; 
+					get_ev5?ev5 -> get_x?x -> get_z?z ->
+						 (if not (ev5 and (x >= c) and (z == x)) then DS0
+						 	 else stm1::registerWrite.stm1::o_ev2 -> stm1::registerWrite.stm1::o_x!0 -> S0)
+ 					 
+ 		Memory_x(x__) = stm1::registerRead.stm1::i_x?x__ -> Memory_x(x__) [] get_x!x__ -> Memory_x(x__) [] stm1::registerWrite.stm1::o_x?x__ -> Memory_x(x__)
+ 		Memory_z(x__) = stm1::registerRead.stm1::i_z?x__ -> Memory_z(x__) [] get_z!x__ -> Memory_z(x__) [] stm1::registerWrite.stm1::o_z?x__ -> Memory_z(x__) 
+ 		
+ 		-- Not typed events
+ 		Memory_ev5(x__) = stm1::registerRead.stm1::i_ev5?x__ -> Memory_ev5(x__) [] get_ev5!x__ -> Memory_ev5(x__)
+
+ 		Memory = Memory_x(0) ||| Memory_z(0) ||| Memory_ev5(false)
+ 		
+ 	within	
+		((ReadInputs ; stm1::registerWrite.stm1::o_z!1 -> S0) 
+		[| {|get_x,get_z,
+			stm1::registerRead,stm1::registerWrite.stm1::o_x,stm1::registerWrite.stm1::o_z,
+			 stm1::registerRead.stm1::i_ev5,
+			 get_ev5
+		|} |] Memory) \ {| get_x, get_z, get_ev5 |}
+
+csp-end
+
+csp Stm2Spec csp-begin
+
+channel get_ev2, get_ev1 : Bool
+		
+Stm2Spec = 
+	let
+
+		c = 2
+		
+		ReadInputs = (stm2::registerRead.stm2::i_x?x__ -> SKIP) 	|||
+					 (stm2::registerRead.stm2::i_ev1?x__ -> SKIP) 	|||
+					 (stm2::registerRead.stm2::i_ev2?x__ -> SKIP)
+		
+		S0 = DS0
+			
+		DS0 = stm2::endexec -> wait(1) ; ReadInputs ; 
+					get_ev1?ev1 -> get_ev2?ev2 -> get_x?x ->
+						 (if not ((x >= c) and (ev1 or (ev2 and x==1))) then DS0
+						 	 else stm2::registerWrite.stm2::o_op1.1 -> S0)
+ 					 
+ 		Memory_x(x__) = stm2::registerRead.stm2::i_x?x__ -> Memory_x(x__) [] get_x!x__ -> Memory_x(x__) [] stm2::registerWrite.stm2::o_x?x__ -> Memory_x(x__)
+ 		
+ 		-- Not typed events
+ 		Memory_ev1(x__) = stm2::registerRead.stm2::i_ev1?x__ -> Memory_ev1(x__) [] get_ev1!x__ -> Memory_ev1(x__)
+ 		Memory_ev2(x__) = stm2::registerRead.stm2::i_ev2?x__ -> Memory_ev2(x__) [] get_ev2!x__ -> Memory_ev2(x__)
+
+ 		Memory = Memory_x(0) ||| Memory_ev1(false) ||| Memory_ev2(false)
+ 		
+ 	within	
+		((ReadInputs ; S0) 
+		[| {|get_x,get_z,
+			stm2::registerRead,stm2::registerWrite.stm2::o_x,
+			 stm2::registerRead.stm2::i_ev1, stm2::registerRead.stm2::i_ev2,
+			 get_ev1, get_ev2
+		|} |] Memory) \ {| get_x, get_ev1, get_ev2 |}
+
+csp-end
+
+assertion STM0_A0 : stm0 equals Stm0Spec in the failures divergences model
+assertion STM1_A0 : stm1 equals Stm1Spec in the failures divergences model
+assertion STM2_A0 : stm2 equals Stm2Spec in the failures divergences model
+
+csp ctr1Spec csp-begin
+
+ctr1Spec = 	Stm2Spec[[stm2::registerRead.stm2::i_x.x__ 		<- ctr1::registerRead.ctr1::i_x.x__ 	| x__ <- core_int]]
+					[[stm2::registerRead.stm2::i_ev1.x__ 	<- ctr1::registerRead.ctr1::i_ev1.x__ 	| x__ <- Bool]]
+					[[stm2::registerRead.stm2::i_ev2.x__ 	<- ctr1::registerRead.ctr1::i_ev2.x__ 	| x__ <- Bool]]
+					[[stm2::registerWrite.stm2::o_x.x__ 	<- ctr1::registerWrite.ctr1::o_x.x__ 	| x__ <- core_int]]
+					[[stm2::registerWrite.stm2::o_op1.x__ 	<- ctr1::registerWrite.ctr1::o_op1.x__ 	| x__ <- core_nat]]
+					[[stm2::endexec <- ctr1::endexec]]
+
+csp-end
+
+assertion CTR1_A0 : ctr1 equals ctr1Spec in the failures divergences model
+
+csp ctr0Spec csp-begin
+
+ctr0Spec = 
+	let
+		Memory_x(x__) = stm0::registerRead.stm0::i_x!x__ -> Memory_x(x__)
+						[]
+						stm1::registerRead.stm1::i_x!x__ -> Memory_x(x__)
+						[]
+						stm0::registerWrite.stm0::o_x?x__ -> Memory_x(x__)
+						[]
+						stm1::registerWrite.stm1::o_x?x__ -> Memory_x(x__)
+		
+		Memory_z(z__) = stm0::registerRead.stm0::i_z!z__ -> Memory_z(z__)
+						[]
+						stm1::registerRead.stm1::i_z!z__ -> Memory_z(z__)
+						[]
+						stm0::registerWrite.stm0::o_z?z__ -> Memory_z(z__)
+						[]
+						stm1::registerWrite.stm1::o_z?z__ -> Memory_z(z__)
+						
+		Memory = Memory_x(0) ||| Memory_z(0)
+		
+		MemSync = {| stm1::registerRead.stm1::i_x,stm1::registerRead.stm1::i_z,
+				  stm1::registerWrite.stm1::o_x,stm1::registerWrite.stm1::o_z,
+				  stm0::registerRead.stm0::i_x,stm0::registerRead.stm0::i_z,
+				  stm0::registerWrite.stm0::o_x,stm0::registerWrite.stm0::o_z
+				  |}
+				  
+		cycle = (ctr0::registerRead.ctr0::i_ev3?x__ -> SKIP |||
+				 ctr0::registerRead.ctr0::i_ev5?x__ -> SKIP) ; Outputs
+				
+		Outputs = (ctr0::registerWrite?x:ctr0::RegisterDataOutput -> Outputs [] ctr0::endexec -> wait(1) ; cycle)
+	within
+		(((Stm1Spec[[stm1::registerRead.stm1::i_ev5.x__ 	<- ctr0::registerRead.ctr0::i_ev3.x__ 	| x__ <- Bool]]
+				   [[stm1::registerWrite.stm1::o_ev2 		<- ctr0::registerWrite.ctr0::o_ev2]]
+				   [[stm1::endexec <- ctr0::endexec]])
+			[| {|ctr0::endexec,tock|} |]
+		   (Stm0Spec
+		   		 	[[stm0::registerWrite.stm0::o_ev0 		<- ctr0::registerWrite.ctr0::o_ev0]]
+				 	[[stm0::registerWrite.stm0::o_op1.x__ 	<- ctr0::registerWrite.ctr0::o_op1.x__ 	| x__ <- core_nat]]
+				 	[[stm0::registerWrite.stm0::o_op2 		<- ctr0::registerWrite.ctr0::o_op2]]
+				 	[[stm0::endexec <- ctr0::endexec]])) 
+			[| MemSync |] 
+			Memory) \ MemSync [| diff({| ctr0::registerRead,ctr0::registerWrite,ctr0::endexec,tock |},{|ctr0::registerRead.ctr0::i_ev5|}) |] cycle
+
+csp-end
+
+assertion CTR0_A0 : ctr0 equals ctr0Spec in the failures divergences model
+
+csp modSpec csp-begin
+
+channel ev2_reset
+
+modSpec =
+	let
+		ReadInputs = ev2_reset -> ((mod::registerRead.mod::i_ev1?x__ -> SKIP) |||
+					 			   (mod::registerRead.mod::i_ev3?x__ -> SKIP))
+					 
+		cycle 	= ReadInputs ; Outputs
+		Outputs = (mod::registerWrite?x:mod::RegisterDataOutput -> Outputs [] mod::endexec -> cycle)
+		
+		Memory_x(x__) 	= mod::registerWrite.mod::o_x?x__ -> Memory_x(x__) [] ctr1::registerRead.ctr1::i_x!x__ -> Memory_x(x__)
+		
+		-- No z variable, as in this example it is actually defined in ctr0
+		
+		Memory_ev2(x__) = ctr1::registerRead.ctr1::i_ev2!x__ -> Memory_ev2(x__) 
+						  []
+						  ctr0::registerWrite.ctr0::o_ev2 -> Memory_ev2(true)
+						  []
+						  ev2_reset -> Memory_ev2(false)
+		
+		Memory = Memory_x(0) ||| Memory_ev2(false) 
+		
+		MemSync = {|mod::registerWrite.mod::o_x,
+					ctr0::registerWrite.ctr0::o_ev2,ctr1::registerRead.ctr1::i_ev2,ctr1::registerRead.ctr1::i_x|}
+	within
+		(
+			((ctr0Spec[[ctr0::registerRead.ctr0::i_ev5.x__ 	<- mod::registerRead.mod::i_ev3.x__ 	| x__ <- Bool]]
+					  [[ctr0::registerWrite.ctr0::o_ev0 	<- mod::registerWrite.mod::o_ev0]]
+					  [[ctr0::registerWrite.ctr0::o_op1.x__ <- mod::registerWrite.mod::o_op1.x__ 	| x__ <- core_nat]]
+					  [[ctr0::registerWrite.ctr0::o_op2		<- mod::registerWrite.mod::o_op2 		| x__ <- core_nat]]
+					  [[ctr0::endexec <- mod::endexec]]\{| ctr0::registerRead.ctr0::i_ev3 |}
+			  [| {| tock, mod::endexec |} |]
+			  ctr1Spec[[ctr1::registerRead.ctr1::i_ev1.x__ 	<- mod::registerRead.mod::i_ev1.x__ 	| x__ <- Bool]]
+			  		  [[ctr1::registerWrite.ctr1::o_x.x__	<- mod::registerWrite.mod::o_x.x__ 		| x__ <- core_int]]
+			  		  [[ctr1::registerWrite.ctr1::o_op1.x__ <- mod::registerWrite.mod::o_op1.x__ 	| x__ <- core_nat]]
+					  [[ctr1::registerWrite.ctr1::o_op2		<- mod::registerWrite.mod::o_op2 		| x__ <- core_nat]]
+					  [[ctr1::endexec <- mod::endexec]]
+			)
+			 [| MemSync |]
+			 Memory) \ diff(MemSync,{|mod::registerWrite|}) 
+			[| {|mod::registerRead,mod::registerWrite,mod::endexec,ev2_reset|} |] 
+			cycle
+		) \ {|ev2_reset, mod::endexec|}
+
+csp-end
+
+assertion mod_A0 : mod equals modSpec in the failures divergences model
+
+//assertion rcp : sim(mod) equals modSpec in the failures divergences model

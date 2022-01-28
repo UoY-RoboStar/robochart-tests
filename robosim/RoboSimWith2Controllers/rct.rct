@@ -1,0 +1,25 @@
+interface IEvents {
+	event In
+}
+
+module modu {
+	
+	cref ct=CT
+	
+	robotic platform rp {
+		uses IEvents
+	}
+	
+	connection rp on In to ct on In ( _async )
+	
+}
+
+controller CT {
+	uses IEvents
+	
+	stm STM {
+		initial i
+		state S0 {}
+		transition T0 { from i to S0 }
+	}
+} 

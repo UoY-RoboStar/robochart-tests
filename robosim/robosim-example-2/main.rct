@@ -1,0 +1,7 @@
+package M
+diagram main
+
+interface IEvents {
+	event In
+	event Out
+}

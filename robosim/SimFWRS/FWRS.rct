@@ -1,0 +1,123 @@
+interface MovementI{ 
+	move( ls : real , av : real)
+	stop()
+}
+
+interface ObstacleI{ 
+	
+
+event obstacle 
+
+}
+
+stm SMovement{
+	
+	const lv: real
+	const PI : real
+	const av: real
+	clock MBC
+	
+	
+	uses ObstacleI
+	requires MovementI 
+	
+	initial i0
+	junction j0
+	junction j1
+	
+	
+	state SMoving {
+		entry move(lv,0)
+	}
+
+	state DMoving {
+		
+	}
+	
+	state STurning {
+		entry move(0,av)
+	}
+	
+	state DTurning {
+		
+	}
+	
+	transition t0{
+			from i0 to SMoving
+		}
+		
+	transition  SMoving_to_DMoving {  
+			from SMoving to DMoving
+		}
+		
+	transition tid2 {
+		from DMoving
+		to j1
+	}	
+		
+
+	
+	transition tid7 {
+		from j1
+		to DMoving
+		
+		
+	}
+	
+	transition j1_to_STurning { 
+		from j1
+		to STurning
+		action #MBC ; stop()
+	}
+	
+		
+	transition tid3{ 
+			from STurning 
+			to DTurning
+	}
+	
+	transition tid4 {
+		from DTurning
+		to j0
+	}
+	
+	
+	transition tid6 {
+		from j0
+		to DTurning
+		condition 
+		 since ( MBC ) < PI / av
+	}
+	transition tid5 {
+		from j0
+		to SMoving
+		condition since ( MBC ) >= PI / av
+	}
+	
+}
+
+
+
+
+module CFootBot {
+
+	robotic platform FootBot {
+		provides MovementI
+		uses ObstacleI
+	}
+	
+	cref ctrl_ref0 = Movement
+	connection FootBot on obstacle to ctrl_ref0 on obstacle
+( _async )
+}
+
+
+controller Movement {
+
+	requires MovementI
+	uses ObstacleI
+	sref stm_ref0 = SMovement
+	
+	
+connection Movement on obstacle to stm_ref0 on obstacle
+}

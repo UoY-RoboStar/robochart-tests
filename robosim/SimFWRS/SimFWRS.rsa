@@ -1,0 +1,45 @@
+import Sim::*
+csp Spec csp-begin
+
+Spec = 
+	let
+		-- constants
+		lv = 1
+		PI = 1
+		av = 1
+		
+		cycle = 1
+		
+		Behaviour = Sim::SMovement::registerRead.Sim::SMovement::i_obstacle?x__
+						-> SMoving
+		
+		SMoving = Sim::SMovement::registerWrite.Sim::SMovement::o_move.lv.0
+							-> DMoving(false)
+							
+		DMoving(obs) = Sim::SMovement::endexec -> wait(cycle) ;
+						Sim::SMovement::registerRead.Sim::SMovement::i_obstacle?obs ->
+							(if obs == true then Sim::SMovement::registerWrite.Sim::SMovement::o_stop -> STurning(0)
+											else DMoving(false)
+							) 
+							
+		STurning(count) = Sim::SMovement::registerWrite.Sim::SMovement::o_move.0.av -> DTurning(count)
+		
+		DTurning(count) = Sim::SMovement::endexec -> wait(cycle) ; 
+							let 
+								newCount = count+cycle
+							within
+								Sim::SMovement::registerRead.Sim::SMovement::i_obstacle?x__ ->
+								(if newCount < PI/av then DTurning(newCount)
+												  else SMoving
+								)
+						
+	within
+		Behaviour
+		
+csp-end
+
+assertion A0 : SMovement equals Spec in the failures divergences model 
+								with 
+									constant lv of SMovement set to 1
+									and constant PI of SMovement set to 1
+

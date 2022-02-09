@@ -1,0 +1,169 @@
+diagram main interface IwaitOP {
+	waitOp ( i : nat )
+}
+
+
+
+operation waitOp ( i : nat
+) {
+	initial i0
+	state s0 { }
+	final f0
+	transition t0 {
+		from i0
+		to s0
+	}
+	transition t1 {
+		from s0
+		to f0
+		condition sinceEntry ( s0 ) == i
+	}
+}
+
+operation waitInterval ( m : nat
+, n : nat
+) {
+	requires IwaitOP initial i0
+	junction j0
+	final f0
+	transition t0 {
+		from i0
+		to j0
+		action # C
+	}
+	transition t1 {
+		from j0
+		to f0
+		condition since ( C ) >= m
+	}
+	transition t2 {
+		from j0
+		to j0
+		condition since ( C ) < n
+		action waitOp ( 1 )
+	}
+	clock C
+}
+
+operation waitIntervalO ( m : nat
+, n : nat
+) {
+	initial i0
+	junction j0
+	final f0
+	transition t0 {
+		from i0
+		to j0
+		# C
+	}
+	transition t1 {
+		from j0
+		to f0
+		condition since ( C ) >= m
+	}
+	transition t2 {
+		from j0
+		to j0
+		condition since ( C ) < n
+		action wait ( 1 )
+	}
+	clock C
+}
+
+
+interface IWait {
+	waitOp ( i : nat )
+	waitInterval ( m : nat , n : nat )
+}
+
+interface IEvents {
+	event ev1
+}
+
+interface IVars {
+	var x : nat
+}
+
+interface IOps {
+	opSkip ( )
+}
+
+controller ctrl0 {
+	uses IEvents requires IVars
+	
+	opref op_ref0 = opSkip
+	stm stm0 {
+		requires IVars 
+		
+		initial i0
+		state s0 {
+			initial i0
+			state s0 {
+			}
+			final f0
+			transition t0 {
+				from i0
+				to s0
+			}
+			transition t1 {
+				from s0
+				to f0
+				action x = 1 ; ev1
+			}
+			during opSkip ( )
+		}
+		uses IEvents requires IOps
+		
+		transition t0 {
+			from i0
+			to s0
+		}
+	}
+
+	connection stm0 on ev1 to ctrl0 on ev1
+}
+
+controller ctrl1 {
+	stm stm0 {
+		initial i0
+		junction j0
+		state s0 {
+		}
+		transition t0 {
+			from i0
+			to j0
+		}
+		transition t1 {
+			from j0
+			to s0
+			action x = 1 ; ev1
+		}
+	uses IEvents requires IVars }
+
+	uses IEvents requires IVars connection stm0 on ev1 to ctrl1 on ev1
+}
+
+controller ctrl2 {
+	uses IEvents opref op_ref0 = opSkip
+	stm stm0 {
+		uses IEvents requires IOps initial i0
+		final f0
+		transition t0 {
+			from i0
+			to f0
+			action opSkip ( )
+		}
+	}
+
+	connection stm0 on ev1 to ctrl2 on ev1
+}
+
+operation opSkip ( ) {
+	uses IEvents initial i0
+	final f0
+	transition t0 {
+		from i0
+		to f0
+	}
+}
+

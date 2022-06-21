@@ -19,6 +19,16 @@ operation waitOp ( i : nat
 		condition sinceEntry ( s0 ) == i
 	}
 }
+ 
+operation opA() {
+				initial I
+				state S { }
+				
+				transition t {
+					from I to S
+					condition sinceEntry(S) > 0
+				} 
+			}
 
 operation waitInterval ( m : nat
 , n : nat

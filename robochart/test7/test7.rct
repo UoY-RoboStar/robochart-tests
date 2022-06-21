@@ -1,5 +1,4 @@
 package test7
-
 module M {
 	robotic platform RP {
 		event a
@@ -7,7 +6,7 @@ module M {
 	}
 	
 	controller C {
-		event c
+		event c 
 		event d
 		stm S {
 			event e

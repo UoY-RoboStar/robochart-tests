@@ -1,0 +1,13 @@
+package test1_assertions 
+
+
+assertion A1: test1::S1 equals test2::S2
+
+
+untimed csp Spec2 csp-begin
+	Spec2 = test3::S3::input.in?x ->
+			if (x == (1, 1)) then test3::S3::output.out.(2, -1) -> test3::S3::outputN.out.0 -> test3::S3::terminate -> SKIP
+			else test3::S3::output.out$v1 -> test3::S3::outputN.out$v2 -> test3::S3::terminate -> SKIP
+csp-end
+
+untimed assertion A2: test3::S3 refines Spec2

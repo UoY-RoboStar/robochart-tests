@@ -1,5 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<viewpoint:DAnalysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" uid="_wh_ioF7mEeqN36X6lbQrZQ" version="14.3.0.201909031200">
-  <semanticResources>test7.assertions</semanticResources>
+<viewpoint:DAnalysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" uid="_wh_ioF7mEeqN36X6lbQrZQ" version="14.5.1.202106111100">
   <semanticResources>test7.rct</semanticResources>
+  <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/sequence_toolkit.rct</semanticResources>
+  <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/core.rct</semanticResources>
+  <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/relation_toolkit.rct</semanticResources>
+  <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/set_toolkit.rct</semanticResources>
+  <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/function_toolkit.rct</semanticResources>
+  <semanticResources>test75.assertions</semanticResources>
+  <semanticResources>normalForm/4/robochart/test7.rct</semanticResources>
+  <semanticResources>normalForm/5/robochart/test7.rct</semanticResources>
+  <semanticResources>normalForm/6/robochart/test7.rct</semanticResources>
+  <semanticResources>normalForm/7/robochart/test7.rct</semanticResources>
+  <semanticResources>normalForm/7/openMachine/S_rc_openstm.C2S</semanticResources>
+  <semanticResources>platform:/plugin/circus.robocalc.robosim.textual/lib/robosim/score.rst</semanticResources>
+  <semanticResources>normalForm/8/openMachine/S_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/9/openMachine/S_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/10/robochart/test7.rct</semanticResources>
+  <semanticResources>normalForm/10/openMachine/S_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/11/robochart/test7.rct</semanticResources>
+  <semanticResources>normalForm/11/openMachine/S_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/11/openMachine/tStop_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/11/openMachine/deadlineCheck_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/11/openMachine/Waiting_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/11/openMachine/waitOp_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/11/openMachine/waitInterval_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/12/robochart/test7.rct</semanticResources>
+  <semanticResources>normalForm/12/openMachine/S_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/12/openMachine/tStop_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/12/openMachine/deadlineCheck_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/12/openMachine/Waiting_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/12/openMachine/waitOp_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/12/openMachine/waitInterval_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/13/robochart/test7.rct</semanticResources>
+  <semanticResources>normalForm/13/openMachine/S_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/13/openMachine/tStop_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/13/openMachine/deadlineCheck_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/13/openMachine/Waiting_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/13/openMachine/waitOp_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/13/openMachine/waitInterval_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/14/robochart/test7.rct</semanticResources>
+  <semanticResources>normalForm/14/openMachine/S_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/14/openMachine/tStop_rc_openstm.C2S</semanticResources>
+  <semanticResources>normalForm/14/openMachine/deadlineCheck_rc_openstm.C2S</semanticResources>
 </viewpoint:DAnalysis>

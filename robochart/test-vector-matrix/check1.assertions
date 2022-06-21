@@ -1,0 +1,12 @@
+package test1_assertions 
+
+import test1::*
+
+untimed csp Spec1 csp-begin
+	Spec1 = test1::stm0::input.in?x ->
+			if (x == (1, 1)) then test1::stm0::output.out.(2, -1) -> test1::stm0::outputN.out.0 -> test1::stm0::terminate -> SKIP
+			else test1::stm0::output.out$v1 -> test1::stm0::outputN.out$v2 -> test1::stm0::terminate -> SKIP
+csp-end
+
+assertion S1: stm0 refines Spec1 
+ 

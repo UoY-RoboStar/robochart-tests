@@ -1,30 +1,17 @@
 package test1
 
-function f(m:matrix(int,2,2)): int {
-	
-}
-
-import sequence_toolkit::* 
-
-stm stm0 {
+stm S1 {
 	const RotM90 : matrix ( int , 2 , 2 ) = [|0, -1; 1, 0|]
 	const TransV: vector (int, 2) = [|1,1|]
 	var aux : vector ( int , 2 )
-	var aux1 : matrix ( int , 2 , 2 )
-	var foo: int
-	var bar: vector ( int , 2 )
 	event input : vector ( int , 2 )
 	event output : vector ( int , 2 )
-	event outputN: int
-	event test: Seq(int)
-	var tmp: Seq(int) = <0>
-	var tmpN: int
 	initial i0
 	state s0 {
 		
-	} 
+	}
 	state s1 {
-		entry aux = aux + TransV; output!aux; outputN!foo
+		entry aux = aux + TransV; output!aux
 	} 
 	final f0
 	transition t0 {
@@ -32,12 +19,12 @@ stm stm0 {
 		to s0
 	}
 	transition t1 {
-		from s1 
-		to f0  
+		from s1
+		to f0 
 	}
 	transition t2 {
 		from s0 to s1
 		trigger input?aux
-		action aux = RotM90*aux; aux = -aux; aux = aux+aux; foo = f(RotM90) + aux*aux
+		action aux = RotM90*aux
 	}
-} 
+}

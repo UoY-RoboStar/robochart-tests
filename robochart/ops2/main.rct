@@ -4,7 +4,7 @@ diagram main interface IwaitOP {
 
 
 
-operation waitOp ( i : nat
+operation waitOp ( i : nat 
 ) {
 	initial i0
 	state s0 {

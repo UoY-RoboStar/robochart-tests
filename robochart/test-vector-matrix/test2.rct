@@ -1,7 +1,7 @@
 package test2
 
-diagram test1 stm stm0 {
-	const HM90 : matrix ( int , 3 , 3 ) = [|0, 1, 0; -1, 0, 0; 1, 1, 1|]
+stm S2 {
+	const HM90 : matrix ( int , 3 , 3 ) = [|0, -1, 1; 1, 0, 1; 0, 0, 1|]
 	var aux : vector ( int , 2 )
 	var haux: vector (int, 3)
 	event input : vector ( int , 2 )
@@ -25,6 +25,6 @@ diagram test1 stm stm0 {
 	transition t2 {
 		from s0 to s1
 		trigger input?aux
-		action haux = [|aux[1],aux[2],1|] 
-	}	
+		action haux = [|aux[1],aux[2],0|]; haux[3] = 1 
+	}	 
 }

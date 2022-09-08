@@ -1,0 +1,29 @@
+
+csp Spec csp-begin
+
+Timed(OneStep) {
+	
+	Behaviour = StartBy(Sim::mod0::registerRead.Sim::mod0::i_inputx?b?v ->
+					if b == true then
+						Deadline(Sim::mod0::registerWrite.Sim::mod0::o_opC!Plus(2,v,core_nat) -> SKIP,0) 
+					else
+						WAIT(1) ; Behaviour
+					,0)
+	
+	Spec = timed_priority(Behaviour)
+	
+}
+
+Spec__sem__events = {|Sim::mod0::registerRead,Sim::mod0::registerWrite|}
+
+csp-end
+
+simulation SimRC of mod0 {
+	cycleDef { cycle == 1 }
+}
+
+assertion A0 : Spec equals Sim::mod0
+assertion A1 : Spec equals Sim::mod0 in the tick-tock model
+
+assertion A2 : Sim::mod0 equals SimRC
+assertion A3 : Sim::mod0 equals SimRC in the tick-tock model

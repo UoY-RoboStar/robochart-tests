@@ -1,0 +1,13 @@
+
+timed csp Spec csp-begin
+
+Timed(OneStep) {
+	Spec = timed_priority(mod0::inputx.in?r -> Deadline(mod0::opCCall.Plus(2,r,core_nat) -> SKIP,0))
+}
+
+Spec__sem__events = {|mod0::inputx,mod0::opCCall|}
+
+csp-end
+
+timed assertion A0: mod0 equals Spec
+timed assertion A1: mod0 equals Spec in the tick-tock model

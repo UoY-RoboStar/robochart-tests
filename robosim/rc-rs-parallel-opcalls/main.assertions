@@ -1,0 +1,32 @@
+timed csp RCSpec associated to RCctrl0 csp-begin
+
+RCSpec = RCctrl0::out1.out.0 -> STOP ||| RCctrl0::out2.out.1 -> STOP
+
+csp-end
+
+timed csp RCStmSpec associated to RCctrl0 csp-begin
+
+RCStmSpec = RCctrl0::stm_ref0::out1.out.0 -> STOP ||| RCctrl0::stm_ref0::out2.out.1 -> STOP
+
+csp-end
+
+// In RoboChart, the controller is exactly the parallelism as specified by RCSpec.
+// In RoboSim, as seen in main.rsa the refinement does not hold both ways.
+timed assertion A0 : RCctrl0 refines RCSpec
+timed assertion A1 : RCSpec refines RCctrl0
+
+// Similarly, both controller and state machine are deterministic.
+timed assertion A2 : RCctrl0::stm_ref0 is deterministic
+timed assertion A3 : RCctrl0 is deterministic
+
+// And we do not have traces with repeated outputs.
+timed csp Forbidden1 associated to RCctrl0 csp-begin
+Forbidden1 = RCctrl0::out1.out.0 -> RCctrl0::out2.out.0 -> STOP
+csp-end
+
+timed csp Forbidden2 associated to RCctrl0 csp-begin
+Forbidden2 = RCctrl0::out1.out.1 -> RCctrl0::out2.out.1 -> STOP
+csp-end
+
+timed assertion A4 : Forbidden1 does not refine RCctrl0 in the traces model
+timed assertion A5 : Forbidden2 does not refine RCctrl0 in the traces model

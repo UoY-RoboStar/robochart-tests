@@ -1,0 +1,50 @@
+timed csp Spec associated to ctrl0 csp-begin
+
+Spec = ctrl0::registerWrite.ctrl0::o_out1.0 -> STOP ||| ctrl0::registerWrite.ctrl0::o_out2.1 -> STOP
+
+csp-end
+
+timed csp StmSpec associated to ctrl0 csp-begin
+
+StmSpec = ctrl0::stm_ref0::registerWrite.ctrl0::stm_ref0::o_out1.0 -> STOP ||| ctrl0::stm_ref0::registerWrite.ctrl0::stm_ref0::o_out2.1 -> STOP
+
+csp-end
+
+// Interestingly the following refinement (Spec [FD= ctrl0) does not hold. Although
+// there is a parallelism in the state machine, when the registerWrite
+// is passed to the controller, whichever takes place first (and this
+// is an internal choice of the state machine) must be output first
+// by the controller, before the next registerWrite.
+timed assertion A0 : ctrl0 does not refine Spec
+// But Spec refines ctrl0, so the parallelism refines the
+// behaviour of the RoboSim controller ctrl0.
+timed assertion A1 : Spec refines ctrl0
+
+// Effectively the state machine is deterministic, but not the controller!
+timed assertion A2 : ctrl0::stm_ref0 is deterministic
+timed assertion A3 : ctrl0 is not deterministic
+
+timed assertion A5 : ctrl0::stm_ref0 equals StmSpec
+
+// And we do not have traces with repeated outputs.
+timed csp SimForbidden1 associated to ctrl0 csp-begin
+SimForbidden1 = ctrl0::registerWrite.ctrl0::o_out1.0 -> ctrl0::registerWrite.ctrl0::o_out2.0 -> STOP
+csp-end
+
+timed csp SimForbidden2 associated to ctrl0 csp-begin
+SimForbidden2 = ctrl0::registerWrite.ctrl0::o_out2.1 -> ctrl0::registerWrite.ctrl0::o_out1.1 -> STOP
+csp-end
+
+timed assertion A6 : SimForbidden1 does not refine ctrl0 in the traces model
+timed assertion A7 : SimForbidden2 does not refine ctrl0 in the traces model
+
+// Is the above a problem when comparing with a similar RoboChart model?
+simulation Sim of RCctrl0 {
+	cycleDef cycle == 1
+}
+
+// No, it is not, given that the conformance relation already captures this.
+timed assertion A8 : ctrl0 equals Sim
+
+// In particular, it is also non-deterministic, as expected.
+timed assertion A9 : Sim is not deterministic

@@ -1,0 +1,68 @@
+interface IRCOps {
+	opRC ( p : nat )
+	Stop ( )
+}
+
+controller RCctrl0 {
+	uses IOutputs opref op_ref0 = opRC
+	opref op_ref1 = Stop
+	sref stm_ref0 = RCstm0
+	connection stm_ref0 on out1 to RCctrl0 on out1
+	connection stm_ref0 on out2 to RCctrl0 on out2
+}
+
+stm RCstm0 {
+	initial I
+	state s0 {
+		initial i0
+		state s0 {
+			during opRC ( 0 ) ; Stop ( ) <{ 0 }
+		}
+		transition t0 {
+			from i0
+			to s0
+		}
+		during opRC ( 1 )
+	}
+
+	transition t0 {
+		from I
+		to s0
+	}
+	uses IOutputs requires IRCOps }
+
+operation opRC ( p : nat
+) {
+	uses IOutputs var x : nat
+	initial i0
+	junction j0
+	final f0
+	transition t0 {
+		from i0
+		to j0
+		action x = p
+	}
+	transition t1 {
+		from j0
+		to f0
+		condition p == 0
+		action out1 ! x <{ 0 }
+	}
+	transition t2 {
+		from j0
+		to f0
+		condition p == 1
+		action out2 ! x <{ 0 }
+	}
+}
+
+operation Stop ( ) {
+	initial i0
+	state s0 {
+	}
+	transition t0 {
+		from i0
+		to s0
+	}
+}
+

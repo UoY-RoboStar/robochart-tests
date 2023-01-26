@@ -1,0 +1,13 @@
+package test15_assertions
+
+// In this case we do not give an explicit implementation for
+// func1, so it will default to being 0 in every case.
+timed csp STMSpec associated to test15::stm0 csp-begin
+
+Timed(OneStep) {
+	STMSpec = timed_priority(test15::stm0::input.in?x -> test15::stm0::output.out!Plus(test15_DT_q(x),1,core_int) -> EDeadline(test15::stm0::terminate,0))
+}
+
+csp-end
+
+timed assertion A0: STMSpec equals test15::stm0

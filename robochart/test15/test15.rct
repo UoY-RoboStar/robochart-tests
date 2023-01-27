@@ -1,8 +1,8 @@
 package test15
 
 datatype DT {
-	p:real
 	q:nat
+	p:nat
 }
 enumeration EM {
 	EM1
@@ -22,11 +22,11 @@ stm stm0 {
 	initial i0
 	final F 
 	var t : nat
-	var i : DT
+	var i : DT = DT(|p=1|)
 	var o : EM = EM3(1)
 	 
 	state s0 {
-		exit t = func1(o); t = i.q + 1
+		exit t = func1(o); i = DT(|p=1|); t = i.p + i.q + 1 
 	}
 		
 	transition t0 {

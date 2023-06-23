@@ -1,0 +1,7 @@
+package DT
+
+function id(d:nat,p:xp,i:nat):nat {}
+
+enumeration xp {
+	null
+}

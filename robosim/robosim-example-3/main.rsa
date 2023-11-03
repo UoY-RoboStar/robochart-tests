@@ -1,0 +1,64 @@
+
+
+// An attempt at writing a little specification for the RoboSim machine to check for refinement.
+
+// NOTE: endexec is visible at the SimMachineDef level, but not startexec.
+csp STMSpec csp-begin
+
+STMSpec = (Sim::STM::registerRead.Sim::STM::i_In!false?x__   
+			-> Sim::STM::endexec 
+				-> tock -> tock 
+					-> STMSpec) 
+		[]
+	   (Sim::STM::registerRead.Sim::STM::i_In!true?y
+	   	-> Sim::STM::IncrementICall
+			-> Sim::STM::OutputCall!y
+				-> Sim::STM::endexec
+					-> tock -> tock 
+						-> STMSpec)
+
+csp-end
+
+// NOTE: endexec is visible at the SimControllerDef level, but not startexec.
+csp CTSpec csp-begin
+
+CTSpec = (Sim::CT::registerRead.Sim::CT::i_In!false?x__   
+			-> Sim::CT::endexec 
+				-> tock 
+					-> CTSpec) 
+		[]
+	   (Sim::CT::registerRead.Sim::CT::i_In!true?y
+			-> Sim::CT::registerWrite.Sim::CT::o_Out!Plus(y,1,core_nat)
+				-> Sim::CT::endexec
+					-> tock 
+						-> CTSpec)
+
+csp-end
+
+// NOTE: endexec is not visible at the SimModule level
+csp MSpec csp-begin
+
+MSpec = (Sim::M::registerRead.Sim::M::i_In!false?x__   
+				-> tock 
+					-> MSpec) 
+		[]
+	   (Sim::M::registerRead.Sim::M::i_In!true?y
+			-> Sim::M::registerWrite.Sim::M::o_Out!Plus(y,1,core_nat)
+					-> tock 
+						-> MSpec)
+
+csp-end
+
+assertion STM0 : Sim::STM equals STMSpec in the failures divergences model with cycleDef of Sim::STM set to 2
+assertion STM1 : Sim::STM is deadlock-free
+
+assertion C0 : Sim::CT equals CTSpec in the failures divergences model
+assertion C1 : Sim::CT is deadlock-free
+
+// The following is deadlock-free although we've specified incompatible cycles. This is because
+// the cycle parameter of CT is passed to STM irrespectively. Currently we do not check for
+// this kind of validation in the assertions language.
+assertion C2 : Sim::CT is deadlock-free with cycleDef of Sim::STM set to 2 and cycleDef of Sim::CT set to 1
+
+assertion M0 : Sim::M equals MSpec in the failures divergences model
+assertion M1 : Sim::M is deadlock-free

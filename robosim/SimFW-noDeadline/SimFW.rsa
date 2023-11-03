@@ -1,0 +1,263 @@
+
+// The following is taken from 'SimFW_assertions-new_assumptions.csp' and adapted
+// to be compatible with the automatically generated semantics.
+csp SimulationSpec csp-begin
+
+-----------------------------------------------------------------------------------
+-- Inputs and outputs
+-----------------------------------------------------------------------------------
+
+-- Simulations take inputs and produce outputs at the sample times. We use
+-- record types to model the set of inputs and outputs. These are global variable
+-- accesses, events and operations. Events without types become booleans.
+
+InputEvents_CFootBot = {| CFootBot::obstacle.in |}
+
+ExternalEvents_CFootBot = {| CFootBot::obstacle.in, CFootBot::moveCall |}
+
+-- So that we can use events as data, we create a data type.
+datatype InputEvents = obstacleU
+
+-- The semantics of a simulation is characterised by reads and writes to registers
+-- of the platform representing sensors and actuators. Channels registerRead and
+-- registerWrite declared below represent these interactions. They communicate
+-- records that define the value of each of the inputs and outputs.
+-- The record type for the inputs is defined below.
+nametype InEventRecord = InputEvents.Bool
+
+--------------------------------------
+
+-- The modelling of outputs is similar.
+OutputEvents_CFootBot = {| CFootBot::moveCall |}
+
+datatype OutputEvents = moveU
+ 
+datatype OutEventRecord = moveO.core_real.core_real
+
+-- We need the size of the set of output events to limit the size of the sequence
+-- of output events that occur in a cycle.
+numOutputEvents_CFootBot = 1
+
+-- OutputsEvents are no longer emitted for false
+channel registerRead: InEventRecord
+channel registerWrite: OutEventRecord
+
+-----------------------------------------------------------------------------------
+-- Is the specification schedulable?
+-----------------------------------------------------------------------------------
+
+-- To check for schedulability, we check whether the RoboChart model, when put
+-- in parallel with our assumptions, is deadlock free.  We model each assumption
+-- a process.
+--
+-- The channel terminate declared below is used to terminate the assumption
+-- processes when the RoboChart process terminates.
+channel terminate
+
+-- Relationship between the abstract and concrete input events
+A1 = (||| in__: InputEvents @ A1Event(in__))
+
+-- If, when reading the register, the input event in has value true, it means
+-- that the platform has raised this event. In this case, it may happen, as
+-- modelled by useinv(in), or it may be ignored by the software. In this case,
+-- the event does not happen.  If the value is false, it cannot happen.
+-- In addition, in a cycle, an input cannot occur more than once.
+A1Event(in__) = registerRead.in__?b -> if b
+                                   then (useinv(in__); A1Event(in__) [] A1Event(in__))
+                                   else A1Event(in__)
+TA1 = A1 /\ terminate -> SKIP
+
+useinv(obstacleU) = CFootBot::obstacle.in -> SKIP
+
+-- Optimised version
+ConstrainedSpecA1 = CFootBot::D__(0,1,1,1) [ union(ExternalEvents_CFootBot,{tock,terminate})
+                      ||
+                    union(InputEvents_CFootBot,{|registerRead,terminate|}) ] TA1
+
+A2(s) = ([] out__ : s @ read(out__) ; A2(diff(s,{out__})))
+         [] terminate -> SKIP
+         [] (wait(1); A2(OutputEvents))
+
+-- New version of TA2.
+TA2 = A2(OutputEvents)
+
+-- Mapping between OutputEvents_CFootBot and registerWrite events.
+read(moveU) = CFootBot::moveCall?x__ -> registerWrite.moveO.x__ -> SKIP
+use(moveU) = registerWrite.moveO?x__ -> SKIP
+
+ConstrainedSpecA2 = (ConstrainedSpecA1 [ union(ExternalEvents_CFootBot,{|registerRead,tock,terminate|})
+                       ||
+                     union(OutputEvents_CFootBot,{|registerWrite,terminate,tock|}) ] TA2)
+
+-- Pattern of the cycle of a simulation in the presence of possible termination.
+-- Termination is only allowed at the end of the cycle.
+-- We use here a cycle of length P.
+TA3 = (||| in__: InputEvents @ registerRead.in__?b -> SKIP);
+      (RUN(ExternalEvents_CFootBot) /\ (terminate -> SKIP [] wait(P);TA3))
+
+ConstrainedSpecA3 = ConstrainedSpecA2 [ union(ExternalEvents_CFootBot,{|registerRead,registerWrite,tock,terminate|})
+                       ||
+                    union(ExternalEvents_CFootBot,{|registerRead,tock,terminate|}) ] TA3
+
+-- The composition of all the assumptions, on their own, can be rewritten as follows.
+TA1A2A3 = (TA1 [ union(InputEvents_CFootBot,{|registerRead,terminate|})
+            ||
+            union(OutputEvents_CFootBot,{|registerWrite,terminate,tock|}) ] TA2)
+            [ union(InputEvents_CFootBot,union(OutputEvents_CFootBot,{|registerRead,registerWrite,terminate,tock|}))
+            ||
+            union(ExternalEvents_CFootBot,{|registerRead,tock,terminate|}) ] TA3
+
+-----------------------------------------------------------------------------------
+-- Counter
+-----------------------------------------------------------------------------------
+
+Index = {"C"}
+channel counterreset, stopcounter: Index
+channel readcounter: Index.{0..maxtime}
+
+Counter(i,max,p) = counterreset.i -> Count(0,i,max,p) [] endexec -> Counter(i,max,p)
+Count(n,i,max,p) = counterreset.i -> Count(0,i,max,p)
+                   []
+                   readcounter.i!n -> Count(n,i,max,p)
+                   []
+                   stopcounter.i -> Counter(i,max,p)
+                   []
+                   n < max & endexec -> Count(n+p,i,max,p)
+                   []
+                   n >= max & endexec -> Counter(i,max,p)
+
+-----------------------------------------------------------------------------------
+-- Cyclic scheduling
+-----------------------------------------------------------------------------------
+
+channel startexec, endexec
+
+TakeInputs = (||| in__: InputEvents @ registerRead.in__?x -> SKIP)
+
+ProvideOutputs = CollectOutputs(OutputEvents)
+
+CollectOutputs(sop) = ([] out__ : sop @ use(out__) ; CollectOutputs(diff(sop,{out__})))
+                      [] endexec -> SKIP
+
+Cycle(p) = TakeInputs;
+          startexec -> ProvideOutputs;
+          ((wait(p); Cycle(p)) [] terminate -> SKIP)
+          
+-----------------------------------------------------------------------------------
+-- Simulation specifications
+-----------------------------------------------------------------------------------
+
+-- A limit to the value of the counters just to enable model checking.
+maxtime = 3
+
+-- Cycle period.
+P = 1
+
+-- Memory channels for get_obstacle
+channel get_obstacle : Bool
+
+-- This defines a generic simulation specification that can be parameterised
+SimSpec(stm__) = (Cycle(P)
+                  [| {| registerRead,registerWrite,startexec,endexec,terminate |} |]
+                 (stm__ [| {| get_obstacle |} |] Memory)\{|get_obstacle|}) \ {| startexec,endexec,terminate |}
+
+Memory = Memory_obstacle(false)
+
+Memory_obstacle(x__) = get_obstacle!x__ -> Memory_obstacle(x__) [] registerRead.obstacleU?x__ -> Memory_obstacle(x__)
+
+-- This is needed to give time priority over internal events. In this case, of
+-- a deterministic model that does not terminate, it has no effect as proven
+-- below. However, the analysis, strictly speaking, should use this process PSimSpec.
+SimulationSpec = prioritise(SimSpec(TimedSTM),<{},{tock}>)          
+
+-- Top-level specification of simulation machine
+TimedSTM = (STM [| {| counterreset,readcounter,stopcounter,endexec,terminate |} |] Counters) \ {| counterreset,readcounter,stopcounter |}
+
+-- Clocks
+Counter1 = Counter("C",maxtime,P)
+
+Counters = Counter1 /\ terminate -> SKIP
+
+-----------------------------------------------------------------------------------
+-- The machine
+-----------------------------------------------------------------------------------
+
+-- Behaviours
+STM = let
+
+		-- Constants
+		SMovement_lv = 1
+		SMovement_av = 1
+		SMovement_PI = 1
+	
+		Initial = startexec -> StartMoving  -- Wait for the first transition
+
+		StartMoving = registerWrite!moveO.SMovement_lv.0 ->
+     	         DMoving
+
+		DMoving = endexec -> startexec -> get_obstacle?ob -> (if (not ob)
+                                              then DMoving
+                                              else -- obstacle ->
+                                              counterreset."C" -> STurning)
+		-- The input events are generated here because this is the point where the software agrees to accept the input.
+
+		STurning = registerWrite!moveO.0.SMovement_av
+      	     -> DTurning
+
+		DTurning = endexec -> startexec -> (readcounter."C"?t -> if (t < SMovement_PI/SMovement_av)
+                                        then DTurning
+                                        else (stopcounter."C" -> StartMoving))
+    within
+    	Initial
+
+-----------------------------------------------------------------------------------
+-- Renaming functions for refinement
+-----------------------------------------------------------------------------------
+
+csp-end
+
+simulation SimFootBot of CFootBot {
+	cycleDef cycle==1
+}
+
+// We need to rename the events of the manually written specification to match those
+// of the automatically generated simulation SimFootBot.
+csp SimulationSpecSimFootBot csp-begin
+
+SimulationSpecSimFootBot
+=	SimulationSpec[[ registerWrite.moveO.x__.y__ <- SimFootBot::registerWrite.SimFootBot::o_move.x__.y__ | x__ <- core_real, y__ <- core_real ]]
+				  [[ registerRead.obstacleU.x__ <- SimFootBot::registerRead.SimFootBot::i_obstacle.x__ | x__ <- Bool ]]                   
+
+csp-end
+
+// The following is a renaming to compare with the automatically generated RoboSim
+// semantics.
+csp SimulationSpec_for_RoboSim csp-begin
+
+SimulationSpec_for_RoboSim
+=	SimulationSpec[[ registerWrite.moveO.x__.y__ <- Sim::CFootBot::registerWrite.Sim::CFootBot::o_move.x__.y__ | x__ <- core_real, y__ <- core_real ]]
+				  [[ registerRead.obstacleU.x__ <- Sim::CFootBot::registerRead.Sim::CFootBot::i_obstacle.x__ | x__ <- Bool ]]                   
+
+csp-end
+
+// Does the manually written SimulationSpec, correspond to the automatically calculated
+// simulation (with the assumptions) over the RoboChart model CFootBot?
+assertion A0 : SimFootBot equals SimulationSpecSimFootBot in the failures divergences model
+	with constant lv of Movement::SMovement set to 1,
+		 constant PI of Movement::SMovement set to 1,
+	and	 cycleDef of SimFootBot set to 1
+	
+assertion A1 : SimulationSpec_for_RoboSim equals Sim::CFootBot in the failures divergences model
+	with constant lv of Sim::Movement::SMovement set to 1,
+		 constant PI of Sim::Movement::SMovement set to 1,
+	and  cycleDef of Sim::CFootBot set to 1
+	 
+// Finally, the Simulation obtain from RoboChart is the same as that defined in RoboSim directly.
+assertion A2 : SimFootBot equals Sim::CFootBot in the failures divergences model
+	with constant lv of Sim::Movement::SMovement set to 1,
+		 constant PI of Sim::Movement::SMovement set to 1,
+		 constant lv of Movement::SMovement set to 1,
+		 constant PI of Movement::SMovement set to 1,
+		 cycleDef of SimFootBot set to 1
+	and	 cycleDef of Sim::CFootBot set to 1
+// Does SimulationSpec 

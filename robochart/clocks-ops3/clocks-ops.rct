@@ -1,0 +1,122 @@
+
+ 
+
+interface IEvents {
+	event o : nat
+	event i : nat
+}
+
+interface POps {
+	opO(i:nat)	
+}
+
+interface COps {
+	opO(i:nat)	
+}
+
+interface OOp {
+	opO(i:nat)
+}
+
+interface IVars {
+	const x1 : IType
+} 
+
+interface IOpB {  
+	opB ( )   
+} 
+   
+interface IOpA {
+	opA ( )      
+} 
+
+interface IClocks {
+	clock C
+}
+
+module M {
+	
+	robotic platform RP {
+		uses IEvents
+		provides POps
+	}
+	 
+	controller C {  
+	  requires COps
+	  
+	stm STM {
+	
+		requires OOp
+		initial I
+		state S0 { entry opA ( )
+		}
+		transition T0 { from I to S0 }
+		
+	uses IEvents requires IOpA clock C
+	}
+	
+	uses IEvents 
+	opref op_ref0 = opA
+	opref op_ref1 = opB  
+	opref op_ref2 = opC 
+		
+		connection C on i to STM on i
+		connection STM on o to C on o 
+	}  
+	connection RP on i to C on i ( _async )
+	connection C on o to RP on o ( _async )
+}
+
+interface IOpC {
+	opC ( i:IType, n:nat )
+}
+
+enumeration IType { L1 L2 }  
+     
+
+
+
+
+operation opA ( ) {
+	requires OOp
+	requires IOpB 
+	const x1 : IType
+	event o : nat
+	initial i0
+	final f0
+	transition t0 {
+		from i0
+		to f0
+		action opB ( )
+	}
+requires IClocks }
+
+operation opB ( ) {
+	requires OOp
+	requires IVars 
+	requires IOpC
+	const x2 : nat
+	event o : nat
+	initial i0
+	final f0
+	transition t0 {
+		from i0
+		to f0
+		action opC(x1,x2)
+	}
+}
+
+operation opC ( i:IType, n:nat ) {
+	requires OOp
+	const x2 : nat
+	event o : nat
+	initial i0
+	final f0
+	transition t0 {
+		from i0
+		to f0
+		action opO(IType2nat(i) + n + x2)
+	}
+}
+
+function IType2nat(i:IType):nat {}

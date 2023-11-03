@@ -1,0 +1,27 @@
+
+// An attempt at writing a little specification for the RoboSim machine to check for refinement.
+
+csp Spec csp-begin
+
+channel get_x, set_x : core_nat
+channel terminate
+
+Spec =  
+	let  
+		p = 1
+		
+		Spec = Mod0::registerRead.Mod0::i_a?true -> Read [] Mod0::registerRead.Mod0::i_a?false -> wait(p) ; Spec
+		
+		Read = wait(p) ; ReadInputs ; Mod0::registerWrite.Mod0::o_b -> wait(p) ; Deadlock
+		
+		ReadInputs = Mod0::registerRead.Mod0::i_a?b__ -> SKIP
+		
+		Deadlock = ReadInputs ; wait(p) ; Deadlock
+		
+	within
+		Spec
+
+csp-end 
+
+assertion A0 : Mod0 equals Spec in the failures divergences model
+

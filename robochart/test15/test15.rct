@@ -1,0 +1,44 @@
+package test15
+
+datatype DT {
+	q:nat
+	p:nat
+}
+enumeration EM {
+	EM1
+	EM2(real)
+	EM3(nat)
+}
+
+function func1(e:EM): nat { }
+
+interface IEvents {
+	event input:DT
+	event output:nat
+}
+
+stm stm0 {
+	uses IEvents
+	initial i0
+	final F 
+	var t : nat
+	var i : DT = DT(|p=0|)
+	var o : EM = EM3(1)
+	 
+	state s0 {
+		exit t = func1(o); i = DT(|p=1,q=i.q|); t = i.p + i.q + 1 
+	}
+		
+	transition t0 {
+		from i0
+		to s0
+	}
+
+	transition t1 {
+		from s0
+		to F
+		trigger input?i
+		action output!t
+	}
+}
+

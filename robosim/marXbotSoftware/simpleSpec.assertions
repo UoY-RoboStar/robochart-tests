@@ -1,0 +1,83 @@
+csp Instantiations csp-begin
+
+-- generate const_Simulation_SMMovement_PI
+const_Simulation_SMMovement_PI = 1
+-- generate const_Simulation_SMMovement_lvel
+const_Simulation_SMMovement_lvel = 1
+-- generate const_Simulation_SMMovement_avel
+const_Simulation_SMMovement_avel = 1
+-- generate const_SMMovement_lvel
+const_SMMovement_lvel = 1
+-- generate const_SMMovement_avel
+const_SMMovement_avel = 1
+-- generate const_SMMovement_PI
+const_SMMovement_PI = 1
+-- generate const_Simulation_Movement_stm_ref0_PI
+const_Simulation_Movement_stm_ref0_PI = 1
+-- generate const_Simulation_Movement_stm_ref0_lvel
+const_Simulation_Movement_stm_ref0_lvel = 1
+-- generate const_Simulation_Movement_stm_ref0_avel
+const_Simulation_Movement_stm_ref0_avel = 1
+-- generate const_Movement_stm_ref0_lvel
+const_Movement_stm_ref0_lvel = 1
+-- generate const_Movement_stm_ref0_avel
+const_Movement_stm_ref0_avel = 1
+-- generate const_Movement_stm_ref0_PI
+const_Movement_stm_ref0_PI = 1
+
+-- generate Plus
+Plus(e1,e2,T) = if member(e1+e2,T) then e1+e2 else e1
+
+-- generate Minus
+Minus(e1,e2,T) = if member(e1-e2,T) then e1-e2 else e1
+
+-- generate Mult
+Mult(e1,e2,T) = if member(e1*e2,T) then e1*e2 else e1
+
+-- generate Div
+Div(e1,e2,T) = if member(e1/e2,T) then e1/e2 else e1
+
+-- generate Modulus
+Modulus(e1,e2,T) = if member(e1%e2,T) then e1%e2 else e1
+
+-- generate Neg
+Neg(e1,T) = if member(-e1,T) then -e1 else e1
+
+-- data types
+nametype core_clock_type = {0..10}
+nametype core_real = { -2..2}
+nametype core_int = { -2..2}
+nametype core_nat = {0..2}
+
+csp-end
+
+timed csp marXbotS csp-begin 
+
+Timed(OneStep) {
+	
+marXbotS__sem__events = {| marXbotSoftware::moveCall, marXbotSoftware::obstacle |}
+	
+Body = EntryMoving;
+       Obs;
+       EntryTurning;
+       WAIT(const_SMMovement_PI/const_SMMovement_avel);
+       Body   
+           
+EntryMoving = Deadline(marXbotSoftware::moveCall.const_SMMovement_lvel.0 -> SKIP,0); WAIT(1)
+
+Obs = marXbotSoftware::obstacle.in -> Deadline(marXbotSoftware::stopCall -> SKIP,0)
+
+EntryTurning = Deadline(marXbotSoftware::moveCall.0.const_SMMovement_avel -> SKIP,0)
+
+marXbotS = timed_priority(Body)
+
+}
+
+csp-end
+
+timed assertion SimplifiedLH: marXbotS refines marXbotSoftware in the tick-tock model
+with constant lvel of SMMovement set to 1 and constant avel of SMMovement set to 1
+  
+timed assertion SimplifiedRL: marXbotSoftware refines marXbotS in the tick-tock model
+with constant lvel of SMMovement set to 1 and constant avel of SMMovement set to 1
+ 

@@ -1,0 +1,40 @@
+
+interface IEvents {
+	event e : nat
+}
+
+interface IConsts {
+	const z : nat
+}
+
+robotic platform RP {
+	uses IEvents 
+	provides IConsts
+}
+
+module M {
+	rref rp = RP
+	cref c = C1
+	connection rp on e to c on e ( _async )	
+}
+
+controller C1 {
+	uses IEvents
+	requires IConsts
+	sref st=STM1
+	connection C1 on e to st on e	
+}
+
+stm STM1 {
+	uses IEvents
+	requires IConsts
+	var x : nat
+	initial I
+	final F
+	state S {
+		
+	}	
+	transition T0 { from I to S }
+	transition T1 { from S to S trigger e?x condition z == 1}
+	transition T2 { from S to F trigger e?x condition z == 2}
+}

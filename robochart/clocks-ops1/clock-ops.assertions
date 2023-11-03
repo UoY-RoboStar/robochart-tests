@@ -1,0 +1,57 @@
+package assertions
+
+timed csp SpecC associated to clocks1::C csp-begin
+Timed(OneStep) {
+	SpecC = clocks1::C::o.out!2 -> STOP 
+}
+csp-end
+ 
+timed csp ParamC_good associated to clocks1::C csp-begin
+
+ParamC_good = clocks1::C::O__(0,1,1)
+
+csp-end
+
+timed csp ParamC_bad_1 associated to clocks1::C csp-begin
+
+ParamC_bad_1 = clocks1::C::O__(0,0,1)
+
+csp-end
+
+timed csp ParamC_bad_2 associated to clocks1::C csp-begin
+
+ParamC_bad_2 = clocks1::C::O__(0,1,0)
+
+csp-end
+
+timed assertion A1 : ParamC_good refines SpecC
+timed assertion A2 : ParamC_bad_1 does not refine SpecC
+timed assertion A3 : ParamC_bad_2 does not refine SpecC
+
+timed csp SpecM associated to clocks1::M csp-begin
+Timed(OneStep) {
+	SpecM = clocks1::M::o.out!2 -> STOP 
+}
+csp-end
+ 
+timed csp ParamM_good associated to clocks1::M csp-begin
+
+ParamM_good = clocks1::M::O__(0,1,1)
+
+csp-end
+
+timed csp ParamM_bad_1 associated to clocks1::M csp-begin
+
+ParamM_bad_1 = clocks1::C::O__(0,0,1)
+
+csp-end
+
+timed csp ParamM_bad_2 associated to clocks1::M csp-begin
+
+ParamM_bad_2 = clocks1::C::O__(0,1,0)
+
+csp-end
+
+timed assertion A4 : ParamM_good refines SpecM
+timed assertion A5 : ParamM_bad_1 does not refine SpecM
+timed assertion A6 : ParamM_bad_2 does not refine SpecM

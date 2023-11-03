@@ -1,0 +1,31 @@
+
+// By default the value of constant z will be 0 from instantiations.csp
+assertion A1 : M is not deadlock-free
+assertion A2 : M::c is not deadlock-free
+assertion A3 : C1 is not deadlock-free
+assertion A4 : C1::st is not deadlock-free
+assertion A5 : STM1 is not deadlock-free
+
+assertion A1p : M is deadlock-free with constant z of M set to 1
+assertion A3p : C1 is deadlock-free with constant z of C1 set to 1
+assertion A5p : STM1 is deadlock-free with constant z of STM1 set to 1
+
+assertion M_term : M does not terminate
+assertion C1_term : C1 does not terminate
+assertion STM1_term : STM1 does not terminate
+
+assertion M_term_valid : M terminates with constant z of M set to 2
+assertion C1_term_valid : C1 terminates with constant z of C1 set to 2
+assertion STM1_term_valid : STM1 terminates with constant z of STM1 set to 2
+
+assertion M_deter : M is deterministic
+assertion C1_deter : M is deterministic
+assertion STM1_deter : M is deterministic
+
+assertion M_div_free : M is divergence-free
+assertion C1_div_free : M is divergence-free
+assertion STM1_div_free : M is divergence-free
+
+timed assertion M_timelock_free : M is timelock-free
+timed assertion C1_timelock_free : C1 is timelock-free
+timed assertion STM1_timelock_free : STM1 is timelock-free

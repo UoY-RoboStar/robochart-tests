@@ -1,0 +1,55 @@
+package M
+diagram main
+
+robotic platform RP {
+	uses IEvents
+}
+
+interface IEvents {
+	event In:nat
+	event Out:nat
+}
+
+interface IVar {
+	var d:nat
+}
+
+controller CT {
+	
+	var d:nat
+	
+	uses IEvents
+	
+	stm STM {
+		requires IVar 
+		uses IEvents
+		
+		initial I
+		
+		state S0 { }
+		state S1 { }
+		
+		transition T0 { from I to S0 }
+		transition T1 { from S0 to S1 trigger In?d action wait(1) }
+	}
+	
+	stm STM2 {
+		
+		uses IEvents
+		requires IVar
+		
+		initial I
+		
+		state S0 { entry wait(1) }
+		state S1 { }
+		
+		transition T0 { from I to S0 }
+		transition T1 { from S0 to S1 action Out!d }
+		
+		
+	}
+	
+	connection CT on In to STM on In
+	connection STM2 on Out to CT on Out
+}
+

@@ -1,0 +1,30 @@
+package test2
+
+stm S2 {
+	const HM90 : matrix ( int , 3 , 3 ) = [|0, -1, 1; 1, 0, 1; 0, 0, 1|]
+	var aux : vector ( int , 2 )
+	var haux: vector (int, 3)
+	event input : vector ( int , 2 )
+	event output : vector ( int , 2 )
+	initial i0
+	state s0 {
+		
+	}
+	state s1 {
+		entry haux = HM90*haux; aux = [|haux[1],haux[2]|]; output!aux
+	}
+	final f0
+	transition t0 {
+		from i0
+		to s0
+	}
+	transition t1 {
+		from s1
+		to f0
+	}
+	transition t2 {
+		from s0 to s1
+		trigger input?aux
+		action haux = [|aux[1],aux[2],0|]; haux[3] = 1 
+	}	 
+}

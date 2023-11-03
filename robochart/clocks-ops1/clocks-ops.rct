@@ -1,0 +1,75 @@
+package clocks1 interface IEvents {
+	event o : nat
+	event i : nat
+}
+
+interface IVars {
+	const x1 : nat
+} 
+
+interface IOpB {  
+	opB ( )   
+} 
+   
+interface IOpA {
+	opA ( )      
+} 
+
+interface IClocks {
+	clock C
+}
+
+module M {
+	
+	robotic platform RP {
+		uses IEvents 
+	}
+	 
+	cref ctrl_ref0 = C 
+	connection RP on i to ctrl_ref0 on i ( _async )
+	connection ctrl_ref0 on o to RP on o ( _async )
+}  
+    
+controller C {  
+	  
+	sref stm_ref0 = STM 
+	uses IEvents opref op_ref0 = opA
+	opref op_ref1 = opB
+	connection C on i to stm_ref0 on i
+	connection stm_ref0 on o to C on o
+}
+
+stm STM {
+	
+	initial I
+	state S0 { entry opA ( )
+	}
+	transition T0 { from I to S0 }
+	
+uses IEvents requires IOpA clock C
+}
+
+operation opA ( ) {
+	requires IOpB const x1 : nat
+	event o : nat
+	initial i0
+	final f0
+	transition t0 {
+		from i0
+		to f0
+		action opB ( )
+	}
+requires IClocks }
+
+operation opB ( ) {
+	requires IVars const x2 : nat
+	event o : nat
+	initial i0
+	final f0
+	transition t0 {
+		from i0
+		to f0
+		action o ! ( x1 + x2 )
+	}
+}
+

@@ -1,0 +1,33 @@
+
+timed csp SimpleSpec csp-begin
+
+-----------------------------------------------------------------------------------
+-- Short specification for the example
+-----------------------------------------------------------------------------------
+
+SimpleSpec =
+	let
+		SMovement_PI = 1
+		SMovement_av = 1
+		SMovement_lv = 1
+		
+		wait(d) = if d > 0 then tock -> wait(d-1) else SKIP
+		Spec = (EntryMoving; Obs; EntryTurning; wait(SMovement_PI/SMovement_av)); Spec
+		
+		-- The delay associated with EntryMoving avoids a possible requirement for the
+		-- two move operations in the same cycle.
+
+		EntryMoving = CFootBot::moveCall!SMovement_lv.0 -> wait(1)
+		Obs = CFootBot::obstacle.in -> SKIP [] tock ->  Obs
+		EntryTurning = CFootBot::moveCall!0.SMovement_av -> SKIP
+		
+	within
+		Spec
+
+csp-end
+
+// Here we just double-check that the manually written specification has the same
+// behaviour as that of RoboChart.
+timed assertion RC0 : SimpleSpec equals CFootBot in the failures divergences model 
+	with 	constant lv of Movement::SMovement set to 1, 
+		and constant PI of Movement::SMovement set to 1

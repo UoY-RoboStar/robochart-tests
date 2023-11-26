@@ -1,0 +1,10 @@
+stm stm0 {
+initial i0
+	state s0 {
+	}
+	transition t0 {
+		from i0
+		to s0
+	}
+}
+

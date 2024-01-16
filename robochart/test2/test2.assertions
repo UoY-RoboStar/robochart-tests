@@ -18,7 +18,11 @@ untimed assertion t2c: test2::C2 equals test2_spec3
 
 timed csp test2_spec4 csp-begin
 	test2_spec4 = let
-		aux = test2::C2::e.out.1 -> test2::C2::terminate -> SKIP
+		aux = test2::C2::e.out.1 -> (let 
+										wait = test2::C2::terminate -> SKIP [] tock -> wait
+									 within
+									 	wait
+										)
 		      []
 		      tock -> aux
 	within aux

@@ -26,7 +26,7 @@ stm stm0 {
 	var o : EM = EM3(1)
 	 
 	state s0 {
-		exit t = func1(o); i = DT(|p=1,q=i.q|); t = i.p + i.q + 1 
+		exit t = func1(o); i = DT(|p=1,q=i.q|); i.p = 1; t = i.p + i.q + 1 
 	}
 		
 	transition t0 {

@@ -19,7 +19,12 @@ assertion C1: clock clocks1::ctrl0::stm0::Cl is not initialised
  */
 timed csp Spec csp-begin
 
-Spec = clocks1::ctrl0::stm0::opACall -> tock -> tock -> tock -> tock -> clocks1::ctrl0::stm0::term.out -> clocks1::ctrl0::stm0::terminate -> SKIP
+Spec = clocks1::ctrl0::stm0::opACall -> tock -> tock -> tock -> tock -> clocks1::ctrl0::stm0::term.out 
+		-> (let 
+				wait = tock -> wait [] clocks1::ctrl0::stm0::terminate -> SKIP
+			within
+				wait
+			)
 
 csp-end
 

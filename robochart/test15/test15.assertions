@@ -5,7 +5,7 @@ package test15_assertions
 timed csp STMSpec associated to test15::stm0 csp-begin
 
 Timed(OneStep) {
-	STMSpec = timed_priority(test15::stm0::input.in?x -> test15::stm0::output.out!Plus(Plus(test15_DT_p((test15_DT_p(x),1)), test15_DT_q(x), core_nat), 1, core_nat) -> test15::stm0::terminate)
+	STMSpec = timed_priority(test15::stm0::input.in?x -> test15::stm0::output.out!Plus(Plus(test15_DT_p((test15_DT_p(x),1)), test15_DT_q(x), core_nat), 1, core_nat) -> test15::stm0::terminate -> SKIP)
 }
 
 csp-end

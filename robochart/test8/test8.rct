@@ -8,7 +8,31 @@ interface PV {
 	var y: nat
 }
 
-stm S1 {
+controller C {
+	requires PV
+	uses CV
+	sref r1 = S1
+	sref r2 = S2
+	event e1: nat
+	event e2: nat
+	
+	connection r1 on a1 to C on e1
+	connection r2 on a2 to C on e2
+	connection r1 on s to r2 on s
+( _async )
+}
+
+module M {
+	robotic platform RP {
+		var y: nat = 1
+		event e1: nat
+		event e2: nat
+	}
+	cref r = C
+	
+	connection r on e1 to RP on e1 (_async)
+	connection r on e2 to RP on e2 (_async)
+}stm S1 {
 	requires CV
 	requires PV
 	event a1: nat
@@ -44,27 +68,3 @@ stm S2 {
 	}
 }
 
-controller C {
-	requires PV
-	uses CV
-	sref r1 = S1
-	sref r2 = S2
-	event e1: nat
-	event e2: nat
-	
-	connection r1 on a1 to C on e1
-	connection r2 on a2 to C on e2
-	connection r1 on s to r2 on s
-}
-
-module M {
-	robotic platform RP {
-		var y: nat = 1
-		event e1: nat
-		event e2: nat
-	}
-	cref r = C
-	
-	connection r on e1 to RP on e1 (_async)
-	connection r on e2 to RP on e2 (_async)
-}

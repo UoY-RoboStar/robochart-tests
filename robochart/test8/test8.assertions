@@ -17,15 +17,16 @@ timed csp TSpec csp-begin
 TSpec = let 
 	R = tock -> R' [] test8::M::e1.out.0 -> Out
 	R' = tock -> R' [] test8::M::e1.out.0 -> Out'
-	Out = test8::M::e2.out.0 -> SKIP
-		|~|
-		test8::M::e2.out.1 -> SKIP
-		|~|
-		test8::M::e2.out.2 -> SKIP
+	Out =   (test8::M::e2.out.0 -> SKIP
+			|~|
+			test8::M::e2.out.1 -> SKIP
+			|~|
+			test8::M::e2.out.2 -> SKIP) [] tock -> Out
+		
 
-	Out' = test8::M::e2.out.0 -> SKIP
-		|~|
-		test8::M::e2.out.2 -> SKIP
+	Out' = (test8::M::e2.out.0 -> SKIP
+			|~|
+			test8::M::e2.out.2 -> SKIP) [] tock -> Out'
 within
 	R
 csp-end

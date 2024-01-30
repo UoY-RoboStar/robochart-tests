@@ -8,7 +8,11 @@ csp-end
 
 timed csp TSpec csp-begin
 	TSpec = let
-		aux = tock -> aux [] test9::S::e.out.2 -> test9::S::terminate -> SKIP
+		aux = tock -> aux [] test9::S::e.out.2 -> (let
+														wait = test9::S::terminate -> SKIP [] tock -> wait
+													within
+														wait
+													)
 	within
 		aux
 csp-end

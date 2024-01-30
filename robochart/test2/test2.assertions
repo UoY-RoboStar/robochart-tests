@@ -2,13 +2,33 @@ csp test2_spec1 csp-begin
 	test2_spec1 = test2::S::opCall.1 -> test2::S::terminate -> SKIP
 csp-end
 
-assertion t2a: test2::S equals test2_spec1
+untimed assertion t2a: test2::S equals test2_spec1
+
+timed csp test2_spec1_timed csp-begin
+	test2_spec1_timed = test2::S::opCall.1 -> (let
+											wait = test2::S::terminate -> SKIP [] tock -> wait
+										 within
+										 	wait
+											)
+csp-end
+
+timed assertion t2a_timed: test2::S equals test2_spec1_timed
 
 csp test2_spec2 csp-begin
 	test2_spec2 = test2::C1::opCall.1 -> test2::C1::terminate -> SKIP
 csp-end
 
-assertion t2b: test2::C1 equals test2_spec2
+untimed assertion t2b: test2::C1 equals test2_spec2
+
+timed csp test2_spec2_timed csp-begin
+	test2_spec2_timed = test2::C1::opCall.1 -> (let
+													wait = test2::C1::terminate -> SKIP [] tock -> wait
+												within
+													wait
+												)
+csp-end
+
+timed assertion t2b_timed: test2::C1 equals test2_spec2_timed
 
 untimed csp test2_spec3 csp-begin
 	test2_spec3 = test2::C2::e.out.1 -> test2::C2::terminate -> SKIP
@@ -18,7 +38,11 @@ untimed assertion t2c: test2::C2 equals test2_spec3
 
 timed csp test2_spec4 csp-begin
 	test2_spec4 = let
-		aux = test2::C2::e.out.1 -> test2::C2::terminate -> SKIP
+		aux = test2::C2::e.out.1 -> (let 
+										wait = test2::C2::terminate -> SKIP [] tock -> wait
+									 within
+									 	wait
+										)
 		      []
 		      tock -> aux
 	within aux

@@ -1,0 +1,24 @@
+package test
+
+interface input {
+	
+}
+interface output {
+	event outs
+}
+
+anncontroller annfail1 {
+			params {
+				inputcontext {
+					uses input
+				}
+				outputcontext {
+					uses output
+				}
+				layerstructure <1>
+				weights <<<>>>
+				biases <<0.0>>
+				activationfunction relu
+				
+			}
+	}

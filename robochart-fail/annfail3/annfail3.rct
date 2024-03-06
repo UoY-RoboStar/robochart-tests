@@ -1,0 +1,22 @@
+package test
+
+interface input {
+	event ins
+}
+interface output {
+	event outs
+}
+
+anncontroller annfail3 {
+			params {
+				inputcontext {
+					uses input
+				}
+				outputcontext {
+					uses output
+				}
+				
+				
+			}
+	}
+	

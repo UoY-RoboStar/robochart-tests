@@ -1,0 +1,11 @@
+untimed assertion T1: anncont2 is deadlock-free
+untimed assertion T2: anncont2 is divergence-free
+
+untimed assertion T3: anncont2::annctrl2 is deadlock-free
+untimed assertion T4: anncont2::annctrl2 is divergence-free
+
+timed assertion T5: anncont2 is deadlock-free
+timed assertion T6: anncont2 is divergence-free
+
+timed assertion T7: anncont2::annctrl2 is deadlock-free
+timed assertion T8: anncont2::annctrl2 is divergence-free

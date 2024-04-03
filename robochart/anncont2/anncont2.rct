@@ -1,18 +1,18 @@
-interface input {
+interface i {
 	event ins
 }
-interface output {
+interface o {
 	event outs
 }
 
 module anncont2 {
 	anncontroller annctrl2 {
 			params {
-				inputcontext {
-					uses input
+				input context {
+					uses i
 				}
-				outputcontext {
-					uses output
+				output context {
+					uses o
 				}
 				layerstructure <1>
 				weights <<<0.0>>>
@@ -23,7 +23,7 @@ module anncont2 {
 	}
 	
 	robotic platform R0 {
-		uses input uses output
+		uses i uses o
 	}
 	
 	connection R0 on outs to annctrl2 on ins ( _async )

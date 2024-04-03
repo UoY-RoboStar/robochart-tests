@@ -1,19 +1,19 @@
 package test
 
-interface input {
+interface i {
 	event ins
 }
-interface output {
+interface o {
 	event outs
 }
 
 anncontroller annfail5 {
 			params {
-				inputcontext {
-					uses input
+				input context {
+					uses i
 				}
-				outputcontext {
-					uses output
+				output context {
+					uses o
 				}
 				layerstructure <1>
 				weights < < <0.0>, <0.0> > >

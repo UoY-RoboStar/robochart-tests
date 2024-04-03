@@ -16,7 +16,7 @@ anncontroller annfail5 {
 					uses o
 				}
 				layerstructure <1>
-				weights < < <0.0>, <0.0> > >
+				weights <<<0.0>>, <<0.0>>>
 				biases <<0.0>>
 				activationfunction relu
 				

@@ -1,19 +1,19 @@
 package test
 
-interface i {
+interface input {
 	event ins
 }
-interface o {
+interface output {
 	event outs
 }
 
 anncontroller annfail3 {
 			params {
-				input context {
-					uses i
+				inputcontext {
+					uses input
 				}
-				output context {
-					uses o
+				outputcontext {
+					uses output
 				}
 				
 				

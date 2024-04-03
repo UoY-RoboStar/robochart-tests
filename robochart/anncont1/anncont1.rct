@@ -1,19 +1,19 @@
 package test
 
-interface i {
+interface input {
 	event ins
 }
-interface o {
+interface output {
 	event outs
 }
 
 anncontroller annctrl1 {
 			params {
-				input context {
-					uses i
+				inputcontext {
+					uses input
 				}
-				output context {
-					uses o
+				outputcontext {
+					uses output
 				}
 				layerstructure <1>
 				weights <<<0.0>>>

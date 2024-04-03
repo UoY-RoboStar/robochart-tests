@@ -1,21 +1,21 @@
-interface i {
+interface input {
 	event ins
 }
 interface test {
 	clock c
 }
-interface o {
+interface output {
 	event outs
 }
 
 module annfail12 {
 	anncontroller annfail12 {
 			params {
-				input context {
-					uses i
+				inputcontext {
+					uses input
 				}
-				output context {
-					uses o
+				outputcontext {
+					uses output
 				}
 				layerstructure <1>
 				weights <<<0.0>>>
@@ -26,7 +26,7 @@ module annfail12 {
 	}
 	
 	robotic platform R0 {
-		uses i uses o
+		uses input uses output
 	}
 	
 	connection R0 on ins to annfail12 on outs ( _async )

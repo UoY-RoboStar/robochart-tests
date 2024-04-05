@@ -1,0 +1,68 @@
+package test16
+diagram test16
+
+robotic platform RP {
+	uses IEvents
+}
+
+interface IEvents {
+	event In:nat
+	event Out:nat
+}
+
+operation IncrementI() {
+
+	requires ISharedVar
+	
+	initial I
+	final F
+	
+	transition T0 { from I to F action i=i+1 }
+	
+}
+
+interface ISharedVar {
+	var i:nat
+}
+
+interface SimOps {
+	IncrementI()
+}
+
+module M {
+	
+	rref RP=RP
+	cref C1=CT
+	
+	connection RP on In to C1 on In ( _async )
+	connection C1 on Out to RP on Out ( _async )
+}
+
+controller CT {
+	
+	event In:nat
+	event Out:nat
+
+	opref incrementI=IncrementI
+		
+	
+	// A state machine with inputs and outputs
+	stm STM {
+			var i:nat
+		 
+			requires SimOps
+			uses IEvents
+		
+			initial I
+			state S0 { }
+			state S1 { entry IncrementI() }
+		
+			transition T0 { from I to S0 }
+			transition T2 { from S0 to S1 trigger In?i } 
+			transition T3 { from S1 to S0 }
+		
+	}
+	
+	connection CT on In to STM on In
+	connection STM on Out to CT on Out
+}

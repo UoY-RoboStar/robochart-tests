@@ -1,0 +1,71 @@
+package opequals
+diagram opequals
+
+robotic platform RP {
+	uses IEvents
+}
+
+interface IEvents {
+	event In:nat
+	event Out:nat
+}
+
+interface IVars {
+	var x:nat
+}
+
+// A 'buffer' operation of sorts.
+operation Output(i:nat) {
+
+	uses IEvents
+	requires IVars
+	initial I
+	final F
+  
+	transition T0 { from I to F action Out!i <{0} }
+}
+
+interface SimOps {
+	Output(i:nat)
+}
+
+module M {
+	
+	rref RP=RP
+	cref C1=CT
+	
+	connection RP on In to C1 on In ( _async )
+	connection C1 on Out to RP on Out ( _async )
+}
+
+controller CT {
+	
+	event In:nat
+	event Out:nat
+	
+	opref outputOp=Output
+		
+	
+	// A state machine with inputs and outputs
+	stm STM {
+			// TODO: Revise use of cycleDef with 'cycle' and without.
+		 
+			requires SimOps
+			
+			// Input and Output contexts are mandatory, even if empty.
+			uses IEvents
+			var i:nat
+			
+			initial I
+			state S0 { }
+			state S1 { during Output(i) }
+		
+			transition T0 { from I to S0 }
+			transition T2 { from S0 to S1 }
+			transition T3 { from S1 to S0 }
+		
+	}
+	
+	connection CT on In to STM on In
+	connection STM on Out to CT on Out
+}

@@ -1,0 +1,29 @@
+assertion A1 : M1 is deadlock-free
+assertion A2 : M2 is deadlock-free
+
+
+untimed csp U1Spec csp-begin
+U1Spec = M1::e.in -> U1Spec
+csp-end
+
+timed csp T1Spec csp-begin
+Timed(OneStep) {
+	T1Spec = M1::e.in -> T1Spec
+}
+csp-end
+
+untimed csp U2Spec csp-begin
+U2Spec = M2::e.in -> U2Spec
+csp-end
+
+timed csp T2Spec csp-begin
+Timed(OneStep) {
+	T2Spec = M2::e.in -> T2Spec
+}
+csp-end
+
+untimed assertion A3_1 : M1 refines U1Spec
+timed assertion TA3_1 : M1 refines T1Spec
+
+untimed assertion A3_2 : M2 refines U2Spec
+timed assertion TA3_2 : M2 refines T2Spec

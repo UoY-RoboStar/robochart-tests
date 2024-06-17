@@ -1,0 +1,55 @@
+
+interface IEvents {
+	event e
+}
+
+interface IVars1 {
+	var x : boolean = true
+}
+
+interface IVars2 {
+	var x : boolean = true
+	var y : boolean = true
+}
+
+robotic platform RP2 {
+	uses IEvents
+	provides IVars2
+}
+
+robotic platform RP1 {
+	uses IEvents
+	provides IVars1
+}
+
+stm STM {
+	uses IEvents
+	requires IVars2
+	initial I
+	state S { }
+	transition T0 { from I to S }
+	transition T1 { from S to S trigger e condition x }
+}
+
+module M1 {
+	rref RP = RP1
+	controller C {
+		var y : boolean = true
+		sref ST = STM
+		uses IEvents
+		requires IVars1
+		connection C on e to ST on e
+	}
+	connection RP on e to C on e ( _async )
+}
+
+module M2 {
+	rref RP = RP2
+	controller C {
+		sref ST = STM
+		uses IEvents
+		requires IVars2
+		connection C on e to ST on e
+	}
+	connection RP on e to C on e ( _async )
+}

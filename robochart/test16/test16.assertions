@@ -1,0 +1,16 @@
+package test16_assertions
+
+untimed csp USTMSpec associated to test16::stm0 csp-begin
+	USTMSpec = test16::stm0::input.in?x -> test16::stm0::output.out!Plus(x,1,core_int) -> test16::stm0::terminate -> SKIP
+csp-end
+
+timed csp STMSpec associated to test16::stm0 csp-begin
+
+Timed(OneStep) {
+	STMSpec = timed_priority(test16::stm0::input.in?x -> test16::stm0::output.out!Plus(x,1,core_int) -> test16::stm0::terminate -> SKIP)
+}
+
+csp-end
+
+timed assertion A0: STMSpec equals test16::stm0
+untimed assertion A1 : USTMSpec equals test16::stm0

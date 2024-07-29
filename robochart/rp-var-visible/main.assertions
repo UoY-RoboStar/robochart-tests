@@ -1,0 +1,29 @@
+
+/*
+ * After one time unit the value is guaranteed to have been propagated between state machines
+ * in the controller. The example makes use of this fact to ensure the value received via 'inp'
+ * is that set via the variable required by the robotic platform 'reqx'
+ */
+timed csp MSpec associated to M csp-begin
+
+Timed(OneStep) {
+	MSpec = timed_priority(M::inp.in?x -> (WAIT(1) ; Deadline(M::set_reqx!x -> SKIP,0)))
+}
+
+csp-end
+
+timed assertion A0: MSpec equals M
+
+/*
+ * In the untimed case, because there is no time information, therefore the value of the shared
+ * variable 'local', shared between controllers, may not be updated before the output on 'reqx'.
+ * Therefore we have a nondeterminism between the value received via event 'inp' and the default
+ * value 0 for integers.
+ */
+untimed csp UMSpec associated to M csp-begin
+
+UMSpec = M::inp.in?x -> (M::set_reqx!x -> SKIP |~| M::set_reqx!0 -> SKIP)
+
+csp-end
+
+untimed assertion UA0: UMSpec equals M

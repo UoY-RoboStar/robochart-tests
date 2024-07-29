@@ -1,0 +1,81 @@
+/* 
+ * This test project is like 'rp-var-visible', but instead of declaring the variable
+ * locally in the robotic platform it uses an interface. Note that supporting this
+ * scenario only became possible after weakening WFC RP2, that previously stated 
+ * "Defined interfaces can only have events".
+ */
+interface IReqVars {
+	var reqx : int
+}
+
+interface IOps {
+	op(x:int)
+}
+
+interface IDefVars {
+	var local: int
+}
+
+interface IEvents {
+	event inp : int
+}
+
+module M {
+	rref rp = RP
+	cref cr = C1
+	connection rp on inp to cr on inp (_async)
+}
+
+robotic platform RP {
+	uses IDefVars
+	provides IReqVars
+	uses IEvents
+}
+
+controller C1 {
+	uses IEvents
+	requires IReqVars
+	requires IDefVars
+	sref stm_ref1 = STM1
+	sref stm_ref2 = STM2
+	
+	connection C1 on inp to stm_ref1 on inp
+	connection stm_ref1 on inter to stm_ref2 on inter
+}
+
+stm STM1 {
+	
+	event inter
+	event inp:int
+	requires IDefVars
+	
+	var x : int
+	
+	initial I
+	final F
+	state S0 {
+		
+	}
+	transition T0 { from I to S0 }
+	transition T1 { from S0 to F trigger inp?x action local=x;wait(1);inter }
+}
+
+stm STM2 {
+	
+	event inter
+	event oup:int
+	requires IReqVars
+	requires IDefVars
+	
+	var x : int
+	
+	initial I
+	final F
+	
+	state S0 {
+		
+	}
+	
+	transition T0 { from I to S0 }
+	transition T1 { from S0 to F trigger inter action reqx=local }
+}

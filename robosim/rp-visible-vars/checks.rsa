@@ -1,0 +1,6 @@
+
+simulation SimRC of M {
+	cycleDef cycle==1
+}
+  
+assertion A0 : SimRC equals Sim::M

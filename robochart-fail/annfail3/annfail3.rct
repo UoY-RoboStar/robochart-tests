@@ -8,11 +8,7 @@ anncontroller annfail3 {
 				outputcontext {
 					ordevent outs 1
 				}
-				
-				inRanges <(|0.0, 1.0|)> 
-				outRanges <(| 0.0, 0.1|)> 
-				annRange (| 0.0,1.0|)
-				
+
 			}
 	}
 	

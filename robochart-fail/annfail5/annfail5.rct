@@ -6,7 +6,7 @@ anncontroller annfail5 {
 					ordevent ins 1
 				}
 				outputcontext {
-					ordevents outs 1
+					ordevent outs 1
 				}
 				layerstructure <1>
 				weights <<<0.0>, <0.0>>>

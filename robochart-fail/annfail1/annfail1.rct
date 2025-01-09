@@ -12,7 +12,7 @@ anncontroller annfail1 {
 				weights <<<>>>
 				biases <<0.0>>
 				activationfunction relu
-				inRanges <(|0.0, 1.0|)> 
+				inRanges <> 
 				outRanges <(| 0.0, 0.1|)> 
 				annRange (| 0.0,1.0|)
 				

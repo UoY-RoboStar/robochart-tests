@@ -3,7 +3,7 @@ package test
 anncontroller annfail1 {
 			params {
 				inputcontext {
-					ordevent ins 1
+				
 				}
 				outputcontext {
 					ordevent outs 1

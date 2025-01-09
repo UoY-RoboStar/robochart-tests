@@ -1,8 +1,8 @@
 interface test {
 	clock c
 }
-module annfail13 {
-	anncontroller annfail13 {
+module annfail17 {
+	anncontroller annfail17 {
 			params {
 				inputcontext {
 					ordevent ins 1
@@ -14,9 +14,9 @@ module annfail13 {
 				weights <<<0.0>>>
 				biases <<0.0>>
 				activationfunction relu
-				inRanges <(|0.0, 1.0|), (|0.0, 1.0|)> 
-				outRanges <(| 0.0, 0.1|)> 
-				annRange (| 0.0,1.0|)
+				inRanges <(| 0.0, 1.0|)> 
+				outRanges <(| 1.0, 0.0|)> 
+				annRange (| 1.0, 0.0|)
 				
 			}
 	}
@@ -26,7 +26,7 @@ module annfail13 {
 		event output
 	}
 	
-	connection R0 on output to annfail13 on ins ( _async )
-	connection annfail13 on outs to R0 on input ( _async )
+	connection R0 on output to annfail17 on ins ( _async )
+	connection annfail17 on outs to R0 on input ( _async )
 	
 }

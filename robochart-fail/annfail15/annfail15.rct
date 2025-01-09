@@ -1,5 +1,8 @@
-module annfail7 {
-	anncontroller annfail7 {
+interface test {
+	clock c
+}
+module annfail15 {
+	anncontroller annfail15 {
 			params {
 				inputcontext {
 					ordevent ins 1
@@ -11,7 +14,7 @@ module annfail7 {
 				weights <<<0.0>>>
 				biases <<0.0>>
 				activationfunction relu
-				inRanges <(|0.0, 1.0|)> 
+				inRanges <(| 1.0, 0.0|)> 
 				outRanges <(| 0.0, 0.1|)> 
 				annRange (| 0.0,1.0|)
 				
@@ -19,11 +22,11 @@ module annfail7 {
 	}
 	
 	robotic platform R0 {
-		event input 
+		event input
 		event output
 	}
 	
-	//connection R0 on output to annfail7 on ins ( _async )
-	connection annfail7 on outs to R0 on input ( _async )
+	connection R0 on output to annfail15 on ins ( _async )
+	connection annfail15 on outs to R0 on input ( _async )
 	
 }

@@ -1,24 +1,20 @@
 package test
 
-interface input {
-	event ins
-}
-interface output {
-	event outs
-}
-
 anncontroller annfail5 {
 			params {
 				inputcontext {
-					uses input
+					ordevent ins 1
 				}
 				outputcontext {
-					uses output
+					ordevents outs 1
 				}
 				layerstructure <1>
 				weights <<<0.0>, <0.0>>>
 				biases <<0.0>>
 				activationfunction relu
+				inRanges <(|0.0, 1.0|)> 
+				outRanges <(| 0.0, 0.1|)> 
+				annRange (| 0.0,1.0|)
 				
 			}
 	}

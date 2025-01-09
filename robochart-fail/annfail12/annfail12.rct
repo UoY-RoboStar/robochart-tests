@@ -1,35 +1,32 @@
-interface input {
-	event ins
-}
 interface test {
 	clock c
 }
-interface output {
-	event outs
-}
-
 module annfail12 {
 	anncontroller annfail12 {
 			params {
 				inputcontext {
-					uses input
+					ordevent ins 1
 				}
 				outputcontext {
-					uses output
+					ordevent outs 1
 				}
 				layerstructure <1>
 				weights <<<0.0>>>
 				biases <<0.0>>
 				activationfunction relu
+				inRanges <(|0.0, 1.0|)> 
+				outRanges <(| 0.0, 0.1|)> 
+				annRange (| 0.0,1.0|)
 				
 			}
 	}
 	
 	robotic platform R0 {
-		uses input uses output
+		event input
+		event output
 	}
 	
-	connection R0 on ins to annfail12 on outs ( _async )
-	connection annfail12 on ins to R0 on outs ( _async )
+	connection R0 on input to annfail12 on outs ( _async )
+	connection annfail12 on ins to R0 on output ( _async )
 	
 }

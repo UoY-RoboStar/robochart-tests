@@ -1,21 +1,17 @@
 package test
 
-interface input {
-	event ins
-}
-interface output {
-	event outs
-}
-
 anncontroller annfail3 {
 			params {
 				inputcontext {
-					uses input
+					ordevent ins 1
 				}
 				outputcontext {
-					uses output
+					ordevent outs 1
 				}
 				
+				inRanges <(|0.0, 1.0|)> 
+				outRanges <(| 0.0, 0.1|)> 
+				annRange (| 0.0,1.0|)
 				
 			}
 	}

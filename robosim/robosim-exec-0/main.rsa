@@ -1,0 +1,18 @@
+
+csp Spec associated to stm0 csp-begin
+
+Spec = stm0::registerRead.stm0::i_inp?b__?v__ -> S0(b__,0,v__)
+
+-- Behaviour of S0, with boolean, previous value and current value
+S0(b__,p__,c__) = if (b__) then stm0::endexec -> tock -> Tr(c__) -- In this case, the value to be output next is the newest one.
+					   	   else stm0::endexec -> tock -> Tr(p__) -- Otherwise, output the old one.
+
+-- In Tr, current value is output
+Tr(x__) = stm0::registerRead.stm0::i_inp?b__?v__ -> stm0::registerWrite.stm0::o_outp!x__ -> S0(b__, x__, v__)
+
+Spec__sem__events = {|stm0::registerRead,stm0::endexec,stm0::registerWrite|}
+
+csp-end
+
+assertion A0 : Spec equals stm0
+assertion A1 : Spec equals stm0 in the tick-tock model

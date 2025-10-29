@@ -1,0 +1,5 @@
+untimed csp LambdaExpTest_spec csp-begin
+	LambdaExpTest_spec = LambdaExpTest::mod0::output.out!2 -> STOP
+csp-end
+
+untimed assertion LambdaExpTest1: LambdaExpTest::mod0 equals LambdaExpTest_spec.

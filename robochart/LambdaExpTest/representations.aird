@@ -10,7 +10,7 @@
     <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/function_toolkit.rct</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_TAFMQKnfEfCfN-Kv70LdZA">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/circus.robocalc.robochart.graphical/description/robochart.odesign#//@ownedViewpoints[name='RoboChartID']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_TA-kIKnfEfCfN-Kv70LdZA" name="LambdaExpTest" repPath="#_TAxIwKnfEfCfN-Kv70LdZA" changeId="0f2a0fb2-75a4-4a3e-aca8-4aba2f4a265f">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_TA-kIKnfEfCfN-Kv70LdZA" name="LambdaExpTest" repPath="#_TAxIwKnfEfCfN-Kv70LdZA" changeId="8339d016-6725-4c46-b34a-802e6aa3becc">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/circus.robocalc.robochart.graphical/description/robochart.odesign#//@ownedViewpoints[name='RoboChartID']/@ownedRepresentations[name='SpecificationID']"/>
         <target xmi:type="robochart:RCPackage" href="LambdaExpTest.rct#/"/>
       </ownedRepresentationDescriptors>
@@ -109,9 +109,9 @@
                                     <children xmi:type="notation:Node" xmi:id="_49xrh6nfEfCfN-Kv70LdZA" type="3009" element="_49taFKnfEfCfN-Kv70LdZA">
                                       <children xmi:type="notation:Node" xmi:id="_49xriqnfEfCfN-Kv70LdZA" visible="false" type="5004"/>
                                       <children xmi:type="notation:Node" xmi:id="_49xri6nfEfCfN-Kv70LdZA" type="7003">
-                                        <children xmi:type="notation:Node" xmi:id="_zZHCcLHJEfCqr5gyP3ynxw" type="3010" element="_zY_tsLHJEfCqr5gyP3ynxw">
-                                          <styles xmi:type="notation:FontStyle" xmi:id="_zZHCcbHJEfCqr5gyP3ynxw" fontName="Noto Sans" fontHeight="10"/>
-                                          <layoutConstraint xmi:type="notation:Location" xmi:id="_zZHCcrHJEfCqr5gyP3ynxw"/>
+                                        <children xmi:type="notation:Node" xmi:id="_SMBA4MVQEfC3Ms4X336GOQ" type="3010" element="_SL0zoMVQEfC3Ms4X336GOQ">
+                                          <styles xmi:type="notation:FontStyle" xmi:id="_SMBA4cVQEfC3Ms4X336GOQ" fontName="Noto Sans" fontHeight="10"/>
+                                          <layoutConstraint xmi:type="notation:Location" xmi:id="_SMBA4sVQEfC3Ms4X336GOQ"/>
                                         </children>
                                         <styles xmi:type="notation:SortingStyle" xmi:id="_49xrjKnfEfCfN-Kv70LdZA"/>
                                         <styles xmi:type="notation:FilteringStyle" xmi:id="_49xrjanfEfCfN-Kv70LdZA"/>
@@ -376,10 +376,10 @@
                       <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/circus.robocalc.robochart.graphical/description/robochart.odesign#//@ownedViewpoints[name='RoboChartID']/@ownedRepresentations[name='SpecificationID']/@defaultLayer/@containerMappings[name='ActionsID']/@style"/>
                     </ownedStyle>
                     <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/circus.robocalc.robochart.graphical/description/robochart.odesign#//@ownedViewpoints[name='RoboChartID']/@ownedRepresentations[name='SpecificationID']/@defaultLayer/@containerMappings[name='ActionsID']"/>
-                    <ownedElements xmi:type="diagram:DNodeListElement" uid="_zY_tsLHJEfCqr5gyP3ynxw" name="entry output!(lambda x: nat @ x+1)(1)">
+                    <ownedElements xmi:type="diagram:DNodeListElement" uid="_SL0zoMVQEfC3Ms4X336GOQ" name="entry output!(lambda x: nat @ x+1)(1)">
                       <target xmi:type="robochart:EntryAction" href="LambdaExpTest.rct#//@modules.0/@nodes.1/@machines.0/@nodes.1/@actions.0"/>
                       <semanticElements xmi:type="robochart:EntryAction" href="LambdaExpTest.rct#//@modules.0/@nodes.1/@machines.0/@nodes.1/@actions.0"/>
-                      <ownedStyle xmi:type="diagram:Square" uid="_zZAUwLHJEfCqr5gyP3ynxw" labelSize="10" showIcon="false" labelAlignment="LEFT" labelPosition="node" color="255,255,255">
+                      <ownedStyle xmi:type="diagram:Square" uid="_SL1asMVQEfC3Ms4X336GOQ" labelSize="10" showIcon="false" labelAlignment="LEFT" labelPosition="node" color="255,255,255">
                         <description xmi:type="style:SquareDescription" href="platform:/plugin/circus.robocalc.robochart.graphical/description/robochart.odesign#//@ownedViewpoints[name='RoboChartID']/@ownedRepresentations[name='SpecificationID']/@defaultLayer/@containerMappings[name='ActionsID']/@subNodeMappings[name='ActionID']/@style"/>
                       </ownedStyle>
                       <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/circus.robocalc.robochart.graphical/description/robochart.odesign#//@ownedViewpoints[name='RoboChartID']/@ownedRepresentations[name='SpecificationID']/@defaultLayer/@containerMappings[name='ActionsID']/@subNodeMappings[name='ActionID']"/>

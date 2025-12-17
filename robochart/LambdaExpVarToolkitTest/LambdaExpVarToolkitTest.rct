@@ -1,0 +1,30 @@
+package LambdaExpVarToolkitTest
+
+import relation_toolkit::*
+
+module mod0 {
+	robotic platform rp0 {
+		event output : nat
+	}
+
+	controller ctrl0 {
+		event output : nat
+		stm stm0 {
+			event output : nat
+			initial i0
+			state s0 {
+				entry f = ( lambda x : nat @ x + 1 ) ; output ! ( ( override ( f , { (| 1 , 0 |) } ) as nat -> nat ) ( 1 ) )
+			}
+		transition t0 {
+				from i0
+				to s0
+			}
+		var f : nat -> nat
+		}
+
+		connection stm0 on output to ctrl0 on output
+	}
+
+connection ctrl0 on output to rp0 on output ( _async )
+}
+

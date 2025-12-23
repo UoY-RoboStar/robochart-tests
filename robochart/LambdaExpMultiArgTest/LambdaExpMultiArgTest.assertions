@@ -1,0 +1,12 @@
+csp LambdaExpMultiArgTest_spec csp-begin
+	LambdaExpMultiArgTest_spec = LambdaExpMultiArgTest::mod0::output.out!2 -> STOP
+csp-end
+
+timed csp LambdaExpMultiArgTest_timed_spec csp-begin
+	Timed(OneStep) {
+		LambdaExpTest_timed_spec = LambdaExpTest::mod0::output.out!2 -> STOP
+	}
+csp-end
+
+untimed assertion LambdaExpMultiArgTest1: LambdaExpMultiArgTest::mod0 equals LambdaExpMultiArgTest_spec.
+timed assertion LambdaExpMultiArgTest2: LambdaExpMultiArgTest::mod0 equals LambdaExpMultiArgTest_timed_spec.

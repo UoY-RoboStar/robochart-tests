@@ -12,3 +12,5 @@ csp-end
 
 assertion A0 : Sim::STM refines Spec in the failures divergences model with cycleDef of Sim::STM set to 2
 assertion A1 : Sim::STM is deadlock-free
+assertion R1 : Sim::STM equals Second::STM in the failures divergences model
+assertion R1a : Sim::STM equals Second::STM in the tick-tock model

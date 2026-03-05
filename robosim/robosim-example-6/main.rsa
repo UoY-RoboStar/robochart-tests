@@ -92,3 +92,17 @@ assertion RS2 : STM does not refine SimSTM in the failures divergences model wit
 assertion RS3 : SimSTM does not refine STM in the failures divergences model with cycleDef of STM set to 1, and cycleDef of SimSTM set to 1
 
 assertion RS4 : SimRC is not schedulable
+
+// Checking for refinements between duplicated model elements
+assertion R1 : STM equals second::STM in the failures divergences model
+assertion R1a : STM equals second::STM in the tick-tock model
+assertion R2 : CT equals second::CT in the failures divergences model
+assertion R2a : CT equals second::CT in the tick-tock model
+assertion R3 : Mod equals second::Mod in the failures divergences model
+assertion R3a : Mod equals second::Mod in the tick-tock model
+
+assertion R4 : test equals second::test in the failures divergences model
+assertion R4a : test equals second::test in the tick-tock model
+
+assertion R5 : test2 equals second::test2 in the failures divergences model
+assertion R5a : test2 equals second::test2 in the tick-tock model  

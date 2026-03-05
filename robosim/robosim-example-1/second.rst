@@ -1,5 +1,5 @@
 
-package second
+
 // A state machine with no inputs or outputs
 
 stm STM {

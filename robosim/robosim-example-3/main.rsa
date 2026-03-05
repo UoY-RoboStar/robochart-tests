@@ -62,3 +62,11 @@ assertion C2 : Sim::CT is deadlock-free with cycleDef of Sim::STM set to 2 and c
 
 assertion M0 : Sim::M equals MSpec in the failures divergences model
 assertion M1 : Sim::M is deadlock-free
+
+// Checking for refinements between duplicated model elements
+assertion R1 : Sim::STM equals second::STM in the failures divergences model
+assertion R1a : Sim::STM equals second::STM in the tick-tock model
+assertion R2 : Sim::CT equals second::CT in the failures divergences model
+assertion R2a : Sim::CT equals second::CT in the tick-tock model
+assertion R3 : Sim::M equals second::M in the failures divergences model
+assertion R3a : Sim::M equals second::M in the tick-tock model 

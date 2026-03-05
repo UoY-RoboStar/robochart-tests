@@ -31,3 +31,10 @@ assertion M0 : Mod equals MSpec in the failures divergences model with cycleDef 
 assertion M1 : Mod is not deadlock-free
 // But it is timelock-free because it never refuses tock
 //assertion M2 : Mod is timelock-free 
+
+assertion R1 : STM equals second::STM in the failures divergences model
+assertion R1a : STM equals second::STM in the tick-tock model
+assertion R2 : CT equals second::CT in the failures divergences model
+assertion R2a : CT equals second::CT in the tick-tock model
+assertion R3 : Mod equals second::Mod in the failures divergences model
+assertion R3a : Mod equals second::Mod in the tick-tock model

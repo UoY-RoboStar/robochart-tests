@@ -13,6 +13,7 @@
     <semanticResources>main.rsa</semanticResources>
     <semanticResources>platform:/plugin/circus.robocalc.robosim.textual/lib/robosim/score.rst</semanticResources>
     <semanticResources>test.rst</semanticResources>
+    <semanticResources>second.rst</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_FqHMoAD2EeyHh5nNWMx2TA">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/circus.robocalc.robosim.graphical/description/robosim.odesign#//@ownedViewpoints[name='RoboSimID']"/>
       <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_Fq7E8AD2EeyHh5nNWMx2TA" name="main.rst" repPath="#_FqtpkAD2EeyHh5nNWMx2TA" changeId="d40b0622-8fc6-4978-90f6-c26b61d77ec7">

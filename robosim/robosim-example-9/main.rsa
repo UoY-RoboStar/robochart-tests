@@ -83,3 +83,9 @@ assertion Sim3 : CT equals SimCT in the tick-tock model
 
 assertion SchSimMod : SimMod is schedulable
 assertion SchSimCT : SimCT is schedulable
+
+// Checking for refinements between duplicated model elements
+assertion R2 : CT equals second::CT in the failures divergences model
+assertion R2a : CT equals second::CT in the tick-tock model
+assertion R3 : Mod equals second::Mod in the failures divergences model
+assertion R3a : Mod equals second::Mod in the tick-tock model

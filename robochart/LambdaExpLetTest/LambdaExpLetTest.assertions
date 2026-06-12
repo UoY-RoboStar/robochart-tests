@@ -1,0 +1,12 @@
+untimed csp LambdaExpLetTest_spec csp-begin
+	LambdaExpLetTest_spec = LambdaExpLetTest::mod0::output.out!2 -> STOP
+csp-end
+
+timed csp LambdaExpLetTest_timed_spec csp-begin
+	Timed(OneStep) {
+		LambdaExpLetTest_timed_spec = LambdaExpLetTest::mod0::output.out!2 -> STOP
+	}
+csp-end
+
+untimed assertion LambdaExpLetTest1: LambdaExpLetTest::mod0 equals LambdaExpLetTest_spec.
+timed assertion LambdaExpLetTest2: LambdaExpLetTest::mod0 equals LambdaExpLetTest_timed_spec.

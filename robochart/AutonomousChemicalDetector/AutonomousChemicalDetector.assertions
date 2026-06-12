@@ -79,6 +79,9 @@ NoGasNoTermination =
 	)
 		[| {|AutonomousChemicalDetector_Module::ChemicalDetector::gas|} |] 
 	NoGas
+	
+-- Specifying the alphabet of the process
+NoGasNoTermination__sem__events = AutonomousChemicalDetector_Module::ChemicalDetector::sem__events
 csp-end
 
 assertion a9: NoGasNoTermination is deadlock-free.  

@@ -1,0 +1,30 @@
+package LambdaExpMultiArgTest
+
+import sequence_toolkit::*
+
+module mod0 {
+	connection ctrl0 on output to rp0 on output ( _async )
+	robotic platform rp0 {
+		event output : nat
+	}
+
+	controller ctrl0 {
+		event output : nat
+		stm stm0 {
+			event output : nat
+			initial i0
+			state ApplyLambda {
+				entry output ! ( lambda x : nat , y : nat @ x + y ) ( 1 , 1 )
+			}
+
+			transition t0 {
+				from i0
+				to ApplyLambda
+			}
+		}
+
+		connection stm0 on output to ctrl0 on output
+	}
+
+}
+

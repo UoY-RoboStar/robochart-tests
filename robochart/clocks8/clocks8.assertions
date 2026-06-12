@@ -8,5 +8,8 @@ timed csp ctrl0_term csp-begin
 Timed(OneStep) {	
 	ctrl0_term = timed_priority(ctrl0::O__(0)\{|ctrl0::terminate|} ; STOP) 
 }
+
+-- Specifying the alphabet of the process
+ctrl0_term__sem__events = ctrl0::sem__events
 csp-end
 timed assertion A2: ctrl0_term is timelock-free

@@ -36,6 +36,9 @@ OnlyCommands =
 	) 
 		[|{|System::ChemicalDetectorSoftware::gas,System::ChemicalDetectorSoftware::light|}|] 
 	STOP
+	
+-- Specifying the alphabet of the process
+OnlyCommands__sem__events = System::ChemicalDetectorSoftware::sem__events
 csp-end
 
 assertion a2: OnlyCommands is deadlock-free.
@@ -50,6 +53,9 @@ OnlyGasAndLight =
 	)
 		[|{|System::ChemicalDetectorSoftware::cd|}|] 
 	STOP
+
+-- Specifying the alphabet of the process	
+OnlyGasAndLight__sem__events = System::ChemicalDetectorSoftware::sem__events
 csp-end
 
 assertion a3: OnlyGasAndLight is deadlock-free.

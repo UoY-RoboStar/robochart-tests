@@ -1,0 +1,45 @@
+diagram operationOutputOpRef
+
+interface OperationOutputOps {
+	Op()
+}
+
+module OperationOutput {
+	robotic platform OperationOutputRP {
+		event outputEvent : nat
+	}	
+	
+	controller OperationOutputCtrl {
+		event outputEvent : nat
+		
+		stm OperationOutputSTM {
+			event outputEvent : nat
+			requires OperationOutputOps
+			initial i0
+			final f0
+			transition t0 {
+				from i0
+				to f0
+				action Op()
+			}
+		}
+		connection OperationOutputSTM on outputEvent to OperationOutputCtrl on outputEvent
+	opref op_ref0 = Op
+	}
+
+	connection OperationOutputCtrl on outputEvent to OperationOutputRP on outputEvent ( _async )
+}
+
+operation Op() {
+	event outputEvent : nat
+	var x : nat
+	initial i0
+	final f0
+	transition t0 {
+		from i0
+		to f0
+		action outputEvent?x <{0}
+	}
+	
+}
+

@@ -1,0 +1,21 @@
+assertion A0 : stm0 is deadlock-free in the failures model
+assertion A1 : ctrl0 is deadlock-free in the failures model
+assertion A2 : mod0 is deadlock-free in the failures model
+
+csp CBehaviour csp-begin
+
+CBehaviour = ctrl0::registerRead.ctrl0::i_e1.true?x -> ctrl0::registerRead.ctrl0::i_e3.false?_ -> ctrl0::endexec -> tock -> 
+             ctrl0::registerRead.ctrl0::i_e3.false?_ -> ctrl0::registerRead.ctrl0::i_e3.false?_ -> ctrl0::endexec -> tock -> 
+             ctrl0::registerWrite.ctrl0::o_e2.x -> ctrl0::endexec -> tock -> CBehaviour
+
+csp-end
+ 
+csp MBehaviour csp-begin
+
+MBehaviour = mod0::registerRead.mod0::i_e1.true?x -> mod0::registerRead.mod0::i_e2.false?_ ->   
+			tock -> mod0::registerRead.mod0::i_e1.false?_ -> mod0::registerRead.mod0::i_e2.false?_ -> tock -> mod0::registerWrite.mod0::o_e3.x -> tock -> MBehaviour
+
+csp-end
+
+assertion A3 : CBehaviour refines ctrl0 in the traces model
+assertion A4 : MBehaviour refines mod0 in the traces model

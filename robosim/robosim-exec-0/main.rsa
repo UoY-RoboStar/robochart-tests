@@ -14,5 +14,9 @@ Spec__sem__events = {|stm0::registerRead,stm0::endexec,stm0::registerWrite|}
 
 csp-end
 
-assertion A0 : Spec equals stm0
-assertion A1 : Spec equals stm0 in the tick-tock model
+// The example does not satisfy the spec. This is because the local variable is only
+// updated after the transition is triggered, but the triggering of the transition by exec
+// marks the passage of the cycle, and so the value is only updated in the next cycle, by which
+// point the value communicated via inp may have changed!
+assertion A0 : stm0 does not refine Spec
+assertion A1 : stm0 does not refine Spec in the tick-tock model

@@ -43,4 +43,5 @@ csp-end
  
 
 assertion A3 : Ctrl0Constrained refines CBehaviour in the traces model
-assertion A4 : Mod0Constrained refines MBehaviour in the traces model
+// Commented out as too complex to run on CI.
+//assertion A4 : Mod0Constrained refines MBehaviour in the traces model

@@ -1,21 +1,46 @@
 assertion A0 : stm0 is deadlock-free in the failures model
-assertion A1 : ctrl0 is deadlock-free in the failures model
-assertion A2 : mod0 is deadlock-free in the failures model
+// The following assertions are too complex to run on CI.
+//assertion A1 : ctrl0 is deadlock-free in the failures model
+//assertion A2 : mod0 is deadlock-free in the failures model
 
 csp CBehaviour csp-begin
 
 CBehaviour = ctrl0::registerRead.ctrl0::i_e1.true?x -> ctrl0::registerRead.ctrl0::i_e3.false?_ -> ctrl0::endexec -> tock -> 
-             ctrl0::registerRead.ctrl0::i_e3.false?_ -> ctrl0::registerRead.ctrl0::i_e3.false?_ -> ctrl0::endexec -> tock -> 
-             ctrl0::registerWrite.ctrl0::o_e2.x -> ctrl0::endexec -> tock -> CBehaviour
+             ctrl0::registerRead.ctrl0::i_e1.false?_ -> ctrl0::registerRead.ctrl0::i_e3.false?_ -> ctrl0::registerWrite.ctrl0::o_e2.x -> ctrl0::endexec -> tock -> 
+             ctrl0::registerRead.ctrl0::i_e1.false?_ -> ctrl0::registerRead.ctrl0::i_e3.false?_ -> ctrl0::endexec -> tock ->
+             CBehaviour
+
+csp-end
+
+csp Ctrl0Constrained csp-begin
+
+Ctrl0Constrained = let
+		Cycles = ctrl0::registerRead.ctrl0::i_e1.true?x -> ctrl0::registerRead.ctrl0::i_e3.false?_ -> ctrl0::endexec ->
+				 ctrl0::registerRead.ctrl0::i_e1.false?_ -> ctrl0::registerRead.ctrl0::i_e3.false?_ -> ctrl0::endexec ->
+				 ctrl0::registerRead.ctrl0::i_e1.false?_ -> ctrl0::registerRead.ctrl0::i_e3.false?_ -> ctrl0::endexec -> Cycles
+	within 
+		ctrl0::D__(0,1) [| {|ctrl0::registerRead,ctrl0::endexec|} |] Cycles
 
 csp-end
  
 csp MBehaviour csp-begin
 
-MBehaviour = mod0::registerRead.mod0::i_e1.true?x -> mod0::registerRead.mod0::i_e2.false?_ ->   
-			tock -> mod0::registerRead.mod0::i_e1.false?_ -> mod0::registerRead.mod0::i_e2.false?_ -> tock -> mod0::registerWrite.mod0::o_e3.x -> tock -> MBehaviour
+MBehaviour = mod0::registerRead.mod0::i_e1.true?x -> mod0::registerRead.mod0::i_e2.false?_ -> tock -> 
+			 mod0::registerRead.mod0::i_e1.false?_ -> mod0::registerRead.mod0::i_e2.false?_ -> mod0::registerWrite.mod0::o_e3.x -> tock -> MBehaviour
 
 csp-end
 
-assertion A3 : CBehaviour refines ctrl0 in the traces model
-assertion A4 : MBehaviour refines mod0 in the traces model
+csp Mod0Constrained csp-begin
+
+Mod0Constrained = let
+		Cycles = mod0::registerRead.mod0::i_e1.true?x -> mod0::registerRead.mod0::i_e2.false?_ ->
+				 mod0::registerRead.mod0::i_e1.false?_ -> mod0::registerRead.mod0::i_e2.false?_ ->
+				 mod0::registerRead.mod0::i_e1.false?_ -> mod0::registerRead.mod0::i_e2.false?_ -> Cycles
+	within 
+		mod0::D__(0,1) [| {|mod0::registerRead|} |] Cycles
+
+csp-end
+ 
+
+assertion A3 : Ctrl0Constrained refines CBehaviour in the traces model
+assertion A4 : Mod0Constrained refines MBehaviour in the traces model

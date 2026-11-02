@@ -6,6 +6,11 @@
     <semanticResources>main.rsa</semanticResources>
     <semanticResources>main.rst</semanticResources>
     <semanticResources>platform:/plugin/circus.robocalc.robosim.textual/lib/robosim/score.rst</semanticResources>
+    <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/sequence_toolkit.rct</semanticResources>
+    <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/relation_toolkit.rct</semanticResources>
+    <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/set_toolkit.rct</semanticResources>
+    <semanticResources>platform:/plugin/circus.robocalc.robochart.textual/lib/robochart/function_toolkit.rct</semanticResources>
+    <semanticResources>second.rst</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_KbglcAD-EeyuS4m_VvQnFg">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/circus.robocalc.robosim.graphical/description/robosim.odesign#//@ownedViewpoints[name='RoboSimID']"/>
       <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_Kbld8AD-EeyuS4m_VvQnFg" name="package Sim" repPath="#_KbjBsAD-EeyuS4m_VvQnFg" changeId="83b3d6ed-5095-4273-bc1a-ac81734b120b">

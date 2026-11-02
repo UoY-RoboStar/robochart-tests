@@ -46,3 +46,11 @@ assertion RS0 : Mod refines SimRC in the failures divergences model with cycleDe
 assertion RS1 : SimRC refines Mod in the failures divergences model with cycleDef of Mod set to 2, and cycleDef of SimRC set to 2
 
 assertion RS2 : STM equals SimSTM in the failures divergences model with cycleDef of STM set to 1, and cycleDef of SimSTM set to 1
+
+// Checking for refinements between duplicated model elements
+assertion R1 : STM equals second::STM in the failures divergences model
+assertion R1a : STM equals second::STM in the tick-tock model
+assertion R2 : CT equals second::CT in the failures divergences model
+assertion R2a : CT equals second::CT in the tick-tock model
+assertion R3 : Mod equals second::Mod in the failures divergences model
+assertion R3a : Mod equals second::Mod in the tick-tock model 

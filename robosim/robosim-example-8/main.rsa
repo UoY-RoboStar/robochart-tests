@@ -74,3 +74,17 @@ assertion M0 : Mod equals MSpec in the failures divergences model with cycleDef 
 assertion M1 : Mod is deadlock-free
 // It is not timelock-free because of registerRead/registerWrite that happen between tocks...
 //assertion M2 : Mod is not timelock-free
+
+// Checking for refinements between duplicated model elements
+assertion R2 : CT equals second::CT in the failures divergences model
+assertion R2a : CT equals second::CT in the tick-tock model
+assertion R3 : Mod equals second::Mod in the failures divergences model
+assertion R3a : Mod equals second::Mod in the tick-tock model
+
+// No support at the moment for comparing operations on their own
+//assertion R4 : opOut2 equals second::opOut2 in the failures divergences model
+//assertion R4a : opOut2 equals second::opOut2 in the tick-tock model
+//
+//assertion R5 : opOut3 equals second::opOut3 in the failures divergences model
+//assertion R5a : opOut3 equals second::opOut3 in the tick-tock model
+

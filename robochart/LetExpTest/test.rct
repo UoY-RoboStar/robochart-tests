@@ -1,0 +1,17 @@
+package LetExpTest
+
+stm stm0 {
+	var testVar : nat
+	var inVar : nat
+
+	event output : nat
+initial i0
+	state s0 {
+		entry inVar = 0 ; testVar = let x == inVar + 1 @ x + 1 ; output ! testVar
+	}
+	transition t0 {
+		from i0
+		to s0
+	}
+}
+

@@ -1,0 +1,30 @@
+package FunctionToolkitCallTest
+
+import relation_toolkit::*
+
+module mod0 {
+	robotic platform rp0 {
+		event output : nat
+	}
+
+	controller ctrl0 {
+		event output : nat
+		stm stm0 {
+			event output : nat
+			initial i0
+			state s0 {
+				entry output ! ( ( override ( addOne , { (| 0 , 2 |) } ) as nat -> nat ) ( 0 ) ) ; output ! ( addOne ( 0 ) )
+			}
+		transition t0 {
+				from i0
+				to s0
+			}
+		}
+
+		connection stm0 on output to ctrl0 on output
+	}
+
+connection ctrl0 on output to rp0 on output ( _async )
+}
+
+function addOne ( n : nat ) : nat { }

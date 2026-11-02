@@ -1,0 +1,42 @@
+diagram operationInputOpRef
+
+interface OperationInputOps {
+	Op()
+}
+
+module OperationInput {
+	robotic platform OperationInputRP {
+		event inputEvent : nat
+	}	
+	
+	controller OperationInputCtrl {
+		event inputEvent : nat
+		opref op_ref0 = Op
+		stm OperationInputSTM {
+			event inputEvent : nat
+			requires OperationInputOps
+			initial i0
+			final f0
+			transition t0 {
+				from i0
+				to f0
+				action Op()
+			}
+		}
+		connection OperationInputCtrl on inputEvent to OperationInputSTM on inputEvent
+	}
+
+	connection OperationInputRP on inputEvent to OperationInputCtrl on inputEvent ( _async )
+}
+
+operation Op ( ) {
+	event inputEvent : nat
+	initial i0
+	final f0
+	transition t0 {
+		from i0
+		to f0
+		action inputEvent ! 0
+	}
+}
+

@@ -1,0 +1,30 @@
+csp FunctionToolkitCallTest_spec csp-begin
+	FunctionToolkitCallTest_spec = FunctionToolkitCallTest::mod0::output.out!2 -> FunctionToolkitCallTest::mod0::output.out!1 -> STOP
+csp-end
+
+timed csp FunctionToolkitCallTest_timed_spec csp-begin
+	Timed(OneStep) {
+		FunctionToolkitCallTest_timed_spec = FunctionToolkitCallTest::mod0::output.out!2 -> FunctionToolkitCallTest::mod0::output.out!1 -> STOP
+	}
+csp-end
+
+csp instantiations csp-begin
+nametype core_nat = {0..2}
+nametype core_clock_type = {0..10}
+nametype core_string = LSeq(Char,2)
+nametype core_real = { -2..2}
+nametype core_int = { -2..2}
+nametype core_boolean = Bool
+
+Div(e1,e2,T) = if member(e1/e2,T) then e1/e2 else e1
+Neg(e1,T) = if member(-e1,T) then -e1 else e1
+Mult(e1,e2,T) = if member(e1*e2,T) then e1*e2 else e1
+Modulus(e1,e2,T) = if member(e1%e2,T) then e1%e2 else e1
+Plus(e1,e2,T) = if member(e1+e2,T) then e1+e2 else e1
+Minus(e1,e2,T) = if member(e1-e2,T) then e1-e2 else e1
+
+FunctionToolkitCallTest_addOne(n) = Plus(n,1,core_nat)
+csp-end
+
+untimed assertion FunctionToolkitCallTest1: FunctionToolkitCallTest::mod0 equals FunctionToolkitCallTest_spec.
+timed assertion FunctionToolkitCallTest2: FunctionToolkitCallTest::mod0 equals FunctionToolkitCallTest_timed_spec.

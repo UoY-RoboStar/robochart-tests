@@ -1,0 +1,14 @@
+
+stm STM {
+	initial I
+	state S0 {
+		initial I
+		final F
+		transition T2 { from I to F }
+		transition T3 { from S0 to S3 }  
+	}
+	state S3 {
+		
+	}
+	transition T0 { from I to S0 }
+}

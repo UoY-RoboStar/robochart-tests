@@ -9,5 +9,9 @@ CTSpec = Sim::CT::registerWrite.Sim::CT::o_out -> Sim::CT::endexec -> tock -> CT
 
 csp-end
 
-assertion A0 : op is not deadlock-free
-assertion A1 : CT equals CTSpec in the failures divergences model
+// It is deadlock free, as it continues to cycle.
+assertion A0 : op is deadlock-free
+// It is not *timed* deadlock-free, since it can continue to just execute cycles.
+timed assertion A1 : op is not deadlock-free
+
+assertion A2 : CT equals CTSpec in the failures divergences model

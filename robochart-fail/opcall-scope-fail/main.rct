@@ -1,0 +1,10 @@
+
+operation op() {
+	
+}
+
+stm STM {
+	initial I
+	final F
+	transition T0 { from I to F action op()  }
+}

@@ -7,7 +7,11 @@ untimed assertion t2c: test6::CT equals test6_spec1
 timed csp test6_spec2 csp-begin
 	test6_spec2 = let
 		wait(n) = if (n > 0) then tock -> wait(n-1) else SKIP
-		aux = test6::CT::e.out.1 -> test6::CT::terminate -> SKIP
+		aux = test6::CT::e.out.1 -> (let
+										wait = test6::CT::terminate -> SKIP [] tock -> wait
+									 within
+									 	wait
+									)
 		      []
 		      tock -> aux
 	within wait(6); aux

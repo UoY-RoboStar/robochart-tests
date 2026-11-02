@@ -25,7 +25,11 @@ aux(n) =
 	) 
     []
     (n >= 4) & int__ -> let
-      	rec = test1::S::c.out -> test1::S::terminate -> SKIP
+      	rec = test1::S::c.out -> (let 
+      								wait = test1::S::terminate -> SKIP [] tock -> wait
+      							  within
+      							  	wait
+      							)
       	      []
       	      tock -> rec
       within rec

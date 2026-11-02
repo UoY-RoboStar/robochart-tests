@@ -1,0 +1,12 @@
+untimed csp LetExpTest_spec csp-begin
+	LetExpTest_spec = LetExpTest::stm0::output.out.2 -> STOP
+csp-end
+
+timed csp LetExpTest_timed_spec csp-begin
+	Timed(OneStep) {
+		LetExpTest_timed_spec = LetExpTest::stm0::output.out.2 -> STOP
+	}
+csp-end
+
+untimed assertion LetExpTest1: LetExpTest::stm0 equals LetExpTest_spec.
+timed assertion LetExpTest2: LetExpTest::stm0 equals LetExpTest_timed_spec.

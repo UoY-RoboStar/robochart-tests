@@ -3,7 +3,7 @@ package test14_assertions
 timed csp STMSpec associated to test14::stm0 csp-begin
 
 Timed(OneStep) {
-	STMSpec = timed_priority(test14::stm0::input.in?x -> test14::stm0::output.out!Plus(x,1,core_int) -> EDeadline(test14::stm0::terminate,0))
+	STMSpec = timed_priority(test14::stm0::input.in?x -> test14::stm0::output.out!Plus(x,1,core_int) -> test14::stm0::terminate -> SKIP)
 }
 
 csp-end

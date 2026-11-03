@@ -28,6 +28,6 @@ assertion C1 : CT is deadlock-free
 assertion M0 : Mod equals MSpec in the failures divergences model with cycleDef of Mod set to 2
 // It isn't timed deadlock-free, because there are no inputs or outputs,
 // so only time can pass! 
-timed assertion M1 : Mod is not deadlock-free
+assertion M1 : Mod is not timed deadlock-free
 // But it is deadlock-free because it never refuses tock
 assertion M2 : Mod is deadlock-free 

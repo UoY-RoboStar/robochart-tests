@@ -61,17 +61,17 @@ csp-end
 assertion S0 : STM equals Spec in the failures divergences model with cycleDef of STM set to 2
 assertion S1 : STM is not deadlock-free
 // Because of termination it is not deadlock-free, but it is timed deadlock-free 
-timed assertion S2 : STM is deadlock-free
+assertion S2 : STM is timed deadlock-free
 
 assertion C0 : CT equals CTSpec in the failures divergences model with cycleDef of CT set to 2
 assertion C1 : CT is not deadlock-free
 // Because of termination it is not deadlock-free, but it is timed deadlock-free
-timed assertion C2 : CT is deadlock-free
+assertion C2 : CT is timed deadlock-free
 
 assertion M0 : Mod refines MSpec in the failures divergences model with cycleDef of Mod set to 2
 assertion M1 : Mod is not deadlock-free
 // Because of termination it is not deadlock-free, but it is timed deadlock-free
-timed assertion M2 : Mod is deadlock-free
+assertion M2 : Mod is timed deadlock-free
 
 //assertion rcp : sim(M::Mod) equals Mod in the failures divergences model
 

@@ -12,6 +12,6 @@ csp-end
 // It is deadlock free, as it continues to cycle.
 assertion A0 : op is deadlock-free
 // It is not *timed* deadlock-free, since it can continue to just execute cycles.
-timed assertion A1 : op is not deadlock-free
+assertion A1 : op is not timed deadlock-free
 
 assertion A2 : CT equals CTSpec in the failures divergences model

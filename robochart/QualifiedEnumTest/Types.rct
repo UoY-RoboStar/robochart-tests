@@ -1,0 +1,11 @@
+package Types
+
+enumeration EType {
+	A
+	B
+}
+
+enumeration ESuper {
+	C
+	D(EType)
+}
